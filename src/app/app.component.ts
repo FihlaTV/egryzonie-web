@@ -31,12 +31,7 @@ export class AppComponent implements OnInit {
   ngOnDestroy () {
     this._userSub.unsubscribe();
   }
-
-  loginAsPatryk () {
-    this._user.login('kontakt@patrykb.pl', 'a748cf4213')
-      .subscribe();
-  }
-
+  
   logout() {
     this._user.logout();
   }
