@@ -1,0 +1,88 @@
+@import 'src/styles/config/fonts';
+@import 'src/styles/config/colors';
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vets-list {
+  width: 90%;
+  max-width: 550px;
+  margin: 0 auto;
+  font-family: $font-headings;
+
+  &__element {
+    background: $color-light;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 1em 0;
+    border-radius: 0 2px 2px 0;
+    opacity: .5;
+    transition: opacity .25s ease-in-out;
+    
+    @for $i from 1 to 7 {
+      &:nth-child(#{$i}n) &__navigate {
+        border-left: 3px solid nth($colorsList, $i);
+        color: nth($colorsList, $i);
+      }
+      &:nth-child(#{$i}n) .btn {
+        background: nth($colorsList, $i);
+        border-bottom-color: darken(nth($colorsList, $i), 7%);
+      }
+    }
+
+    &--recommended, &:hover {
+      opacity: 1;
+    }
+
+    &__navigate {
+      background: $color-light-2;
+      border-radius: 2px 0 0 2px;
+      font-size: 3em;
+      flex-direction: column;
+      padding: .25em .5em;
+      @include center;
+    }
+
+    &__info {
+      cursor: pointer;
+      color: $color-text;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      &:hover {
+        color: $color-text-light;
+      }
+      
+      &__name, &__address {
+        padding: 1.2em;
+        @include center;
+      }
+
+      &__name {
+        flex-grow: 2;
+        font-weight: 900;
+        font-size: 1.1em;
+      }
+
+      &__address {
+        background: $color-light-2;
+        flex-shrink: 2;
+        flex-basis: 2em;
+      }
+    }
+
+    &__recommended {
+      background: $color-light-2;
+      color: $color-secondary;
+      font-size: 2em;
+      padding: .25em .5em;
+      text-shadow: 0 0 10px $color-secondary;
+      @include center;
+    }
+  }
+}

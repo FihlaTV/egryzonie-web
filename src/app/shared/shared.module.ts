@@ -1,18 +1,29 @@
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import { UserService } from '@services/index';
+// Component
+import { NavbarComponent } from '@components/navbar/navbar.component';
+
+// Services
+import { UserService, GeolocationService } from '@services/index';
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule
+    HttpModule,
+    RouterModule
   ],
-  declarations: [],
+  declarations: [
+    NavbarComponent
+  ],
   providers: [
-    UserService
+    UserService,
+    GeolocationService
   ],
-  exports: []
+  exports: [
+    NavbarComponent
+  ]
 })
 export class SharedModule { }

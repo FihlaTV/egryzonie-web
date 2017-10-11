@@ -1,9 +1,4 @@
-<h1>egryzonie</h1>
-<div *ngIf="currentUser">
-  {{ currentUser?.email }} [<a href="javascript:void(0)" (click)="logout()">Wyloguj</a>]
+<eg-navbar></eg-navbar>
+<div class="wrapper">
+  <router-outlet></router-outlet>
 </div>
-<div *ngIf="!currentUser">
-  <a href="javascript:void(0);" (click)="loginAsPatryk()">Zaloguj jako Patryk</a>
-</div>
-<div>{{ currentUser ? (currentUser | json) : 'null' }}</div>
-<router-outlet></router-outlet>

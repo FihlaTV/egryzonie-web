@@ -6,7 +6,8 @@
     "paths": {
       "@services/*": ["app/shared/services/*"],
       "@guards/*": ["app/shared/guards/*"],
-      "@interfaces/*": ["app/shared/interfaces/*"]
+      "@interfaces/*": ["app/shared/interfaces/*"],
+      "@components/*": ["app/shared/components/*"]
     },
     "module": "es2015",
     "types": []

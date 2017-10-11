@@ -1,0 +1,22 @@
+<div class="options"></div>
+<div class="vets-list" *ngIf="vetsList">
+  <div class="vets-list__element" *ngFor="let vet of vetsList" [ngClass]="{ 'vets-list__element--recommended': vet.recommended }">
+    <div class="vets-list__element__navigate">
+      <span class="fa fa-map-marker"></span>
+      <button
+        type="button" class="btn"
+        (click)="openMap(vet.googleMapsID)">Mapa</button>
+    </div>
+    <div class="vets-list__element__info" (click)="view(vet.id)">
+      <div class="vets-list__element__info__name">
+        {{ vet.title }}
+      </div>
+      <div class="vets-list__element__info__address">
+        {{ vet.address }}
+      </div>
+    </div>
+    <div *ngIf="vet.recommended" class="vets-list__element__recommended">
+      <span class="fa fa-star"></span>
+    </div>
+  </div>
+</div>
