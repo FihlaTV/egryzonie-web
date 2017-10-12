@@ -6,9 +6,10 @@ import { VetsListComponent } from './vets/vets-list/vets-list.component';
 import { VetViewComponent } from './vets/vet-view/vet-view.component';
 
 const routes: Routes = [
-  { path: 'vets', component: VetsComponent, pathMatch: 'full',
+  { path: 'vets', component: VetsComponent,
     children: [
       { path: '', component: VetsListComponent },
+      { path: 'view', redirectTo: '' },
       { path: 'view/:vetId', component: VetViewComponent }
     ] }
 ];

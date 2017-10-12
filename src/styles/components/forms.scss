@@ -1,0 +1,33 @@
+@import '../config/fonts';
+@import '../config/colors';
+
+.formControl {
+  position: relative;
+  display: inline-block;
+
+  label {
+    display: inline-block;
+  }
+
+  .fa {
+    position: absolute;
+    display: inline-block;
+    padding: .3em .45em .1em;
+  }
+
+  .fa + input[type="text"] {
+    padding-left: 2.2em;
+  }
+
+  input[type="text"] {
+    background: $color-light;
+    border: 0;
+    display: inline-block;
+    font-family: $font-headings;
+    height: 100%;
+    line-height: 100%;
+    padding-top: .45em;
+    padding-bottom: .45em;
+    padding-right: .45em;
+  }
+}

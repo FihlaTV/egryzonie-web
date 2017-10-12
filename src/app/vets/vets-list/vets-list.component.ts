@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { UserService, GeolocationService } from '@services/index';
 import { User } from '@interfaces/user';
+
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 
 import { VetsService } from '../vets.service';
 
@@ -14,11 +18,16 @@ import { VetsService } from '../vets.service';
 })
 export class VetsListComponent implements OnInit {
   
-  public userPosition: Position;
+  public searchCity: string;
+  public searchCitySubject = new Subject<any>();
+  public searchAwait: boolean = false;
+
+  public userPosition: object;
   public currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public vetsList: any[] = [];
   
   private _geoSub: Subscription;
+  private _searchCity$: Subscription;
 
   constructor(
     private _user: UserService,
@@ -26,19 +35,37 @@ export class VetsListComponent implements OnInit {
     private _vets: VetsService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.currentUser$ = this._user.currentUser$;
-    this._geoSub = this._geo.getCurrentPosition()
-      .subscribe((position) => {
-        this.userPosition = position;
-        this._loadNearbyVets()
-          .then((results) => {
-            this.vetsList = results;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      });
+
+    try {
+      this._searchCity$ = this.searchCitySubject
+        .map(event => {
+          return event.target.value;
+        })
+        .debounceTime(500)
+        .distinctUntilChanged()
+        .flatMap(search => {
+          this.searchAwait = true;
+          return Observable.of(search).delay(500)
+        })
+        .subscribe(async (search) => {
+          sessionStorage['vetCitySearch'] = search;
+          this.searchAwait = false;
+          this.searchCity = search;
+          this._findVets();
+        });
+
+      this.userPosition = await this._geo.getUserLocation();
+      this.searchCity = sessionStorage['vetCitySearch'] || this.userPosition['city'];
+      this._findVets();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  ngOnDestroy() {
+    this._geoSub.unsubscribe();
   }
 
   openMap(id: string) {
@@ -49,42 +76,8 @@ export class VetsListComponent implements OnInit {
     console.log('View vet ID: ', id);
   }
 
-  private _loadNearbyVets(): Promise<any[]> {
-    return new Promise((resolve, reject) => {
-      const nearby = this._vets.getNearbyVets(this.userPosition)
-        .subscribe(
-          (googleResults) => {
-            const places = googleResults.map((item) => item.title);
-            const saved = this._vets.getSavedVets(places)
-              .subscribe((savedResults) => {
-                const filtered = this._filterRecommended(googleResults, savedResults);
-                resolve(filtered);
-              });
-          (error) => {
-            reject(error);
-          }
-        });
-    });
-  }
 
-  private _filterRecommended(found: any[], saved: any[]): any[] {
-    return found.map((f) => {
-        const search = saved.find((s) => {
-          return s.name === f.name && s.address === f.address;
-        });
-        f.recommended = !!search;
-        return f;
-      }).sort((a, b) => {
-        if (!a['recommended'] && b['recommended']) {
-          return 1;
-        }
-        if (a['recommended'] && b['recommended']) {
-          return 0;
-        }
-        if (a['recommended'] && !b['recommended']) {
-          return -1;
-        }
-      });
+  private async _findVets() {
+    this.vetsList = await this._vets.findVetsInCity(this.searchCity);
   }
-
 }

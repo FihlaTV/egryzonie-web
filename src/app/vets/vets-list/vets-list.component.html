@@ -1,22 +1,42 @@
-<div class="options"></div>
-<div class="vets-list" *ngIf="vetsList">
-  <div class="vets-list__element" *ngFor="let vet of vetsList" [ngClass]="{ 'vets-list__element--recommended': vet.recommended }">
-    <div class="vets-list__element__navigate">
-      <span class="fa fa-map-marker"></span>
-      <button
-        type="button" class="btn"
-        (click)="openMap(vet.googleMapsID)">Mapa</button>
+<div class="vets-list">
+  <h3>Polecani weterynarze w Twojej okolicy</h3>
+  <div class="search">
+    <div class="formControl">
+      <label>
+        <span class="fa fa-search"></span>
+        <input
+          type="text"
+          name="city"
+          id="search_city"
+          [value]="searchCity"
+          (keyup)="searchCitySubject.next($event)">
+      </label>
     </div>
-    <div class="vets-list__element__info" (click)="view(vet.id)">
-      <div class="vets-list__element__info__name">
-        {{ vet.title }}
+  </div>
+  <div class="options"></div>
+  <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
+  <div *ngIf="vetsList">
+    <div class="vets-list__element" *ngFor="let vet of vetsList" [ngClass]="{ 'vets-list__element--recommended': vet.recommended }">
+      <div class="vets-list__element__navigate">
+        <span class="fa fa-map-marker"></span>
+        <button
+          type="button" class="btn"
+          (click)="openMap(vet.googleMapsID)">Mapa</button>
       </div>
-      <div class="vets-list__element__info__address">
-        {{ vet.address }}
+      <div class="vets-list__element__info" [routerLink]="['view/', vet.googleMapsID]">
+        <div class="vets-list__element__info__name">
+          {{ vet.title }}
+        </div>
+        <div class="vets-list__element__info__address">
+          {{ vet.address }}
+        </div>
+      </div>
+      <div *ngIf="vet.recommended" class="vets-list__element__recommended">
+        <span class="fa fa-star"></span>
       </div>
     </div>
-    <div *ngIf="vet.recommended" class="vets-list__element__recommended">
-      <span class="fa fa-star"></span>
-    </div>
+  </div>
+  <div *ngIf="!vetsList || !vetsList?.length">
+    <p>Niestety, nie znaleziono żadnych polecanych weterynarzy.</p>
   </div>
 </div>
