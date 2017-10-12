@@ -26,7 +26,6 @@ export class VetsListComponent implements OnInit {
   public currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public vetsList: any[] = [];
   
-  private _geoSub: Subscription;
   private _searchCity$: Subscription;
 
   constructor(
@@ -63,11 +62,6 @@ export class VetsListComponent implements OnInit {
       console.error(error);
     }
   }
-
-  ngOnDestroy() {
-    this._geoSub.unsubscribe();
-  }
-
   openMap(id: string) {
     window.location.href = `https://www.google.com/maps/place/?q=place_id:${id}`
   }
