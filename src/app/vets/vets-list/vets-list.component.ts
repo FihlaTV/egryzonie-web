@@ -62,6 +62,7 @@ export class VetsListComponent implements OnInit {
       console.error(error);
     }
   }
+  
   openMap(id: string) {
     window.location.href = `https://www.google.com/maps/place/?q=place_id:${id}`
   }

@@ -22,8 +22,6 @@ import { VetsService } from './vets.service';
     VetsListComponent,
     VetViewComponent
   ],
-  exports: [
-  ],
   providers: [
     VetsService
   ]

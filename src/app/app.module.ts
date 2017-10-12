@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APIInterceptor } from './api.interceptor';
 
-import { SharedModule } from './shared/shared.module';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+// Modules
+import { SharedModule } from './shared/shared.module';
+import { VetsModule } from './vets/vets.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpClientModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    VetsModule
   ],
   providers: [
     {
