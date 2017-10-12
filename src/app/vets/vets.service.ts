@@ -17,7 +17,7 @@ export class VetsService {
     private _geo: GeolocationService
   ) {}
 
-  findVetsInCity(city: string): Promise<any> {
+  recommendedInCity(city: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this._http.post('/vets/search_city', {
         city: city
@@ -28,6 +28,20 @@ export class VetsService {
         (error) => {
           reject(error);
         }
+    });
+  }
+
+  othersAround(latitude: number, longitude: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${latitude},${longitude}&radius:25000&rankby=distance&types=veterinary_care`)
+        .map((response) => JSON.parse(response['_body']).results)
+        .subscribe(
+          (results) => {
+            resolve(results);
+          },
+          (error) => {
+            reject(error);
+          });
     });
   }
 }

@@ -7,11 +7,17 @@
   align-items: center;
 }
 
-.vets-list {
+.wrapper {
   width: 90%;
   max-width: 550px;
   margin: 0 auto;
   font-family: $font-headings;
+}
+
+.vets-list {
+  border-bottom: 1px solid $color-grey;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
 
   &__element {
     background: $color-light;

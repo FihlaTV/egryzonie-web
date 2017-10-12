@@ -25,6 +25,7 @@ export class VetsListComponent implements OnInit {
   public userPosition: object;
   public currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public vetsList: any[] = [];
+  public othersList: any[] = [];
   
   private _searchCity$: Subscription;
 
@@ -73,6 +74,10 @@ export class VetsListComponent implements OnInit {
 
 
   private async _findVets() {
-    this.vetsList = await this._vets.findVetsInCity(this.searchCity);
+    this.vetsList = await this._vets.recommendedInCity(this.searchCity);
+
+    if (this.userPosition['latitude'] && this.userPosition['longitude']) {
+      this.othersList = await this._vets.othersAround(this.userPosition['latitude'], this.userPosition['longitude']);
+    }
   }
 }

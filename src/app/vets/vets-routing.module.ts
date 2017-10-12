@@ -8,7 +8,7 @@ import { VetViewComponent } from './vet-view/vet-view.component';
 
 const vetsRoutes: Routes = [
   {
-    path: '',
+    path: 'vets',
     component: VetsComponent,
     children: [
       {
