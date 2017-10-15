@@ -31,6 +31,8 @@ export class VetsListComponent implements OnInit {
   public currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public vetsList: any[] = [];
   public othersList: any[] = [];
+
+  public errorMessage: string;
   
   private _searchCity$: Subscription;
 
@@ -50,32 +52,26 @@ export class VetsListComponent implements OnInit {
     } else {
       this.location = await this._geo.getUserLocation();
     }
-
     this.nearbyCities = await this._geo.getNearbyCities(this.location);
-    console.log(this.nearbyCities);
-
     this.searchAwait = false;
+  }
 
-    // // Sprawdź, czy użytkownik ma miasto w sessionStorage
-    // this.searchCity = sessionStorage['vetCitySearch'];
-
-    // // Jeśli nie ma, sprawdź miasto użytkownika
-    // if (!this.searchCity) {
-    //   try {
-    //     this.userPosition = await this._geo.getUserLocation();
-    //     this.searchCity = this.userPosition['city'];
-    //   } catch (locationError) {
-    //     console.error('Couldn\'t retrieve User Position.');
-    //   }
-    // }
-
-    // this._findVets();
+  ngOnDestroy() {
+    if (this._searchCity$) {
+      this._searchCity$.unsubscribe();
+    }
   }
   
-  // openMap(id: string) {
-  //   const mapsUrl = `https://www.google.com/maps/place/?q=place_id:${id}`;
-  //   window.open(mapsUrl);
-  // }
+  openMap(id: string) {
+    const mapsUrl = `https://www.google.com/maps/place/?q=place_id:${id}`;
+    window.open(mapsUrl);
+  }
+
+  async searchLocation(location: Location) {
+    this.searchAwait = true;
+    this.location = location;
+    await this._newLocation();
+  }
 
   private _searchBox() {
     this._searchCity$ = this.searchCitySubject
@@ -92,31 +88,33 @@ export class VetsListComponent implements OnInit {
   }
 
   private async _handleSearch(search) {
-    this.location = await this._geo.getCityLocation(search);
-    this.searchAwait = false;
-    sessionStorage['vetCitySearch'] = search;
-    // this.searchPosition = await this._geo.getCityLocation(search);
-    // this._findVets();
+    try {
+      const location = await this._geo.getCityLocation(search);
+      if (!location) {
+        this._error('Nie ma takiego miasta.');
+        return;
+      }
+      this._error(null);
+      this.location = location;
+      await this._newLocation();
+    } catch(error) {
+      console.error('Nie znaleziono takiego miasta.');
+    }
   }
 
-  private async _findVets(city) {
-    this.searchAwait = false;
-  //   const position = this._getPosition();
-  //   this.vetsList = await this._vets.recommendedInCity(this.searchCity);
-  //   if (position['lat'] && position['lng']) {
-  //     try {
-  //       this.othersList = await this._vets.othersAround(position['lat'], position['lng'], this.vetsList);
-  //     } catch (error) {
-  //       console.error('Others list: ', error);
-  //     }
-  //   }
+  private async _newLocation(): Promise<void> {
+    try {
+      this.vetsList = await this._vets.recommendedInLocation(this.location);
+      this.othersList = await this._vets.othersInLocation(this.location);
+      this.nearbyCities = await this._geo.getNearbyCities(this.location);
+      this.searchAwait = false;
+    } catch (error) {
+      this._error('Nie można zmienić miejscowości.');
+      console.error('Nie można zmienić miejscowości.', error);
+    }
   }
 
-  // private _getPosition() {
-  //   console.log('User position', this.userPosition);
-  //   const position = (this.searchPosition)
-  //     ? { lat: this.searchPosition['lat'], lng: this.searchAwait['lng'] }
-  //     : { lat: this.userPosition['latitude'], lng: this.userPosition['longitude'] };
-  //   return position;
-  // }
+  private _error(message: string) {
+    this.errorMessage = message;
+  }
 }

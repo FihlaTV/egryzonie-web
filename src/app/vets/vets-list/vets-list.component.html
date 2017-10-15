@@ -3,6 +3,11 @@
     Polecani weterynarze gryzoniowi - {{ location?.city }}
   </h3>
   <div class="search">
+    <div class="nearbyCities" *ngIf="!searchAwait">
+      <p>Spróbuj również tutaj:<br>
+        <a href="javascript:void(0);" class="nearbyCities__item" (click)="!searchAwait ? searchLocation(city) : null" *ngFor="let city of nearbyCities">{{city.city}}</a>
+      </p>
+    </div>
     <div class="formControl">
       <label>
         <span class="fa fa-search"></span>
@@ -12,14 +17,10 @@
           id="search_city"
           [value]="location?.city"
           (keyup)="searchCitySubject.next($event)">
+        <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
       </label>
+      <eg-error [message]="errorMessage"></eg-error>
     </div>
-    <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
-  </div>
-  <div class="nearbyCities">
-    <p>Spróbuj również tutaj:
-      <a href="javascript:void(0);" class="nearbyCities__item" *ngFor="let city of nearbyCities">{{city.city}}</a>
-    </p>
   </div>
   <div class="vets-list vets-list--recommended" *ngIf="vetsList">
     <div class="vets-list__element" *ngFor="let vet of vetsList">

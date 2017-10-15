@@ -34,7 +34,6 @@ export class GeolocationService {
         .map((response) => JSON.parse(response['_body']))
         .subscribe((results) => {
           if (results) {
-            console.log(results);
             const location: Location = {
               city: results.city,
               coords: {
@@ -56,16 +55,30 @@ export class GeolocationService {
       try {
         const geocoder = new google.maps.Geocoder();
         geocoder.geocode({
-          address: name
+          address: name,
+          componentRestrictions: {
+            country: 'PL'
+          }
         }, (results, status) => {
-          const coordinates: Location = {
-            city: name,
-            coords: {
-              lat: results[0].geometry.location.lat(),
-              lng: results[0].geometry.location.lng()
+          if (status === 'OK') {
+            const cities = results.filter((r) => {
+              return r.types.indexOf('country') === -1;
+            });
+            if (!cities.length) {
+              resolve(null);
             }
-          };
-          resolve(coordinates);
+
+            const location: Location = {
+              city: name,
+              coords: {
+                lat: results[0].geometry.location.lat(),
+                lng: results[0].geometry.location.lng()
+              }
+            };
+            resolve(location)
+          } else {
+            resolve(null);
+          }
         });
       } catch (error) {
         reject(error);
@@ -79,17 +92,21 @@ export class GeolocationService {
         const offset = 0.35;
         const cities = this._http.get(`http://api.geonames.org/citiesJSON?north=${location.coords.lat+offset}&south=${location.coords.lat-offset}&west=${location.coords.lng-offset}&east=${location.coords.lng+offset}&lang=pl&maxRows=5&username=${environment.geonamesUsername}`)
           .map((response) => {
-            const cities = JSON.parse(response['_body']).geonames
-            return cities.map((city) => {
-              const location: Location = {
-                city: city.name,
-                coords: {
-                  lat: city.lat,
-                  lng: city.lng
-                }
-              };
-              return location;
-            })
+            const cities = JSON.parse(response['_body']).geonames;
+            return cities
+              .map((city) => {
+                const location: Location = {
+                  city: city.name,
+                  coords: {
+                    lat: city.lat,
+                    lng: city.lng
+                  }
+                };
+                return location;
+              })
+              .filter((city) => {
+                return city.city !== location.city
+              });
           })
           .subscribe(
             (results) => {

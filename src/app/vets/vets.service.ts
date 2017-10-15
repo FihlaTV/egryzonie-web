@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Observable';
 
 import { GeolocationService } from '@services/geolocation.service';
-
+import { Location } from '@interfaces/location';
 import { Vet } from '@interfaces/vet';
 
 @Injectable()
@@ -17,10 +17,10 @@ export class VetsService {
     private _geo: GeolocationService
   ) {}
 
-  recommendedInCity(city: string): Promise<any> {
+  recommendedInLocation(location: Location): Promise<any> {
     return new Promise((resolve, reject) => {
       this._http.post('/vets/search_city', {
-        city: city
+        city: location.city
       }).subscribe(
         (results) => {
           resolve(results);
@@ -31,19 +31,17 @@ export class VetsService {
     });
   }
 
-  othersAround(latitude: number, longitude: number, recommended?: any[]): Promise<any> {
+  othersInLocation(location: Location, recommended?: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
-      this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${latitude},${longitude}&radius:25000&rankby=distance&types=veterinary_care`)
+      this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${location.coords.lat},${location.coords.lng}&radius:25000&rankby=distance&types=veterinary_care`)
         .map((response) => JSON.parse(response['_body']).results)
         .subscribe(
           (results) => {
             results = results.filter((item) => {
               if (!recommended) {
-                console.log('No recommneded!');
                 return true;
               }
               return recommended.find((r) => {
-                console.log(item, r);
                 return item.title === r.title
               }) !== null;
             });

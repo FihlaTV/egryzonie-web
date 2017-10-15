@@ -3,11 +3,17 @@ import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-// Component
+// Components
 import { NavbarComponent } from '@components/navbar/navbar.component';
+import { ErrorComponent } from '@components/error/error.component';
 
 // Services
 import { UserService, GeolocationService } from '@services/index';
+
+const EXPORTS = [
+  NavbarComponent,
+  ErrorComponent
+];
 
 @NgModule({
   imports: [
@@ -15,15 +21,11 @@ import { UserService, GeolocationService } from '@services/index';
     HttpModule,
     RouterModule
   ],
-  declarations: [
-    NavbarComponent
-  ],
+  declarations: EXPORTS,
   providers: [
     UserService,
     GeolocationService
   ],
-  exports: [
-    NavbarComponent
-  ]
+  exports: EXPORTS
 })
 export class SharedModule { }

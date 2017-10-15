@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from 'environments/environment';
+import { SharedModule } from '../shared/shared.module';
 
 // Components
 import { VetsComponent } from './vets.component';
@@ -22,7 +23,8 @@ import { AgmCoreModule } from '@agm/core';
     VetsRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleKey
-    })
+    }),
+    SharedModule
   ],
   declarations: [
     VetsComponent,
