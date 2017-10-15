@@ -12,13 +12,18 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
 .loader {
   display: none;
-  width: 48px;
-  margin: 0 auto;
+  width: 24px;
+  margin: -.4em auto;
 
   &.visible {
-    display: block;
+    display: inline-block;
   }
 }
 

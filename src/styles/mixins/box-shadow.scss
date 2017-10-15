@@ -1,0 +1,5 @@
+@import '../config/shadows';
+
+@mixin box-shadow($color:$box-shadow-color) {
+  box-shadow: 0 0 $box-shadow-radius rgba($color, $box-shadow-opacity);
+}

@@ -1,5 +1,7 @@
 <div class="wrapper">
-  <h3>Polecani weterynarze w Twoim mieście</h3>
+  <h3>
+    Polecani weterynarze gryzoniowi - {{ location?.city }}
+  </h3>
   <div class="search">
     <div class="formControl">
       <label>
@@ -8,14 +10,18 @@
           type="text"
           name="city"
           id="search_city"
-          [value]="searchCity"
+          [value]="location?.city"
           (keyup)="searchCitySubject.next($event)">
       </label>
     </div>
+    <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
   </div>
-  <div class="options"></div>
-  <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
-  <div class="vets-list" *ngIf="vetsList">
+  <div class="nearbyCities">
+    <p>Spróbuj również tutaj:
+      <a href="javascript:void(0);" class="nearbyCities__item" *ngFor="let city of nearbyCities">{{city.city}}</a>
+    </p>
+  </div>
+  <div class="vets-list vets-list--recommended" *ngIf="vetsList">
     <div class="vets-list__element" *ngFor="let vet of vetsList">
       <div class="vets-list__element__navigate">
         <span class="fa fa-map-marker"></span>
@@ -39,7 +45,9 @@
   <div *ngIf="!vetsList || !vetsList?.length">
     <p>Niestety, nie znaleziono żadnych polecanych weterynarzy.</p>
   </div>
-  <h4>Pozostali weterynarze w Twojej okolicy</h4>
+  <h4>
+    Pozostali weterynarze - {{ location?.city }}
+  </h4>
   <div class="vets-list vets-list--others" *ngIf="othersList">
     <div class="vets-list__element" *ngFor="let vet of othersList">
       <div class="vets-list__element__navigate">

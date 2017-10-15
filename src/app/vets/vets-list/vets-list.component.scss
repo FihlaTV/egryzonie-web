@@ -1,10 +1,14 @@
 @import 'src/styles/config/fonts';
 @import 'src/styles/config/colors';
 
+@import 'src/styles/mixins/button';
+@import 'src/styles/mixins/box-shadow';
+
 @mixin center {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .wrapper {
@@ -26,25 +30,25 @@
     flex-wrap: nowrap;
     margin: 1em 0;
     border-radius: 0 2px 2px 0;
-    
-    @for $i from 1 to 7 {
-      &:nth-child(#{$i}n) &__navigate {
-        border-left: 3px solid nth($colorsList, $i);
-        color: nth($colorsList, $i);
-      }
-      &:nth-child(#{$i}n) .btn {
-        background: nth($colorsList, $i);
-        border-bottom-color: darken(nth($colorsList, $i), 7%);
-      }
+
+    &:hover {
+      @include box-shadow($color-grey);
     }
 
     &__navigate {
       background: $color-light-2;
+      border-left: 3px solid $color-grey;
       border-radius: 2px 0 0 2px;
+      color: $color-grey;
       font-size: 3em;
       flex-direction: column;
       padding: .25em .5em;
       @include center;
+
+      .btn {
+        background: $color-grey;
+        border-bottom-color: darken($color-grey, 10%);
+      }
     }
 
     &__info {
@@ -60,6 +64,7 @@
       
       &__name, &__address {
         padding: 1.2em;
+        text-align: center;
         @include center;
       }
 
@@ -75,14 +80,21 @@
         flex-basis: 2em;
       }
     }
+  }
+}
 
-    &__recommended {
-      background: $color-light-2;
-      color: $color-secondary;
-      font-size: 2em;
-      padding: .25em .5em;
-      text-shadow: 0 0 10px $color-secondary;
-      @include center;
+@for $i from 1 to 6 {
+  $color: nth($colors-list, $i);
+  .vets-list--recommended > .vets-list__element:nth-child(#{$i}n):hover {
+    @include box-shadow($color);
+  }
+
+  .vets-list--recommended > .vets-list__element:nth-child(#{$i}n) > .vets-list__element__navigate {
+    color: $color;
+    border-left-color: $color;
+    
+    .btn {
+      @include btn($color);
     }
   }
 }

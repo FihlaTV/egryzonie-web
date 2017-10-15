@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
       name: 'Strona główna'
     },
     {
-      path: '/vets',
+      path: '/vets/list',
       name: 'Weterynarze'
     }
   ];

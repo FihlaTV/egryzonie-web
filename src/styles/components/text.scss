@@ -1,0 +1,13 @@
+@import '../config/colors';
+@import '../config/fonts';
+
+a {
+  background: $color-secondary;
+  border-radius: .25em;
+  color: $color-text;
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  padding: .05em .25em;
+  margin: 0 .5em 0 0;
+}

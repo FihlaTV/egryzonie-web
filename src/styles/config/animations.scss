@@ -1,0 +1,30 @@
+$animation-duration: 1s;
+
+$animation-translate-initial: translateY(1em);
+$animation-translate-final: translate(0em);
+
+$animation-opacity-initial: 0;
+$animation-opacity-final: 1;
+
+@keyframes SlideAndFadeIn {
+  from { transform: $animation-translate-initial; opacity: $animation-opacity-initial; }
+  to { transform: $animation-translate-final; opacity: $animation-opacity-final; }
+}
+
+@keyframes FadeIn {
+  from { opacity: $animation-opacity-initial; }
+  to { opacity: $animation-opacity-final; }
+}
+
+@mixin animation-FadeIn($delay: 0s) {
+  opacity: $animation-opacity-initial;
+  animation: FadeIn $animation-duration forwards;
+  animation-delay: $delay;
+}
+
+@mixin animation-SlideAndFadeIn($delay: 0s) {
+  transform: translateY($animation-translate-initial);
+  opacity: $animation-opacity-initial;
+  animation: SlideAndFadeIn $animation-duration forwards;
+  animation-delay: $delay;
+}

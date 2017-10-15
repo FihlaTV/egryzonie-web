@@ -1,0 +1,7 @@
+@import '../components/buttons';
+
+@mixin btn($color) {
+  @extend .btn;
+  background: $color;
+  border-bottom-color: darken($color, 7%);
+}

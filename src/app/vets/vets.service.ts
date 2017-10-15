@@ -31,12 +31,22 @@ export class VetsService {
     });
   }
 
-  othersAround(latitude: number, longitude: number): Promise<any> {
+  othersAround(latitude: number, longitude: number, recommended?: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
       this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${latitude},${longitude}&radius:25000&rankby=distance&types=veterinary_care`)
         .map((response) => JSON.parse(response['_body']).results)
         .subscribe(
           (results) => {
+            results = results.filter((item) => {
+              if (!recommended) {
+                console.log('No recommneded!');
+                return true;
+              }
+              return recommended.find((r) => {
+                console.log(item, r);
+                return item.title === r.title
+              }) !== null;
+            });
             resolve(results);
           },
           (error) => {

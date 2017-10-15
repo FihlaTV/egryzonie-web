@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://api.egryzonie.pl'
+  apiUrl: 'http://api.egryzonie.pl',
+  geonamesUsername: 'egryzonie'
 };
