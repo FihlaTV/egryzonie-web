@@ -1,17 +1,45 @@
+$color-primary-light: #29C5FF;
+$color-primary: #22A7F0;
+$color-primary-dark: #1297E0;
 
-$color-primary: #5dade2;
-$color-primary-dark: #3498db;
-$color-secondary: #f7ca18;
+$color-secondary-light: #FDE3A7;
+$color-secondary: #FFCF4B;
+$color-secondary-dark: #F9B32F;
 
-$color-grey: #d2d7d3;
+$color-grey-light: #E3E3E3;
+$color-grey: #C5C5C5;
+$color-grey-dark: #a0a0a0;
 
 $color-text: #212121;
-$color-text-light: #626262;
+$color-text-light: #707070;
 
 $color-light: #f0f0f0;
 $color-light-2: #f8f8f8;
 
-$colors-list: #1abc9c, #9b59b6, #2ecc71, #e67e22, #3498db, #f1c40f, #e74c3c;
+$colors-list: #FFCF4B, #CEA0E4, #5EFCA1, #FF8CC8, #FFC29B, #29C5FF, #FFAC9C;
+$colors-list-light: #FDE3A7, #FFCCBC, #FFDCB5, #8EFFC1, #39D5FF, #DCC6E0, #FFBCD8;
 
 $color-alert: #c0392b;
 $color-success: #27ae60;
+
+
+@mixin flatGradient($list, $length: 40px) {
+  $colors-list-gradient: repeating-linear-gradient(
+    90deg,
+    nth($list, 1) (0 * $length),
+    nth($list, 1) (1 * $length),
+    nth($list, 2) (1 * $length),
+    nth($list, 2) (2 * $length),
+    nth($list, 3) (2 * $length),
+    nth($list, 3) (3 * $length),
+    nth($list, 4) (3 * $length),
+    nth($list, 4) (4 * $length),
+    nth($list, 5) (4 * $length),
+    nth($list, 5) (5 * $length),
+    nth($list, 6) (5 * $length),
+    nth($list, 6) (6 * $length),
+    nth($list, 7) (6 * $length),
+    nth($list, 7) (7 * $length)
+  );
+  background-image: $colors-list-gradient;
+}

@@ -1,0 +1,30 @@
+<div class="wrapper">
+  <form class="form form--decorated" [formGroup]="form" (ngSubmit)="login()">
+    <h4 class="form__heading">Logowanie</h4>
+    <div class="form__control">
+      <label class="form__label">
+        <span class="fa fa-envelope"></span>
+        <input
+          class="form__input"
+          formControlName="email"
+          placeholder="Adres e-mail">
+      </label>
+      <eg-error *ngIf="!form.controls['email'].valid && form.controls['email'].touched" message="Nieprawidłowy adres e-mail."></eg-error>
+    </div>
+    <div class="form__control">
+      <label class="form__label">
+        <span class="fa fa-unlock"></span>
+        <input
+          class="form__input"
+          formControlName="password"
+          type="password"
+          placeholder="Hasło">
+      </label>
+      <eg-error *ngIf="!form.controls['password'].valid && form.controls['password'].touched" message="Należy wpisać hasło."></eg-error>
+    </div>
+    <div class="form__buttons">
+      <button type="submit" class="btn btn--primary" [class.disabled]="form.invalid">Zaloguj się</button>
+      <a href="javascript: void(0);" class="btn btn--alert">Nie masz konta?</a>
+    </div>
+  </form>
+</div>

@@ -10,7 +10,7 @@ import { User } from '@interfaces/user';
 export class UserService {
 
   public token: string;
-  public currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  public currentUser$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor ( private _http: Http ) {
     if (localStorage['currentUser']) {
@@ -23,30 +23,42 @@ export class UserService {
     }
   }
 
-  login (email: string, password: string): Observable<boolean> {
-    return this._http.post(
+  login (email: string, password: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      return this._http.post(
         `${environment.apiUrl}/auth/login`,
         { email: email, password: password }
       )
-      .map((response: any) => {
-        const responseJson = JSON.parse(response['_body']);
-        const token = responseJson && responseJson.token;
-        const user = responseJson && responseJson.user;
-        if (token) {
-          this.token = token;
-          localStorage['currentUser'] = JSON.stringify({ id: user.id, email: user.email, token: token });
-          this.currentUser$.next(user);
-          return true;
+      .map((response: any) => JSON.parse(response['_body']))
+      .subscribe(
+        (responseJson) => {
+          if (responseJson) {
+            const { token, user } = responseJson;
+            if (token) {
+              this.token = token;
+
+              const userInstance: User = {
+                id: user.id,
+                email: user.email,
+                role: user.role
+              };
+              localStorage['currentUser'] = JSON.stringify({ id: user.id, email: user.email, token: token });
+              this.currentUser$.next(userInstance);
+              resolve(true);
+            }
+          }
+        },
+        (error) => {
+          console.error('ERROR: ', error);
         }
-        return false;
-      }
-    );
+      );
+    });
   }
 
   logout (): void {
+    this.currentUser$.next(null);
     this.token = null;
     localStorage.removeItem('currentUser');
-    this.currentUser$.next(null);
   }
 
   getUser (): Observable<User> {

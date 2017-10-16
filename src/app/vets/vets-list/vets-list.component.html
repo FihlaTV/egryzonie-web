@@ -8,19 +8,22 @@
         <a href="javascript:void(0);" class="nearbyCities__item" (click)="!searchAwait ? searchLocation(city) : null" *ngFor="let city of nearbyCities">{{city.city}}</a>
       </p>
     </div>
-    <div class="formControl">
-      <label>
-        <span class="fa fa-search"></span>
-        <input
-          type="text"
-          name="city"
-          id="search_city"
-          [value]="location?.city"
-          (keyup)="searchCitySubject.next($event)">
-        <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
-      </label>
-      <eg-error [message]="errorMessage"></eg-error>
-    </div>
+    <form class="form">
+      <div class="form__control">
+        <label class="form__label">
+          <span class="fa fa-search"></span>
+          <input
+            class="form__input"
+            type="text"
+            name="city"
+            id="search_city"
+            [value]="location?.city"
+            (keyup)="searchCitySubject.next($event)">
+          <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
+        </label>
+        <eg-error [message]="errorMessage"></eg-error>
+      </div>
+    </form>
   </div>
   <div class="vets-list vets-list--recommended" *ngIf="vetsList">
     <div class="vets-list__element" *ngFor="let vet of vetsList">

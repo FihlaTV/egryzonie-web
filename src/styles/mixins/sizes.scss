@@ -1,0 +1,28 @@
+$size-xsm: 26em;
+$size-sm: 43em;
+$size-md: 57em;
+$size-lg: 88em;
+
+@mixin xsm() {
+  @media screen and (max-width: $size-xsm - .1em) {
+    @content;
+  }
+};
+
+@mixin sm() {
+  @media screen and (min-width: $size-sm) {
+    @content;
+  }
+};
+
+@mixin md() {
+  @media screen and (min-width: $size-md) {
+    @content;
+  }
+};
+
+@mixin lg() {
+  @media screen and (min-width: $size-lg) {
+    @content;
+  }
+};

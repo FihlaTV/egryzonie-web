@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { environment } from 'environments/environment';
 import { SharedModule } from '../shared/shared.module';
 
+// Routing
+import { VetsRoutingModule } from './vets-routing.module';
+
 // Components
 import { VetsComponent } from './vets.component';
 import { VetsListComponent } from './vets-list/vets-list.component';
 import { VetViewComponent } from './vet-view/vet-view.component';
-
-// Routing
-import { VetsRoutingModule } from './vets-routing.module';
 
 // Services
 import { VetsService } from './vets.service';

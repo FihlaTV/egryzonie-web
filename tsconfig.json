@@ -17,6 +17,7 @@
     ],
     "baseUrl": "src",
     "paths": {
+      "@shared/*": ["app/shared/*"],
       "@services/*": ["app/shared/services/*"],
       "@guards/*": ["app/shared/guards/*"],
       "@interfaces/*": ["app/shared/interfaces/*"],

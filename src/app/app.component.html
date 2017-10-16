@@ -1,4 +1,8 @@
-<eg-navbar></eg-navbar>
+<eg-navbar [currentUser]="currentUser"></eg-navbar>
 <div class="wrapper">
   <router-outlet></router-outlet>
+</div>
+
+<div class="user">
+  {{ currentUser | json }}
 </div>

@@ -7,8 +7,12 @@ import { APIInterceptor } from './api.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+// Services
+import { UserService } from '@services/user.service';
+
 // Modules
 import { SharedModule } from './shared/shared.module';
+import { AuthModule } from './auth/auth.module';
 import { VetsModule } from './vets/vets.module';
 
 @NgModule({
@@ -21,6 +25,7 @@ import { VetsModule } from './vets/vets.module';
     HttpClientModule,
     SharedModule,
     AppRoutingModule,
+    AuthModule,
     VetsModule
   ],
   providers: [
@@ -28,7 +33,8 @@ import { VetsModule } from './vets/vets.module';
       provide: HTTP_INTERCEPTORS,
       useClass: APIInterceptor,
       multi: true
-    }
+    },
+    UserService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,28 @@
-@import '../components/buttons';
-
 @mixin btn($color) {
-  @extend .btn;
+  $change: 15%;
+
+  border: 0;
+  border-radius: 3px;
+  color: $color-light-2;
+  cursor: pointer;
+  font-family: $font-headings;
+  text-transform: uppercase;
+  font-size: .85rem;
+  font-weight: 500;
+  padding: .45rem .85rem .35rem;
+  margin: .5rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .4);
+
   background: $color;
-  border-bottom-color: darken($color, 7%);
+  border-bottom: 2px solid darken($color, $change);
+
+  &:hover {
+    background: lighten($color, $change);
+    border-bottom-color: $color;
+  }
+
+  &:disabled, &.disabled {
+    background: desaturate($color, 100%);
+    border-bottom-color: darken(desaturate($color, 100%), $change);
+  }
 }

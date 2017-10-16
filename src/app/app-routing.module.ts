@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'vets', loadChildren: 'app/vets/vets.module#VetsModule', data: { preload: true } }
+  { path: '', loadChildren: 'app/vets/vets.module#VetsModule' },
+  { path: '', loadChildren: 'app/auth/auth.module#AuthModule' }
 ];
 
 @NgModule({

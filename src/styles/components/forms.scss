@@ -1,33 +1,95 @@
 @import '../config/fonts';
 @import '../config/colors';
 
-.formControl {
+.form {
+  margin: 0 auto;
+  padding-bottom: 1em;
+  display: block;
+  width: 90%;
+  max-width: 600px;
   position: relative;
-  display: inline-block;
 
-  label {
-    display: inline-block;
+  &__heading {
+    background: $color-light-2;
+    color: $color-text-light;
+    margin: 0;
+    padding: 1.3em 0 1em;
+    text-align: center;
+  }
+
+  &__label {
+    display: block;
+    background: $color-light-2;
+    border: 1px solid $color-grey-light;
+    border-radius: .45em;
+    width: 90%;
+    max-width: 400px;
+    margin: .75em auto;
+    padding: .7em .5em;
+    position: relative;
+  }
+
+  &__input {
+    background: transparent;
+    border: 0;
+    border-radius: .45em;
+    color: $color-grey;
+    display: block;
+    font-size: 1em;
+    font-family: $font-headings;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
   }
 
   .fa {
+    color: $color-grey-light;
+    margin: 0 .25em;
+  }
+
+  .fa + &__input {
+    padding-left: 2.5em;
+  }
+  
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 390px;
+    margin: 0 auto;
+  }
+}
+
+.form--decorated {
+  background: $color-light;
+  border-radius: .5em;
+  
+  &::before {
+    border-radius: .5em .5em 0 0;
+    content: '';
+    display: block;
     position: absolute;
-    display: inline-block;
-    padding: .3em .45em .1em;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    @include flatGradient($colors-list-light, 80px);
   }
+}
 
-  .fa + input[type="text"] {
-    padding-left: 2.2em;
-  }
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: $color-grey;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: $color-grey;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: $color-grey;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: $color-grey;
+}
 
-  input[type="text"] {
-    background: $color-light;
-    border: 0;
-    display: inline-block;
-    font-family: $font-headings;
-    height: 100%;
-    line-height: 100%;
-    padding-top: .45em;
-    padding-bottom: .45em;
-    padding-right: .45em;
-  }
+:-webkit-autofill {
+  transition: background-color 0s 999999999s linear;
 }

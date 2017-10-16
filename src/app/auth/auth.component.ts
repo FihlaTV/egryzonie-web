@@ -3,11 +3,17 @@ import { UserService } from '@services/index';
 
 @Component({
   selector: 'eg-auth',
-  template: `<p>Auth Component Works!</p>`,
+  template: `<router-outlet></router-outlet>`,
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  constructor( private _user: UserService ) {}
 
-  ngOnInit() { }
+  public currentUser;
+
+  constructor( private _user: UserService ) {
+    _user.currentUser$.subscribe((user) => this.currentUser = user);
+  }
+
+  ngOnInit() {
+  }
 }

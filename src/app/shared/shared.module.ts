@@ -8,7 +8,7 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
 import { ErrorComponent } from '@components/error/error.component';
 
 // Services
-import { UserService, GeolocationService } from '@services/index';
+import { GeolocationService } from '@services/index';
 
 const EXPORTS = [
   NavbarComponent,
@@ -23,7 +23,6 @@ const EXPORTS = [
   ],
   declarations: EXPORTS,
   providers: [
-    UserService,
     GeolocationService
   ],
   exports: EXPORTS

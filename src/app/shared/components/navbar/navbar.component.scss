@@ -1,4 +1,5 @@
 @import 'src/styles/config/colors';
+@import 'src/styles/mixins/sizes';
 
 $color: #3498db;
 
@@ -39,6 +40,10 @@ $color: #3498db;
       
       &:hover {
         background: rgba(255, 255, 255, .1);
+      }
+      
+      @include xsm() {
+        display: none;
       }
     }
   }

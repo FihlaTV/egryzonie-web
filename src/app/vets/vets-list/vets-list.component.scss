@@ -1,8 +1,10 @@
 @import 'src/styles/config/fonts';
 @import 'src/styles/config/colors';
 
+@import 'src/styles/mixins/sizes';
 @import 'src/styles/mixins/button';
 @import 'src/styles/mixins/box-shadow';
+@import 'src/styles/mixins/sizes';
 
 @mixin center {
   display: flex;

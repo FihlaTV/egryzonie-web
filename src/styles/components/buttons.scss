@@ -1,23 +1,15 @@
 @import '../config/colors';
 @import '../config/fonts';
+@import '../mixins/button';
 
 .btn {
-  border: 0;
-  background: #f7ca18;
-  border-bottom: 2px solid darken(#f7ca18, 7%);
-  border-radius: 2px;
-  color: $color-light-2;
-  cursor: pointer;
-  font-family: $font-headings;
-  text-transform: uppercase;
-  font-size: .85rem;
-  font-weight: 500;
-  padding: .25rem .5rem;
-  margin: .5rem;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-  opacity: .5;
+  @include btn(darken($color-secondary, 15%));
 
-  &:hover {
-    opacity: 1;
+  &--primary {
+    @include btn($color-primary);
+  }
+
+  &--alert {
+    @include btn($color-alert);
   }
 }

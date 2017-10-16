@@ -69,7 +69,7 @@ export class GeolocationService {
             }
 
             const location: Location = {
-              city: name,
+              city: results[0].address_components[0].long_name,
               coords: {
                 lat: results[0].geometry.location.lat(),
                 lng: results[0].geometry.location.lng()

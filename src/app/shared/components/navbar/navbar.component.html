@@ -14,7 +14,12 @@
       <ul class="navbar__user__list">
         <li class="navbar__user__item" *ngIf="currentUser">
           <a href="javascript:void(0)" routerLink="/user" class="navbar__user__link">
-            Użytkownik
+            Ty!
+          </a>
+        </li>
+        <li class="navbar__user__item" *ngIf="currentUser">
+          <a href="javascript:void(0)" routerLink="/auth/logout" class="navbar__user__link">
+            Wyloguj
           </a>
         </li>
         <li class="navbar__user__item" *ngIf="!currentUser">

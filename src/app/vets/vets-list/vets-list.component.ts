@@ -19,18 +19,15 @@ import { VetsService } from '../vets.service';
 })
 export class VetsListComponent implements OnInit {
   
-  public searchCity: string;
-  public searchPosition: object;
   public searchCitySubject = new Subject<any>();
   public searchAwait: boolean = true;
 
   public location: Location;
-  public nearbyCities: Location[];
 
-  public userPosition: object;
   public currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public vetsList: any[] = [];
   public othersList: any[] = [];
+  public nearbyCities: Location[];
 
   public errorMessage: string;
   
@@ -52,8 +49,7 @@ export class VetsListComponent implements OnInit {
     } else {
       this.location = await this._geo.getUserLocation();
     }
-    this.nearbyCities = await this._geo.getNearbyCities(this.location);
-    this.searchAwait = false;
+    await this._newLocation();
   }
 
   ngOnDestroy() {
@@ -116,5 +112,6 @@ export class VetsListComponent implements OnInit {
 
   private _error(message: string) {
     this.errorMessage = message;
+    this.searchAwait = false;
   }
 }

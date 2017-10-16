@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '@services/index';
 import { Subscription } from 'rxjs/Subscription';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { User } from '@interfaces/user';
 
@@ -18,18 +19,14 @@ export class AppComponent implements OnInit {
   constructor( private _user: UserService ) { }
 
   ngOnInit () {
-    this._userSub = this._user.currentUser$
-      .subscribe((user) => {
-        if (user) {
-          this.currentUser = user;
-        } else {
-          this.currentUser = null;
-        }
-      });
+    this._userSub = this._user.currentUser$.subscribe((user) => {
+      console.log('User changed!', user);
+      this.currentUser = user;
+    });
   }
 
   ngOnDestroy () {
-    this._userSub.unsubscribe();
+    // this._userSub.unsubscribe();
   }
   
   logout() {
