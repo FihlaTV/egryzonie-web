@@ -10,6 +10,9 @@ import { AppComponent } from './app.component';
 // Services
 import { UserService } from '@services/user.service';
 
+// Guards
+import { AuthGuard } from '@guards/auth.guard';
+
 // Modules
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
@@ -34,7 +37,8 @@ import { VetsModule } from './vets/vets.module';
       useClass: APIInterceptor,
       multi: true
     },
-    UserService
+    UserService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

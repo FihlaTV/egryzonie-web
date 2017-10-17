@@ -27,12 +27,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this._user.currentUser$.subscribe((user) => {
       this.currentUser = user;
+      if (this.currentUser) {
+        this._router.navigate(['/user']);
+      }
     });
-    if (this.currentUser) {
-      this._router.navigate(['/user']);
-    } else {
-      console.log('No current user, staying');
-    }
   }
 
   async login() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from '@services/index';
 import { Subscription } from 'rxjs/Subscription';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -16,13 +16,17 @@ export class AppComponent implements OnInit {
   private _userSub: Subscription;
   public currentUser: User;
 
-  constructor( private _user: UserService ) { }
+  constructor( private _user: UserService, private cdRef: ChangeDetectorRef ) { }
 
   ngOnInit () {
     this._userSub = this._user.currentUser$.subscribe((user) => {
       console.log('User changed!', user);
       this.currentUser = user;
     });
+  }
+
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
   }
 
   ngOnDestroy () {
