@@ -12,4 +12,8 @@
   &--alert {
     @include btn($color-alert);
   }
+
+  &--positive {
+    @include btn($color-success);
+  }
 }

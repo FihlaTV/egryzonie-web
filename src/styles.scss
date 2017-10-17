@@ -20,11 +20,11 @@ a {
 
 .loader {
   display: none;
-  width: 24px;
+  width: 48px;
   margin: -.4em auto;
 
   &.visible {
-    display: inline-block;
+    display: block;
   }
 }
 

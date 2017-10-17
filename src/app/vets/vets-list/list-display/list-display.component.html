@@ -1,0 +1,25 @@
+<div *ngIf="list && list?.length"
+  [class]="classes.join(' ')">
+  <div class="item-list__element" *ngFor="let item of list">
+    <div class="item-list__element__navigate">
+      <span class="fa fa-map-marker"></span>
+      <button
+        type="button" class="btn"
+        (click)="openMap(item.googleMapsID)">Mapa</button>
+    </div>
+    <div class="item-list__element__info" [routerLink]="['view/', item.googleMapsID]">
+      <div class="item-list__element__info__name">
+        {{ item.title }}
+      </div>
+      <div class="item-list__element__info__address">
+        {{ item.address }}
+      </div>
+    </div>
+    <div *ngIf="item.recommended" class="item-list__element__recommended">
+      <span class="fa fa-star"></span>
+    </div>
+  </div>
+</div>
+<div *ngIf="!list || !list?.length">
+  <p>{{ emptyListMessage }}</p>
+</div>

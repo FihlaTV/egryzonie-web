@@ -1,17 +1,4 @@
 @import 'src/styles/config/fonts';
-@import 'src/styles/config/colors';
-
-@import 'src/styles/mixins/sizes';
-@import 'src/styles/mixins/button';
-@import 'src/styles/mixins/box-shadow';
-@import 'src/styles/mixins/sizes';
-
-@mixin center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
 .wrapper {
   width: 90%;
@@ -20,83 +7,6 @@
   font-family: $font-headings;
 }
 
-.vets-list {
-  border-bottom: 1px solid $color-grey;
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-
-  &__element {
-    background: $color-light;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin: 1em 0;
-    border-radius: 0 2px 2px 0;
-
-    &:hover {
-      @include box-shadow($color-grey);
-    }
-
-    &__navigate {
-      background: $color-light-2;
-      border-left: 3px solid $color-grey;
-      border-radius: 2px 0 0 2px;
-      color: $color-grey;
-      font-size: 3em;
-      flex-direction: column;
-      padding: .25em .5em;
-      @include center;
-
-      .btn {
-        background: $color-grey;
-        border-bottom-color: darken($color-grey, 10%);
-      }
-    }
-
-    &__info {
-      cursor: pointer;
-      color: $color-text;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-
-      &:hover {
-        color: $color-text-light;
-      }
-      
-      &__name, &__address {
-        padding: 1.2em;
-        text-align: center;
-        @include center;
-      }
-
-      &__name {
-        flex-grow: 2;
-        font-weight: 900;
-        font-size: 1.1em;
-      }
-
-      &__address {
-        background: $color-light-2;
-        flex-shrink: 2;
-        flex-basis: 2em;
-      }
-    }
-  }
-}
-
-@for $i from 1 to 6 {
-  $color: nth($colors-list, $i);
-  .vets-list--recommended > .vets-list__element:nth-child(#{$i}n):hover {
-    @include box-shadow($color);
-  }
-
-  .vets-list--recommended > .vets-list__element:nth-child(#{$i}n) > .vets-list__element__navigate {
-    color: $color;
-    border-left-color: $color;
-    
-    .btn {
-      @include btn($color);
-    }
-  }
+.options {
+  text-align: center;
 }

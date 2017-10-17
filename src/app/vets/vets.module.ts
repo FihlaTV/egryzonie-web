@@ -9,6 +9,7 @@ import { VetsRoutingModule } from './vets-routing.module';
 // Components
 import { VetsComponent } from './vets.component';
 import { VetsListComponent } from './vets-list/vets-list.component';
+import { ListDisplayComponent } from './vets-list/list-display/list-display.component';
 import { VetViewComponent } from './vet-view/vet-view.component';
 
 // Services
@@ -29,6 +30,7 @@ import { AgmCoreModule } from '@agm/core';
   declarations: [
     VetsComponent,
     VetsListComponent,
+    ListDisplayComponent,
     VetViewComponent
   ],
   providers: [

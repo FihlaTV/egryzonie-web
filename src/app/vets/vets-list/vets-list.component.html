@@ -2,6 +2,12 @@
   <h3>
     Polecani weterynarze gryzoniowi - {{ location?.city }}
   </h3>
+  <div class="options">
+    <a href="javascript:void(0)" class="btn btn--positive">
+      <span class="fa fa-plus">&nbsp;</span>
+      Dodaj weterynarza
+    </a>
+  </div>
   <div class="search">
     <div class="nearbyCities" *ngIf="!searchAwait">
       <p>Spróbuj również tutaj:<br>
@@ -17,42 +23,25 @@
             type="text"
             name="city"
             id="search_city"
+            [disabled]="searchAwait"
             [value]="location?.city"
             (keyup)="searchCitySubject.next($event)">
-          <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
         </label>
+        <img class="loader" [class.visible]="searchAwait" src="/assets/loader.gif" alt="">
         <eg-error [message]="errorMessage"></eg-error>
       </div>
     </form>
   </div>
-  <div class="vets-list vets-list--recommended" *ngIf="vetsList">
-    <div class="vets-list__element" *ngFor="let vet of vetsList">
-      <div class="vets-list__element__navigate">
-        <span class="fa fa-map-marker"></span>
-        <button
-          type="button" class="btn"
-          (click)="openMap(vet.googleMapsID)">Mapa</button>
-      </div>
-      <div class="vets-list__element__info" [routerLink]="['view/', vet.googleMapsID]">
-        <div class="vets-list__element__info__name">
-          {{ vet.title }}
-        </div>
-        <div class="vets-list__element__info__address">
-          {{ vet.address }}
-        </div>
-      </div>
-      <div *ngIf="vet.recommended" class="vets-list__element__recommended">
-        <span class="fa fa-star"></span>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="!vetsList || !vetsList?.length">
-    <p>Niestety, nie znaleziono żadnych polecanych weterynarzy.</p>
-  </div>
+  <eg-list-display [list]="vetsList"
+    [classes]="['recommended']"
+    emptyListMessage="Niestety, nie znaleziono żadnych polecanych weterynarzy."></eg-list-display>
   <h4>
     Pozostali weterynarze - {{ location?.city }}
   </h4>
-  <div class="vets-list vets-list--others" *ngIf="othersList">
+  <eg-list-display [list]="othersList"
+    [classes]="['others']"
+    emptyListMessage="Niestety, nie znaleziono żadnych innych weterynarzy w okolicy."></eg-list-display>
+  <!--<div class="vets-list vets-list--others" *ngIf="othersList">
     <div class="vets-list__element" *ngFor="let vet of othersList">
       <div class="vets-list__element__navigate">
         <span class="fa fa-map-marker"></span>
@@ -72,5 +61,5 @@
         <span class="fa fa-star"></span>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

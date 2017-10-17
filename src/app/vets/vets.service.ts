@@ -17,12 +17,12 @@ export class VetsService {
     private _geo: GeolocationService
   ) {}
 
-  recommendedInLocation(location: Location): Promise<any> {
+  recommendedInLocation(location: Location): Promise<Vet[]> {
     return new Promise((resolve, reject) => {
       this._http.post('/vets/search_city', {
         city: location.city
       }).subscribe(
-        (results) => {
+        (results: Vet[]) => {
           resolve(results);
         }),
         (error) => {
@@ -31,25 +31,30 @@ export class VetsService {
     });
   }
 
-  othersInLocation(location: Location, recommended?: any[]): Promise<any> {
+  othersInLocation(location: Location, recommended?: Vet[]): Promise<Vet[]> {
     return new Promise((resolve, reject) => {
       this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${location.coords.lat},${location.coords.lng}&radius:25000&rankby=distance&types=veterinary_care`)
         .map((response) => JSON.parse(response['_body']).results)
         .subscribe(
           (results) => {
-            results = results.filter((item) => {
-              if (!recommended) {
-                return true;
-              }
-              return recommended.find((r) => {
-                return item.title === r.title
-              }) !== null;
-            });
-            resolve(results);
+            resolve(results
+              .map((item) => this._googleResultToVet(item, location.city))
+              .filter((item) => !recommended || recommended.find((r) => item === r) !== null)
+            );
           },
           (error) => {
             reject(error);
           });
     });
+  }
+
+  private _googleResultToVet(result: any, city?: string): Vet {
+    const vet: Vet = {
+      title: result.name,
+      address: result.vicinity,
+      googleMapsID: result.place_id,
+      city: city || ''
+    };
+    return vet;
   }
 }

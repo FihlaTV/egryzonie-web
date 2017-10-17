@@ -12,6 +12,8 @@ import { Subject } from 'rxjs/Subject';
 
 import { VetsService } from '../vets.service';
 
+import { Vet } from '@interfaces/vet';
+
 @Component({
   selector: 'eg-vets-list',
   templateUrl: './vets-list.component.html',
@@ -25,7 +27,7 @@ export class VetsListComponent implements OnInit {
   public location: Location;
 
   public currentUser$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-  public vetsList: any[] = [];
+  public vetsList: Vet[] = [];
   public othersList: any[] = [];
   public nearbyCities: Location[];
 
@@ -56,11 +58,6 @@ export class VetsListComponent implements OnInit {
     if (this._searchCity$) {
       this._searchCity$.unsubscribe();
     }
-  }
-  
-  openMap(id: string) {
-    const mapsUrl = `https://www.google.com/maps/place/?q=place_id:${id}`;
-    window.open(mapsUrl);
   }
 
   async searchLocation(location: Location) {
