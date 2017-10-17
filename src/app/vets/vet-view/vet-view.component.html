@@ -1,0 +1,10 @@
+<div>{{ vetData | json }}</div>
+<div class="vet-details" *ngIf="vetData">
+  <div class="vet-details__info">
+    <h2 class="vet-details__info__name">{{ vetData.title }}</h2>
+    <p class="vet-details__info__address">{{ vetData.address }}</p>
+  </div>
+  <div class="vet-details__map">
+    <div id="map"></div>
+  </div>
+</div>

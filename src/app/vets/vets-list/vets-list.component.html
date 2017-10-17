@@ -41,25 +41,4 @@
   <eg-list-display [list]="othersList"
     [classes]="['others']"
     emptyListMessage="Niestety, nie znaleziono żadnych innych weterynarzy w okolicy."></eg-list-display>
-  <!--<div class="vets-list vets-list--others" *ngIf="othersList">
-    <div class="vets-list__element" *ngFor="let vet of othersList">
-      <div class="vets-list__element__navigate">
-        <span class="fa fa-map-marker"></span>
-        <button
-          type="button" class="btn"
-          (click)="openMap(vet.place_id)">Mapa</button>
-      </div>
-      <div class="vets-list__element__info" [routerLink]="['view_google/', vet.id]">
-        <div class="vets-list__element__info__name">
-          {{ vet.name }}
-        </div>
-        <div class="vets-list__element__info__address">
-          {{ vet.vicinity }}
-        </div>
-      </div>
-      <div *ngIf="vet.recommended" class="vets-list__element__recommended">
-        <span class="fa fa-star"></span>
-      </div>
-    </div>
-  </div> -->
 </div>

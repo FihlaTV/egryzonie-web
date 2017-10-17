@@ -1,34 +1,30 @@
 <div class="navbar" [class.navbar--visible]="navbarVisible">
-  <div class="navbar__inner">
-    <nav class="navbar__navigation">
-      <ul class="navbar__navigation__list">
-        <li class="navbar__navigation__item"
-          *ngFor="let item of mainNavigation">
-          <a href="javascript:void(0)" [routerLink]="item.path" class="navbar__navigation__link">
-            {{ item.name }}
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <nav class="navbar__user">
-      <ul class="navbar__user__list">
-        <li class="navbar__user__item" *ngIf="currentUser">
-          <a href="javascript:void(0)" routerLink="/user" class="navbar__user__link">
-            Ty!
-          </a>
-        </li>
-        <li class="navbar__user__item" *ngIf="currentUser">
-          <a href="javascript:void(0)" routerLink="/auth/logout" class="navbar__user__link">
-            Wyloguj
-          </a>
-        </li>
-        <li class="navbar__user__item" *ngIf="!currentUser">
-          <a href="javascript:void(0)" routerLink="/auth/login" class="navbar__user__link">
-            Zaloguj
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+  <nav class="navbar__inner">
+    <ul class="navbar__navigation navbar__navigation--main">
+      <li class="navbar__navigation__item"
+        *ngFor="let item of mainNavigation">
+        <a href="javascript:void(0)" [routerLink]="item.path" class="navbar__navigation__link">
+          {{ item.name }}
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar__navigation navbar__navigation--user">
+      <li class="navbar__navigation__item" *ngIf="currentUser">
+        <a href="javascript:void(0)" routerLink="/user" class="navbar__navigation__link">
+          Ty!
+        </a>
+      </li>
+      <li class="navbar__navigation__item" *ngIf="currentUser">
+        <a href="javascript:void(0)" routerLink="/auth/logout" class="navbar__navigation__link">
+          Wyloguj
+        </a>
+      </li>
+      <li class="navbar__navigation__item" *ngIf="!currentUser">
+        <a href="javascript:void(0)" routerLink="/auth/login" class="navbar__navigation__link">
+          Zaloguj
+        </a>
+      </li>
+    </ul>
+  </nav>
   <button type="button" class="btn btn--primary hamburger" (click)="navbarVisible = !navbarVisible"><span class="fa fa-bars"></span></button>
 </div>

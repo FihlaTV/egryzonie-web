@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'node_modules/normalize-scss/sass/normalize';
+@import 'src/styles/mixins/sizes';
 @include normalize();
 
 html, body {
@@ -8,8 +9,11 @@ html, body {
 }
 
 body {
-  padding-top: 70px;
   font-size: 18px;
+
+  @include sm() {
+    padding-top: 70px;
+  }
 }
 
 * {

@@ -21,10 +21,14 @@
   &__element {
     background: $color-light;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-direction: column;
     margin: 1em 0;
     border-radius: 0 2px 2px 0;
+
+    @include sm() {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
 
     &:hover {
       @include box-shadow($color-grey);
@@ -32,13 +36,21 @@
 
     &__navigate {
       background: $color-light-2;
-      border-left: 3px solid $color-grey;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0;
+      border-top: 3px solid $color-grey;
       border-radius: 2px 0 0 2px;
       color: $color-grey;
       font-size: 3em;
       flex-direction: column;
       padding: .25em .5em;
       @include center;
+
+      @include sm() {
+        border-left: 3px solid $color-grey;
+        border-top: 0;
+      }
 
       .btn {
         background: $color-grey;
@@ -58,7 +70,6 @@
       }
       
       &__name, &__address {
-        padding: 1.2em;
         text-align: center;
         @include center;
       }
@@ -67,12 +78,14 @@
         flex-grow: 2;
         font-weight: 900;
         font-size: 1.1em;
+        padding: 1.4em 1em;
       }
 
       &__address {
         background: $color-light-2;
         flex-shrink: 2;
         flex-basis: 2em;
+        padding: 2.5em 1em;
       }
     }
   }

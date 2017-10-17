@@ -17,6 +17,21 @@ export class VetsService {
     private _geo: GeolocationService
   ) {}
 
+  getVetDetails(vetId: number): Promise<any> {
+    const requestUrl = `/vets/view/${vetId}`;
+    return new Promise((resolve, reject) => {
+      this._http.get(requestUrl).subscribe(
+        (results) => {
+          resolve(results);
+        },
+        (error) => {
+          console.log(error);
+          reject(error);
+        }
+      );
+    });
+  }
+
   recommendedInLocation(location: Location): Promise<Vet[]> {
     return new Promise((resolve, reject) => {
       this._http.post('/vets/search_city', {

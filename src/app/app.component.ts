@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit () {
     this._userSub = this._user.currentUser$.subscribe((user) => {
-      console.log('User changed!', user);
       this.currentUser = user;
     });
   }
