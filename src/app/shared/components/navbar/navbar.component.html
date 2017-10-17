@@ -1,4 +1,4 @@
-<div class="navbar">
+<div class="navbar" [class.navbar--visible]="navbarVisible">
   <div class="navbar__inner">
     <nav class="navbar__navigation">
       <ul class="navbar__navigation__list">
@@ -30,4 +30,5 @@
       </ul>
     </nav>
   </div>
+  <button type="button" class="btn btn--primary hamburger" (click)="navbarVisible = !navbarVisible"><span class="fa fa-bars"></span></button>
 </div>

@@ -50,6 +50,21 @@ export class GeolocationService {
     });
   }
 
+  locationByPlaceID(id: string): Promise<Location> {
+    return new Promise((resolve, reject) => {
+      try {
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({
+          placeId: id
+        }, (results, status) => {
+          console.log(results, status);
+        });
+      } catch (error) {
+        console.error('Error!', error);
+      }
+    });
+  }
+
   getCityLocation(name): Promise<Location> {
     return new Promise((resolve, reject) => {
       try {

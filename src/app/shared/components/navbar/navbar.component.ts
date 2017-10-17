@@ -8,6 +8,8 @@ import { User } from '@interfaces/user';
 })
 export class NavbarComponent implements OnInit {
   @Input() public currentUser: User;
+  public navbarVisible: boolean = false;
+
   public mainNavigation = [
     {
       path: '/',
@@ -22,6 +24,10 @@ export class NavbarComponent implements OnInit {
   constructor () {}
 
   ngOnInit() {
+
+  }
+
+  toggleNavbar() {
 
   }
 }

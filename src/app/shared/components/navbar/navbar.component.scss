@@ -1,4 +1,5 @@
 @import 'src/styles/config/colors';
+@import 'src/styles/config/animations';
 @import 'src/styles/mixins/sizes';
 
 $color: #3498db;
@@ -11,24 +12,57 @@ $color: #3498db;
   right: 0;
   background: $color-primary;
   border-bottom: 5px solid $color-primary-dark;
+  transition: transform .35s ease-in-out;
+  z-index: 99999;
+
+  @include xsm() {
+    transform: translateY(-100%);
+
+    &--visible {
+      transform: translateY(0%);
+    }
+  }
+
+  .hamburger {
+    display: none;
+    padding: .25em .55em;
+    font-size: 1.1em;
+    position: absolute;
+    right: .5em;
+    bottom: -3.5em;
+    text-shadow: none;
+
+    @include xsm() {
+      display: block;
+    }
+  }
 
   &__inner {
     width: 100%;
     max-width: 960px;
     margin: 0 auto;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
   }
 
   &__navigation, &__user {
+    width: 100%;
+    flex-basis: 100%;
 
     &__list {
       list-style-type: none;
       padding: 0;
       margin: 0;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &__item {
+      flex-basis: 100%;
+      width: 100%;
+      text-align: center;
     }
 
     &__link {
@@ -40,10 +74,6 @@ $color: #3498db;
       
       &:hover {
         background: rgba(255, 255, 255, .1);
-      }
-      
-      @include xsm() {
-        display: none;
       }
     }
   }
