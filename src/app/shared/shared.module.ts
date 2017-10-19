@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 // Components
 import { NavbarComponent } from '@components/navbar/navbar.component';
 import { ErrorComponent } from '@components/error/error.component';
-import { TooltipContentComponent } from '@components/tooltip-content/tooltip-content.component';
 
 // Services
 import { GeolocationService, GoogleMapsService } from '@services/index';
