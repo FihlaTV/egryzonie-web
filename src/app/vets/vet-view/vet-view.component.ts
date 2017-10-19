@@ -3,19 +3,21 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { VetsService } from '../vets.service';
-import { GeolocationService } from '@services/geolocation.service';
+import { GeolocationService, GoogleMapsService } from '@services/index';
 
-declare const google: any;
+import { Vet, Location } from '@interfaces/index';
+
+declare const google;
 
 @Component({
   selector: 'eg-vet-view',
   templateUrl: './vet-view.component.html',
-  styles: []
+  styleUrls: ['./vet-view.component.scss']
 })
 export class VetViewComponent implements OnInit {
 
-  public vetData: any;
-  public map: any;
+  public vetData: Vet;
+  public location: Location;
 
   private _vetId: string;
   private _paramsSub: Subscription;
@@ -24,7 +26,8 @@ export class VetViewComponent implements OnInit {
   constructor (
     private _route: ActivatedRoute,
     private _vet: VetsService,
-    private _geo: GeolocationService
+    private _geo: GeolocationService,
+    private _maps: GoogleMapsService
   ) {
   }
 
@@ -33,10 +36,10 @@ export class VetViewComponent implements OnInit {
       try {
         this.vetData = await this._vet.getVetDetails(params['vetId']);
         const location = await this._geo.locationByPlaceID(this.vetData.googleMapsID);
+        this._maps.initMap(document.getElementById('map'), location);
       } catch (error) {
         console.error('ERRROR', error);
       }
-      // const map = new 
     });
   }
 

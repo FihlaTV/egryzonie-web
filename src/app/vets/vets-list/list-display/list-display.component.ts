@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Vet } from '@interfaces/vet';
+import { Vet, User } from '@interfaces/index';
 
 @Component({
   selector: 'eg-list-display',
@@ -9,9 +9,11 @@ import { Vet } from '@interfaces/vet';
 export class ListDisplayComponent {
   public defaultClass = 'item-list';
 
-  @Input() list: Vet[] = [];
-  @Input() classes: string[] = [];
-  @Input() emptyListMessage: string = '';
+  @Input() public list: Vet[] = [];
+  @Input() public classes: string[] = [];
+  @Input() public emptyListMessage: string = '';
+  @Input() public currentUser: User = null;
+  @Input() public options: object = {};
 
   constructor() { }
 
@@ -24,5 +26,9 @@ export class ListDisplayComponent {
   openMap(id: string) {
     const mapsUrl = `https://www.google.com/maps/place/?q=place_id:${id}`;
     window.open(mapsUrl);
+  }
+
+  recommend(vet: Vet) {
+    console.log('Recommend: ', vet.title);
   }
 }

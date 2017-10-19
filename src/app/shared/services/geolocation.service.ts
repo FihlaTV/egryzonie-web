@@ -57,10 +57,17 @@ export class GeolocationService {
         geocoder.geocode({
           placeId: id
         }, (results, status) => {
-          console.log(results, status);
+          const location: Location = {
+            city: null,
+            coords: {
+              lat: results[0].geometry.location.lat(),
+              lng: results[0].geometry.location.lng()
+            }
+          };
+          resolve(location);
         });
       } catch (error) {
-        console.error('Error!', error);
+        reject(error);
       }
     });
   }

@@ -1,0 +1,41 @@
+@mixin distribute-on-circle($nb-items, $circle-size, $item-size, $rotation-offset: 0, $class-for-IE: false) {
+  $half-item: ($item-size / 2);
+  $half-parent: ($circle-size / 2);
+
+  position: relative;
+  width: $circle-size;
+  height: $circle-size;
+  padding: 0;
+  border-radius: 50%;
+  list-style: none;
+  box-sizing: content-box;
+  margin-top: $item-size + 1em;
+  margin-bottom: $item-size + 1.5em;
+
+  > * {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    // width: $item-size;
+    // height: $item-size;
+    margin: -$half-item;
+  }
+
+  $rot: 0 + $rotation-offset;
+  $angle: (360 / $nb-items);
+  
+  @for $i from 1 through $nb-items {
+    @if not $class-for-IE {
+      > :nth-of-type(#{$i}) {
+        transform:
+          rotate($rot * 1deg)
+          translate($circle-size / 2)
+          rotate($rot * -1deg);
+        margin: -($circle-size / 2 / 2);
+      }
+    }
+
+    $rot: ($rot + $angle);
+  }
+}

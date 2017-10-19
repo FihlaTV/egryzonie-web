@@ -1,0 +1,16 @@
+.google-map {
+  $margin: 0;
+  position: absolute;
+  top: $margin;
+  left: $margin;
+  right: $margin;
+  bottom: $margin;
+
+  .gmnoprint, .gm-style-cc {
+    display: none;
+  }
+
+  &, & * {
+    background: transparent;
+  }
+}

@@ -6,13 +6,14 @@ import { RouterModule } from '@angular/router';
 // Components
 import { NavbarComponent } from '@components/navbar/navbar.component';
 import { ErrorComponent } from '@components/error/error.component';
+import { TooltipContentComponent } from '@components/tooltip-content/tooltip-content.component';
 
 // Services
-import { GeolocationService } from '@services/index';
+import { GeolocationService, GoogleMapsService } from '@services/index';
 
 const EXPORTS = [
   NavbarComponent,
-  ErrorComponent
+  ErrorComponent,
 ];
 
 @NgModule({
@@ -23,7 +24,8 @@ const EXPORTS = [
   ],
   declarations: EXPORTS,
   providers: [
-    GeolocationService
+    GeolocationService,
+    GoogleMapsService
   ],
   exports: EXPORTS
 })

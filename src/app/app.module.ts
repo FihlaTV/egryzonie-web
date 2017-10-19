@@ -15,6 +15,7 @@ import { AuthGuard } from '@guards/auth.guard';
 
 // Modules
 import { SharedModule } from './shared/shared.module';
+import { HomeModule } from './home/home.module';
 import { AuthModule } from './auth/auth.module';
 import { VetsModule } from './vets/vets.module';
 
@@ -28,6 +29,7 @@ import { VetsModule } from './vets/vets.module';
     HttpClientModule,
     SharedModule,
     AppRoutingModule,
+    HomeModule,
     AuthModule,
     VetsModule
   ],

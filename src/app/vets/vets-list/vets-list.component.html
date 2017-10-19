@@ -34,11 +34,15 @@
   </div>
   <eg-list-display [list]="vetsList"
     [classes]="['recommended']"
+    [currentUser]="(currentUser$ | async)"
+    [options]="{  }"
     emptyListMessage="Niestety, nie znaleziono żadnych polecanych weterynarzy."></eg-list-display>
   <h4>
     Pozostali weterynarze - {{ location?.city }}
   </h4>
   <eg-list-display [list]="othersList"
     [classes]="['others']"
+    [currentUser]="(currentUser$ | async)"
+    [options]="{ recommend: true }"
     emptyListMessage="Niestety, nie znaleziono żadnych innych weterynarzy w okolicy."></eg-list-display>
 </div>

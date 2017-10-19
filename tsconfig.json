@@ -21,7 +21,8 @@
       "@services/*": ["app/shared/services/*"],
       "@guards/*": ["app/shared/guards/*"],
       "@interfaces/*": ["app/shared/interfaces/*"],
-      "@components/*": ["app/shared/components/*"]
+      "@components/*": ["app/shared/components/*"],
+      "@directives/*": ["app/shared/directives/*"]
     }
   }
 }

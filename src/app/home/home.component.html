@@ -1,0 +1,23 @@
+<div class="section section--pet">
+  <div class="section__inner">
+    <p class="section__lead">
+      <span>Wybierz swojego zwierzaka</span>
+    </p>
+    <div class="section__pets pets">
+      <div class="pets__container">
+        <div *ngFor="let species of speciesList" class="pets__item" [ngClass]="['pets__item--' + species.rawName]">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section section--vet">
+  <div class="section__inner">
+    <p class="section__lead">
+      <span>Znajdź weterynarza w&nbsp;swojej okolicy</span>
+    </p>
+    <button type="button" class="btn btn--positive">Przejdź!</button>
+  </div>
+</div>

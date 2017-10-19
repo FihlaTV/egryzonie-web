@@ -19,7 +19,6 @@
   padding-bottom: 1em;
 
   &__element {
-    background: $color-light;
     display: flex;
     flex-direction: column;
     margin: 1em 0;
@@ -27,7 +26,6 @@
 
     @include sm() {
       flex-direction: row;
-      flex-wrap: nowrap;
     }
 
     &:hover {
@@ -50,6 +48,7 @@
       @include sm() {
         border-left: 3px solid $color-grey;
         border-top: 0;
+        flex-basis: 30%;
       }
 
       .btn {
@@ -63,10 +62,9 @@
       color: $color-text;
       display: flex;
       flex-direction: column;
-      width: 100%;
 
-      &:hover {
-        color: $color-text-light;
+      @include sm() {
+        flex-basis: 70%;
       }
       
       &__name, &__address {
@@ -75,10 +73,15 @@
       }
 
       &__name {
+        background: $color-light;
         flex-grow: 2;
         font-weight: 900;
         font-size: 1.1em;
         padding: 1.4em 1em;
+
+        a {
+          background: transparent;
+        }
       }
 
       &__address {
@@ -86,6 +89,10 @@
         flex-shrink: 2;
         flex-basis: 2em;
         padding: 2.5em 1em;
+      }
+
+      &__options {
+        background: $color-light;
       }
     }
   }

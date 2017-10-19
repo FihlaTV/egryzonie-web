@@ -36,13 +36,12 @@ export class UserService {
             const { token, user } = responseJson;
             if (token) {
               this.token = token;
-
               const userInstance: User = {
                 id: user.id,
                 email: user.email,
                 role: user.role
               };
-              localStorage['currentUser'] = JSON.stringify({ id: user.id, email: user.email, token: token });
+              localStorage['currentUser'] = JSON.stringify({ id: user.id, email: user.email, role: user.role, token: token });
               this.currentUser$.next(userInstance);
               resolve(true);
             }

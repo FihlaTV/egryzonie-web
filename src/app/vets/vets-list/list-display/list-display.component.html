@@ -7,16 +7,22 @@
         type="button" class="btn"
         (click)="openMap(item.googleMapsID)">Mapa</button>
     </div>
-    <div class="item-list__element__info" [routerLink]="item.id ? ['../view/', item.id] : ['../view-google/', item.place_id]">
+    <div class="item-list__element__info">
       <div class="item-list__element__info__name">
-        {{ item.title }}
+        <a
+          href="javascript: void(0);"
+          [routerLink]="item.id ? ['../view/', item.id] : ['../view-google/', item.place_id]">
+          {{ item.title }}
+        </a>
       </div>
       <div class="item-list__element__info__address">
         {{ item.address }}
       </div>
-    </div>
-    <div *ngIf="item.recommended" class="item-list__element__recommended">
-      <span class="fa fa-star"></span>
+      <div class="item-list__element__info__options" *ngIf="currentUser && currentUser.role === 'admin' || currentUser.role === 'moderator'">
+        <button *ngIf="options.recommend" type="button" (click)="recommend(item)" class="btn btn--positive">
+          <span class="fa fa-thumbs-up"></span> Poleć!
+        </button>
+      </div>
     </div>
   </div>
 </div>

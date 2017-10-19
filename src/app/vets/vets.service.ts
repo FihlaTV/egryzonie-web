@@ -25,7 +25,7 @@ export class VetsService {
           resolve(results);
         },
         (error) => {
-          console.log(error);
+          console.error(error);
           reject(error);
         }
       );

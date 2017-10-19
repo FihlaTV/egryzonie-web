@@ -15,16 +15,10 @@ import { VetViewComponent } from './vet-view/vet-view.component';
 // Services
 import { VetsService } from './vets.service';
 
-// Third-party
-import { AgmCoreModule } from '@agm/core';
-
 @NgModule({
   imports: [
     CommonModule,
     VetsRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.googleKey
-    }),
     SharedModule
   ],
   declarations: [
