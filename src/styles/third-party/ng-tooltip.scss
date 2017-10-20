@@ -1,0 +1,64 @@
+@import '../config/colors';
+@import '../config/shadows';
+
+$tooltip-background: rgba($color-secondary, .9);
+
+.ng-tooltip {
+  max-width: 200px;
+  background-color: $tooltip-background;
+  color: $color-text;
+  text-align: center;
+  border-radius: 3px;
+  font-size: 1.2em;
+  padding: .45em .75em .35em;
+  position: absolute;
+  z-index: 1000;
+  display: block;
+  opacity: 0;
+  -webkit-transition: opacity 300ms;
+  -moz-transition: opacity 300ms;
+  -o-transition: opacity 300ms;
+  transition: opacity 300ms;
+} 
+
+.ng-tooltip-show {
+  opacity: 1;
+}
+
+.ng-tooltip::after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+}
+
+.ng-tooltip-top::after {
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: $tooltip-background transparent transparent transparent;
+}
+
+.ng-tooltip-bottom::after {
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: transparent transparent $tooltip-background transparent;
+}
+
+.ng-tooltip-left::after {
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-color: transparent transparent transparent $tooltip-background;
+}
+
+.ng-tooltip-right::after {
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-color: transparent $tooltip-background transparent transparent;
+}

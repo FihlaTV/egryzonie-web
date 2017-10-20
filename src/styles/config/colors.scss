@@ -1,19 +1,19 @@
-$color-primary-light: #74c5f1;
-$color-primary: #4eb4ec;
-$color-primary-dark: #4aa6d8;
+$color-primary: #20aefa;
+$color-primary-dark: #1b94d5;
+$color-primary-light: lighten($color-primary, 7%);
 
-$color-secondary-light: #f8dc91;
-$color-secondary: #f3cf6e;
-$color-secondary-dark: #e2bd59;
+$color-secondary: #efd74d;
+$color-secondary-dark: #cbb742;
+$color-secondary-light: lighten($color-secondary, 7%);
 
 $color-grey-light: #e8e8e8;
-$color-grey: #cfcfcf;
+$color-grey: #bdcfd3;
 $color-grey-dark: #c4c4c4;
 
-$color-text: #212121;
-$color-text-light: #505050;
+$color-text: #374044;
+$color-text-light: #515d62;
 
-$color-light: #f3f3f3;
+$color-light: #f0f0f0;
 $color-light-2: #f8f8f8;
 
 $colors-list: #FFCF4B, #CEA0E4, #5EFCA1, #FF8CC8, #FFC29B, #29C5FF, #FFAC9C;

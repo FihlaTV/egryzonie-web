@@ -5,7 +5,10 @@
     </p>
     <div class="section__pets pets">
       <div class="pets__container">
-        <div *ngFor="let species of speciesList" class="pets__item" [ngClass]="['pets__item--' + species.rawName]">
+        <div *ngFor="let species of speciesList"
+          [ngClass]="['pets__item--' + species.rawName]"
+          class="pets__item"
+          [tooltip]="species.name">
 
         </div>
       </div>

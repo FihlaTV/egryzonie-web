@@ -8,6 +8,9 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
 
+// Third-party
+import { TooltipDirective } from 'ng2-tooltip-directive/components';
+
 @NgModule({
   imports: [
     HomeRoutingModule,
@@ -15,6 +18,7 @@ import { HomeComponent } from './home.component';
     SharedModule
   ],
   declarations: [
+    TooltipDirective,
     HomeComponent
   ],
 })

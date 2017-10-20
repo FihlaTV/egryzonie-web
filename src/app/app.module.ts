@@ -20,7 +20,6 @@ import { AuthModule } from './auth/auth.module';
 import { VetsModule } from './vets/vets.module';
 
 // Third-party
-import { TooltipModule } from 'ngx-tooltip';
 
 @NgModule({
   declarations: [
@@ -30,7 +29,6 @@ import { TooltipModule } from 'ngx-tooltip';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    TooltipModule,
     SharedModule,
     AppRoutingModule,
     HomeModule,

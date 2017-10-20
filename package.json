@@ -24,7 +24,7 @@
     "@types/googlemaps": "^3.29.2",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
-    "ngx-tooltip": "0.0.9",
+    "ng2-tooltip-directive": "^1.2.2",
     "normalize-scss": "^7.0.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
