@@ -1,16 +1,17 @@
 @import 'src/styles/config/colors';
 @import 'src/styles/config/animations';
 @import 'src/styles/mixins/sizes';
+@import 'src/styles/mixins/flex';
 
 $color: #3498db;
 
 .navbar {
-  color: $color-light-2;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background: transparent;
+  padding-bottom: 1em;
+  background: $color-light-2;
   transition: transform .35s ease-in-out;
   z-index: 99999;
   transform: translateY(-100%);
@@ -20,6 +21,8 @@ $color: #3498db;
   }
 
   @include sm() {
+    padding-bottom: 0;
+
     &, &--visible {
       transform: translateY(0%);
     }
@@ -39,6 +42,40 @@ $color: #3498db;
     }
   }
 
+  // LOGO
+  &__logo {
+    background: transparent;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: .5em 0 .25em;
+
+    &__ring, &__text {
+      margin: 0 0.25em;
+    }
+
+    &__ring {
+      width: 60px;
+    }
+
+    &__text {
+      height: 35px;
+    }
+
+    @include sm() {
+      &__text {
+        display: none;
+      }
+    }
+
+    @include md() {
+      &__text {
+        display: inline-block;
+      }
+    }
+  }
+
   // NAV
   &__inner {
     display: flex;
@@ -47,6 +84,8 @@ $color: #3498db;
     @include sm() {
       flex-direction: row;
       justify-content: space-between;
+      width: 90%;
+      margin: 0 auto;
     }
   }
 
@@ -62,18 +101,28 @@ $color: #3498db;
     @include sm() {
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
+      padding: .75em 0;
     }
 
     &__link {
       background: transparent;
       color: $color-text;
       display: block;
+      font-size: 1.2em;
+      margin: 0;
       padding: .75em 1.5em;
       text-align: center;
       transition: background .15s ease-in-out;
+      text-transform: lowercase;
 
-      &:hover, &:focus {
-        background: rgba(255, 255, 255, .2);
+      @include sm() {
+        font-size: .9em;
+        padding: .45em .65em .25em;
+      }
+
+      &:hover {
+        color: $color-text-light;
       }
     }
   }

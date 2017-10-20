@@ -1,27 +1,38 @@
 <div class="navbar" [class.navbar--visible]="navbarVisible">
   <nav class="navbar__inner">
+    <a href="javascript:void(0);" routerLink="/" class="navbar__logo">
+      <img src="/assets/logo-ring.svg" class="navbar__logo__ring" alt="">
+      <img src="/assets/logo-text.svg" class="navbar__logo__text" alt="">
+    </a>
     <ul class="navbar__navigation navbar__navigation--main">
-      <li class="navbar__navigation__item"
-        *ngFor="let item of mainNavigation">
-        <a href="javascript:void(0)" [routerLink]="item.path" class="navbar__navigation__link">
-          {{ item.name }}
+      <li class="navbar__navigation__item">
+        <a href="javascript:void(0)" routerLink="/mission" class="navbar__navigation__link">
+          Misja
         </a>
       </li>
-    </ul>
-    <ul class="navbar__navigation navbar__navigation--user">
-      <li class="navbar__navigation__item" *ngIf="currentUser">
-        <a href="javascript:void(0)" routerLink="/user" class="navbar__navigation__link">
-          Ty!
+      <li class="navbar__navigation__item">
+        <a href="javascript:void(0)" routerLink="/pets" class="navbar__navigation__link">
+          Gryzonie
         </a>
       </li>
-      <li class="navbar__navigation__item" *ngIf="currentUser">
-        <a href="javascript:void(0)" routerLink="/auth/logout" class="navbar__navigation__link">
-          Wyloguj
+      <li class="navbar__navigation__item">
+        <a href="javascript:void(0)" routerLink="/vets" class="navbar__navigation__link">
+          Weterynarze
         </a>
       </li>
-      <li class="navbar__navigation__item" *ngIf="!currentUser">
-        <a href="javascript:void(0)" routerLink="/auth/login" class="navbar__navigation__link">
-          Zaloguj
+      <li class="navbar__navigation__item">
+        <a href="javascript:void(0)" routerLink="/adoption" class="navbar__navigation__link">
+          Adopcja
+        </a>
+      </li>
+      <li class="navbar__navigation__item">
+        <a href="javascript:void(0)" routerLink="/shopping" class="navbar__navigation__link">
+          Zakupy
+        </a>
+      </li>
+      <li class="navbar__navigation__item">
+        <a href="javascript:void(0)" routerLink="/contact" class="navbar__navigation__link">
+          Kontakt
         </a>
       </li>
     </ul>

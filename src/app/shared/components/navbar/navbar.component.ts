@@ -10,24 +10,7 @@ export class NavbarComponent implements OnInit {
   @Input() public currentUser: User;
   public navbarVisible: boolean = false;
 
-  public mainNavigation = [
-    {
-      path: '/',
-      name: 'Strona główna'
-    },
-    {
-      path: '/vets/list',
-      name: 'Weterynarze'
-    }
-  ];
-
-  constructor () {}
-
-  ngOnInit() {
-
-  }
-
-  toggleNavbar() {
-
-  }
+  constructor () { }
+  ngOnInit() { }
+  toggleNavbar() { }
 }
