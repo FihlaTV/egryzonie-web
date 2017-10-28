@@ -15,7 +15,6 @@ import { VetsMapComponent } from './vets-map/vets-map.component';
 import { VetDetailsComponent } from './vet-details/vet-details.component';
 
 // Services
-import { VetsService } from './vets.service';
 import { VetSearchService } from './vet-search.service';
 import { VetFetchService } from './vet-fetch.service';
 
@@ -27,8 +26,7 @@ import { AgmCoreModule } from '@agm/core';
     CommonModule,
     FormsModule,
     VetsRoutingModule,
-    SharedModule,
-    AgmCoreModule.forRoot({ apiKey: environment.googleKey }),
+    SharedModule
   ],
   declarations: [
     VetsComponent,
@@ -38,7 +36,6 @@ import { AgmCoreModule } from '@agm/core';
     VetDetailsComponent
   ],
   providers: [
-    VetsService,
     VetSearchService,
     VetFetchService
   ]

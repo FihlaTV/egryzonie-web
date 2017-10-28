@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
-import { VetsService } from '../vets.service';
 import { VetSearchService } from '../vet-search.service';
 
 @Component({
@@ -36,7 +35,6 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
   constructor(
     private _user: UserService,
     private _geo: GeolocationService,
-    private _vets: VetsService,
     private _search: VetSearchService
   ) {}
 

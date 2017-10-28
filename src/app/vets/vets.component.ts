@@ -37,7 +37,7 @@ export class VetsComponent implements OnInit {
     this.location$ = this._search.getLocation().subscribe((location) => {
       this.location = location;
     });
-    this.vets$ = this._search.vetsData().subscribe((vets) => {
+    this.vets$ = this._search.getVetsData().subscribe((vets) => {
       if (vets) {
         this.vets = vets;
       }

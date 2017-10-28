@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { VetSearchService } from '../../vet-search.service';
-import { Vet, Location } from '@interfaces/index';
+import { Vet, Location, VetsList } from '@interfaces/index';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -16,6 +16,9 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
   @Input() public show: boolean = true;
   @Input() public noResultsText = 'Nic nie znaleziono.';
   public location: Location;
+  public vets: VetsList;
+
+  public vets$: Subscription;
 
   @Output() public onVetSelect: EventEmitter<Vet> = new EventEmitter<Vet>();
 

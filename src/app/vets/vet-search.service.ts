@@ -23,8 +23,10 @@ export class VetSearchService {
     this._initialize();
   }
 
-
-  public vetsData() {
+  /**
+   * Returns vets data as an Observable.
+   */
+  public getVetsData(): Observable<VetsList> {
     return this._vetsLists.asObservable();
   }
 
@@ -34,7 +36,7 @@ export class VetSearchService {
   async fetchVetsData() {
     try {
       const recommended = await this._fetch.recommendedInLocation(this.currentLocation);
-      const others = await this._fetch.othersInLocation(this.currentLocation);
+      const others = await this._fetch.othersInLocation(this.currentLocation, recommended);
       this._vetsLists.next(<VetsList>{ recommended: recommended, others: others });
     } catch (error) {
       console.error(error);
@@ -84,7 +86,8 @@ export class VetSearchService {
         const city = sessionStorage['vetCitySearch'];
         this.currentLocation = await this._geo.getCityLocation(sessionStorage['vetCitySearch']);
       } else {
-        this.currentLocation = await this._geo.getUserLocation();
+        // this.currentLocation = await this._geo.getUserLocation();
+        this.currentLocation = { city: 'Wronki', coords: { lat: 52.705311, lng: 16.38086 } };
       }
       this.setLocation(this.currentLocation);
       this.fetchVetsData();

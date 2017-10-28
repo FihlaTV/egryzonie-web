@@ -45,6 +45,10 @@ a {
   margin: 1em auto;
 }
 
+.error {
+  color: $color-alert;
+}
+
 :focus {
   outline: none;
   box-shadow: 0 0 2px 2px rgba($color-primary-dark, .3);

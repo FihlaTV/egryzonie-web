@@ -37,8 +37,12 @@ export class VetFetchService {
       this._http.post('/vets/search_city', {
         city: location.city
       }).subscribe(
-        (results: Vet[]) => {
-          resolve(results);
+        (results: any[]) => {
+          const vets: Vet[] = results.map((item) => {
+            item.location = <Location>{ city: location.city, coords: { lat: item.lat, lng: item.lng } };
+            return item;
+          });
+          resolve(vets);
         }),
         (error) => {
           reject(error);
@@ -49,7 +53,13 @@ export class VetFetchService {
   othersInLocation(location: Location, recommended?: Vet[]): Promise<Vet[]> {
     return new Promise((resolve, reject) => {
       this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${location.coords.lat},${location.coords.lng}&radius:25000&rankby=distance&types=veterinary_care`)
-        .map((response) => JSON.parse(response['_body']).results)
+        .map((response) => {
+          const json = JSON.parse(response['_body']).results;
+          if (recommended) {
+            return json.filter((o) => !recommended.find((r) => r.googleMapsID === o.place_id));
+          }
+          return json;
+        })
         .subscribe(
           (results) => {
             resolve(results

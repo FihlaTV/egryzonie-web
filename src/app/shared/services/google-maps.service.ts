@@ -181,21 +181,43 @@ export class GoogleMapsService {
 
   public mapProps: any;
   public map: any;
+  public markers: any[] = [];
 
-  initMap(element: any, location: Location) {
-    const waitForGoogle = setInterval(() => {
-      if (typeof google !== 'undefined') {
+  initMap(element: any, location: Location): Promise<null> {
+    return new Promise((resolve, reject) => {
+      const waitForGoogle = setInterval(() => {
+        if (typeof google !== 'undefined') {
+          clearInterval(waitForGoogle);
+          this._createMap(element, location);
+          resolve();
+        }
+      }, 150);
+      // Wait 5 seconds for Google, then reject
+      setTimeout(() => {
         clearInterval(waitForGoogle);
-        this._createMap(element, location);
-      }
-    }, 700);
+        reject();
+      }, 5000);
+    })
+  }
+
+  placeMarkers(markers, asset = 'map-marker-black.svg') {
+    markers.forEach((item) => {
+      this.markers.push(
+        new google.maps.Marker({
+          position: item.position,
+          map: this.map,
+          icon: `/assets/${asset}`
+        })
+      );
+    })
   }
 
   private _createMap(element, location) {
     this.mapProps = {
       center: new google.maps.LatLng(location.coords.lat, location.coords.lng),
       zoom: 13,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      styles: this.mapStyles
     };
     this.map = new google.maps.Map(element, this.mapProps);
   }
