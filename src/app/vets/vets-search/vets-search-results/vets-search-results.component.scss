@@ -1,0 +1,164 @@
+@import 'src/styles/config/colors';
+@import 'src/styles/config/fonts';
+@import 'src/styles/mixins/sizes';
+
+@import 'src/styles/config/colors';
+@import 'src/styles/config/fonts';
+@import 'src/styles/mixins/sizes';
+@import 'src/styles/mixins/noselect';
+
+@mixin triangleBottom($size, $color: $color-text) {
+  content: '';
+  display: block;
+  position: absolute;
+  transform: translateX(-50%);
+
+  border-top: $size solid $color;
+  border-left: $size / 1.5 solid transparent;
+  border-right: $size / 1.5 solid transparent;
+  border-bottom: $size / 1.5 solid transparent;
+}
+
+@mixin triangleTop($size, $color: $color-text) {
+  content: '';
+  display: block;
+  position: absolute;
+  transform: translateX(-50%);
+
+  border-top: $size / 1.5 solid transparent;
+  border-left: $size / 1.5 solid transparent;
+  border-right: $size / 1.5 solid transparent;
+  border-bottom: $size solid $color;
+}
+
+
+.resultbar {
+  @include noselect;
+  width: 95%;
+  background: #ffffff;
+  border-bottom: 5px solid $color-grey-light;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px 8px;
+  border-bottom-right-radius: 5px 8px;
+  margin: .5em auto;
+  min-height: 70px;
+  padding: 8px;
+  cursor: pointer;
+
+  display: flex;
+  flex-flow: row wrap;
+
+  &:active {
+    transform: scale(.99);
+  }
+
+  &__icon {
+    display: none
+  }
+
+  &__number {
+    color: $color-text;
+    position: relative;
+    order: 3;
+    text-align: center;
+    width: 100%;
+    font-family: $font-headings;
+    font-weight: 400;
+    padding: .35em 0;
+    
+    &::after {
+      @include triangleBottom(4px);
+      bottom: -.15em;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &__title {
+    color: $color-text;
+    text-transform: uppercase;
+    font-family: $font-headings;
+    font-weight: bold;
+    text-align: center;
+    padding: .35em 0;
+  }
+
+  &--featured > &__title {
+    color: $color-secondary;
+  }
+}
+
+.resultbar--hidden .resultbar__number::after {
+  transform: rotate(180deg);
+}
+
+
+.list, .no-results {
+  @include noselect;
+  background: #bdcfd3;
+  border-radius: 5px;
+  position: relative;
+  width: 95%;
+  margin: .75em auto;
+  list-style-type: none;
+  padding: 0;
+
+  max-height: 400px;
+  transition: max-height 1.25s ease-in-out;
+
+  overflow-y: auto;
+
+  &::before {
+    @include triangleTop(10px, #bdcfd3);
+    top: -15px;
+    left: 10%;
+  }
+}
+
+.no-results {
+  padding: 1em;
+  font-family: $font-headings;
+  font-weight: 900;
+}
+
+.list {
+
+  &__item {
+    cursor: pointer;
+
+    &:not(:first-child) {
+      border-top: 1px solid #aababd;
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, .1);
+    }
+    
+    &__icon {
+      display: none;
+      padding: 1.2em .25em;
+    }
+
+    &__name, &__address {
+      display: block;
+      text-align: center;
+
+      @include sm() {
+        text-align: left;
+      }
+    }
+
+    &__name {
+      font-size: 1.1em;
+      text-align: center;
+      padding: .75em 0 .3em;
+    }
+
+    &__address {
+      text-align: center;
+      font-weight: 600;
+      padding: 0.3em 0 .75em;
+    }
+  }
+}

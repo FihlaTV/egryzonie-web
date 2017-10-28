@@ -6,10 +6,10 @@
     <div class="section__pets pets">
       <div class="pets__container">
         <div *ngFor="let species of speciesList"
-          [ngClass]="['pets__item--' + species.rawName]"
+          [ngClass]="['pets__item--' + species.rawName, selectedPet && selectedPet.name === species.name ? 'pets__item--active' : '']"
+          [tooltip]="species.name"
           class="pets__item"
-          [tooltip]="species.name">
-
+          (click)="setPet(species)">
         </div>
       </div>
     </div>

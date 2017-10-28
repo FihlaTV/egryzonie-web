@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 
-declare const google;
+import { Location } from '@interfaces/location';
+
+declare const google: any;
 
 @Injectable()
 export class GoogleMapsService {
 
-  mapStyles: object[] = [
+  public mapStyles: any[] = [
     {
       "featureType": "administrative",
       "elementType": "labels.text.fill",
@@ -24,6 +26,36 @@ export class GoogleMapsService {
       {
         "hue": "#ffb200"
       }]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f4f3f2"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#f4f3f2"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#cbdfa8"
+            }
+        ]
     },
     {
       "featureType": "poi.business",
@@ -147,25 +179,15 @@ export class GoogleMapsService {
     }
   ];
 
-  initMap(element, location, placeMarker = true) {
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: location.coords.lat,
-        lng: location.coords.lng
-      },
-      zoom: 17,
-      disableDefaultUI: true,
-      styles: this.mapStyles
-    });
-    if (placeMarker) {
-      const marker = new google.maps.Marker({
-        position: {
-          lat: location.coords.lat,
-          lng: location.coords.lng
-        },
-        map: map,
-        visibility: true
-      });
-    }
+  public mapProps: any;
+  public map: any;
+
+  initMap(element: any, location: Location) {
+    const mapProp = {
+      center: new google.maps.LatLng(location.coords.lat, location.coords.lng),
+      zoom: 13,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    const map = new google.maps.Map(element, mapProp);
   }
 }

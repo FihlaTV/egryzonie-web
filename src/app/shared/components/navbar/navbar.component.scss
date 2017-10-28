@@ -10,19 +10,19 @@ $color: #3498db;
   top: 0;
   left: 0;
   right: 0;
-  padding-bottom: 1em;
   background: $color-light-2;
   transition: transform .35s ease-in-out;
   z-index: 99999;
   transform: translateY(-100%);
-
+  max-height: none;
+  
   &--visible {
     transform: translateY(0%);
+    max-height: 100%;
+    overflow-y: scroll;
   }
 
   @include sm() {
-    padding-bottom: 0;
-
     &, &--visible {
       transform: translateY(0%);
     }
@@ -32,14 +32,19 @@ $color: #3498db;
     display: block;
     padding: .25em .55em;
     font-size: 1.1em;
-    position: absolute;
+    position: fixed;
     right: .5em;
-    bottom: -3.5em;
+    bottom: -3em;
     text-shadow: none;
+    z-index: 99998;
 
     @include sm() {
       display: none;
     }
+  }
+
+  &--visible .hamburger {
+    position: static;
   }
 
   // LOGO

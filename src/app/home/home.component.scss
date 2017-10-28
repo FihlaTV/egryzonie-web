@@ -4,6 +4,8 @@
 @import 'src/styles/mixins/sizes';
 @import 'src/styles/mixins/distribute-on-circle';
 
+$circle-items: 3;
+
 .section {
   min-height: 50vh;
   width: 100%;
@@ -83,18 +85,27 @@
       display: block;
 
       @include distribute-on-circle(
-        $nb-items: 5,
-        $circle-size: 15em,
-        $item-size: 2em,
+        $nb-items: $circle-items,
+        $circle-size: 16em,
+        $item-size: 160px,
         $rotation-offset: 19
       );
     }
 
     @include md() {
       @include distribute-on-circle(
-        $nb-items: 5,
+        $nb-items: $circle-items,
+        $circle-size: 17em,
+        $item-size: 180px,
+        $rotation-offset: 19
+      );
+    }
+
+    @include lg() {
+      @include distribute-on-circle(
+        $nb-items: $circle-items,
         $circle-size: 18em,
-        $item-size: 3.5em,
+        $item-size: 180px,
         $rotation-offset: 19
       );
     }
@@ -107,6 +118,7 @@
     background: #ffffff;
     background-position: center center;
     background-size: cover;
+    cursor: pointer;
     padding: .5em;
     border-radius: 50%;
     box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, .1),
@@ -143,6 +155,20 @@
     }
     &--rat {
       background-image: url('/assets/home-pet-rat.jpg');
+    }
+
+    &--active {
+      border-color: $color-secondary;
+
+      &::after {
+        content: url('/assets/checkmark.svg');
+        display: block;
+        width: 2.5em;
+        height: 2.5em;
+        position: absolute;
+        top: -.25em;
+        right: -.25em;
+      }
     }
   } 
 }

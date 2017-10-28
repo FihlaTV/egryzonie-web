@@ -5,6 +5,7 @@ const routes: Routes = [
   { path: '', loadChildren: 'app/home/home.module#HomeModule' },
   { path: '', loadChildren: 'app/vets/vets.module#VetsModule' },
   { path: '', loadChildren: 'app/auth/auth.module#AuthModule' },
+  { path: '', loadChildren: 'app/playfield/playfield.module#PlayfieldModule' }
 ];
 
 @NgModule({

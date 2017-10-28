@@ -1,9 +1,0 @@
-@import 'src/styles/config/animations';
-
-.wrapper {
-  @include animation-FadeIn();
-}
-
-.vets-list__element {
-  @include animation-SlideAndFadeIn(.5s);
-}

@@ -1,7 +1,10 @@
+@import '../config/colors';
+
 @mixin distribute-on-circle($nb-items, $circle-size, $item-size, $rotation-offset: 0, $class-for-IE: false) {
   $half-item: ($item-size / 2);
   $half-parent: ($circle-size / 2);
-
+  
+  border: 8px solid $color-grey-light;
   position: relative;
   width: $circle-size;
   height: $circle-size;
@@ -9,17 +12,16 @@
   border-radius: 50%;
   list-style: none;
   box-sizing: content-box;
-  margin-top: $item-size + 1em;
-  margin-bottom: $item-size + 1.5em;
+  margin-top: $item-size / 2;
+  margin-bottom: 4em;
 
   > * {
     display: block;
     position: absolute;
     top: 50%;
     left: 50%;
-    // width: $item-size;
-    // height: $item-size;
-    margin: -$half-item;
+    width: $item-size;
+    margin: -($half-item);
   }
 
   $rot: 0 + $rotation-offset;
@@ -30,9 +32,8 @@
       > :nth-of-type(#{$i}) {
         transform:
           rotate($rot * 1deg)
-          translate($circle-size / 2)
+          translate($half-parent)
           rotate($rot * -1deg);
-        margin: -($circle-size / 2 / 2);
       }
     }
 

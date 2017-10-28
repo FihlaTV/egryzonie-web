@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { environment } from 'environments/environment';
 import { SharedModule } from '../shared/shared.module';
 
@@ -8,27 +9,38 @@ import { VetsRoutingModule } from './vets-routing.module';
 
 // Components
 import { VetsComponent } from './vets.component';
-import { VetsListComponent } from './vets-list/vets-list.component';
-import { ListDisplayComponent } from './vets-list/list-display/list-display.component';
-import { VetViewComponent } from './vet-view/vet-view.component';
+import { VetsSearchComponent } from './vets-search/vets-search.component';
+import { VetsSearchResultsComponent } from './vets-search/vets-search-results/vets-search-results.component';
+import { VetsMapComponent } from './vets-map/vets-map.component';
+import { VetDetailsComponent } from './vet-details/vet-details.component';
 
 // Services
 import { VetsService } from './vets.service';
+import { VetSearchService } from './vet-search.service';
+import { VetFetchService } from './vet-fetch.service';
+
+// Third-party
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     VetsRoutingModule,
-    SharedModule
+    SharedModule,
+    AgmCoreModule.forRoot({ apiKey: environment.googleKey }),
   ],
   declarations: [
     VetsComponent,
-    VetsListComponent,
-    ListDisplayComponent,
-    VetViewComponent
+    VetsSearchComponent,
+    VetsSearchResultsComponent,
+    VetsMapComponent,
+    VetDetailsComponent
   ],
   providers: [
-    VetsService
+    VetsService,
+    VetSearchService,
+    VetFetchService
   ]
 })
 export class VetsModule { }

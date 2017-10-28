@@ -1,41 +1,21 @@
 <div class="navbar" [class.navbar--visible]="navbarVisible">
   <nav class="navbar__inner">
-    <a href="javascript:void(0);" routerLink="/" class="navbar__logo">
+    <button type="button" class="btn btn--primary hamburger" (click)="toggleNavbar()">
+      <span class="fa fa-bars"></span>
+    </button>
+    <a href="javascript:void(0);" (click)="handleClick({ route: '/' })" class="navbar__logo">
       <img src="/assets/logo-ring.svg" class="navbar__logo__ring" alt="">
       <img src="/assets/logo-text.svg" class="navbar__logo__text" alt="">
     </a>
     <ul class="navbar__navigation navbar__navigation--main">
-      <li class="navbar__navigation__item">
-        <a href="javascript:void(0)" routerLink="/mission" class="navbar__navigation__link">
-          Misja
-        </a>
-      </li>
-      <li class="navbar__navigation__item">
-        <a href="javascript:void(0)" routerLink="/pets" class="navbar__navigation__link">
-          Gryzonie
-        </a>
-      </li>
-      <li class="navbar__navigation__item">
-        <a href="javascript:void(0)" routerLink="/vets" class="navbar__navigation__link">
-          Weterynarze
-        </a>
-      </li>
-      <li class="navbar__navigation__item">
-        <a href="javascript:void(0)" routerLink="/adoption" class="navbar__navigation__link">
-          Adopcja
-        </a>
-      </li>
-      <li class="navbar__navigation__item">
-        <a href="javascript:void(0)" routerLink="/shopping" class="navbar__navigation__link">
-          Zakupy
-        </a>
-      </li>
-      <li class="navbar__navigation__item">
-        <a href="javascript:void(0)" routerLink="/contact" class="navbar__navigation__link">
-          Kontakt
+      <li *ngFor="let link of navigationLinks"
+        class="navbar__navigation__item">
+        <a href="javascript:void(0)"
+          class="navbar__navigation__link"
+          (click)="handleClick(link)">
+          {{ link.name }}
         </a>
       </li>
     </ul>
   </nav>
-  <button type="button" class="btn btn--primary hamburger" (click)="navbarVisible = !navbarVisible"><span class="fa fa-bars"></span></button>
 </div>

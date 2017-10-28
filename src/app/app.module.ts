@@ -7,8 +7,11 @@ import { APIInterceptor } from './api.interceptor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { environment } from 'environments/environment';
+
 // Services
 import { UserService } from '@services/user.service';
+import { PetService } from '@services/pet.service';
 
 // Guards
 import { AuthGuard } from '@guards/auth.guard';
@@ -18,8 +21,6 @@ import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
 import { AuthModule } from './auth/auth.module';
 import { VetsModule } from './vets/vets.module';
-
-// Third-party
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { VetsModule } from './vets/vets.module';
       multi: true
     },
     UserService,
+    PetService,
     AuthGuard
   ],
   bootstrap: [AppComponent]

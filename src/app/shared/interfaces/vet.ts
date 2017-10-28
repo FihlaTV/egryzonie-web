@@ -1,3 +1,5 @@
+import { Location } from './location';
+
 export interface Vet {
   id?: number;
   title: string;
@@ -5,6 +7,7 @@ export interface Vet {
   city: string;
   createdAt?: Date;
   googleMapsID?: string;
+  location?: Location;
   accepted?: boolean;
   acceptedBy?: any;
   updatedAt?: Date;

@@ -1,6 +1,6 @@
-$size-sm: 37em;
-$size-md: 45em;
-$size-lg: 63em;
+$size-sm: 40em;
+$size-md: 52em;
+$size-lg: 68em;
 
 @mixin xsm() {
   @media screen and (max-width: $size-sm - .1em) {

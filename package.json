@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.0.0-beta.1",
     "@angular/animations": "^4.2.4",
     "@angular/common": "^4.2.4",
     "@angular/compiler": "^4.2.4",
@@ -24,6 +25,7 @@
     "@types/googlemaps": "^3.29.2",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
+    "googlemaps": "^1.12.0",
     "ng2-tooltip-directive": "^1.2.2",
     "normalize-scss": "^7.0.0",
     "rxjs": "^5.4.2",

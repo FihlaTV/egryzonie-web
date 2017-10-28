@@ -41,7 +41,9 @@ export class UserService {
                 email: user.email,
                 role: user.role
               };
-              localStorage['currentUser'] = JSON.stringify({ id: user.id, email: user.email, role: user.role, token: token });
+              if (userInstance) {
+                localStorage['currentUser'] = JSON.stringify({ id: user.id, email: user.email, role: user.role, token: token });
+              }
               this.currentUser$.next(userInstance);
               resolve(true);
             }
@@ -64,7 +66,7 @@ export class UserService {
     const headers = new Headers({ 'Authorization': `Bearer ${this.token}`});
     const options = new RequestOptions({ headers: headers });
 
-    return this._http.get('http://localhost:3000/auth/user', options)
+    return this._http.get(`${environment.apiUrl}/auth/user`, options)
       .map((response: Response) => {
         if (response.status !== 401 && response['_body']) {
           this.currentUser$.next(JSON.parse(response['_body']));

@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+<div class="vets">
+  <div class="search">
+    <eg-vets-search
+      (onLocationSearch)="newLocation($event)"
+      [vets]="vets"></eg-vets-search>
+  </div>
+  <div class="map">
+    <eg-vets-map [vets]="vets"></eg-vets-map>
+  </div>
+  <div class="details">
+    <eg-vet-details [vet]="selectedVet"></eg-vet-details>
+  </div>
+</div>

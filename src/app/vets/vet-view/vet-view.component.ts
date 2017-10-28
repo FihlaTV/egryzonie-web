@@ -36,7 +36,6 @@ export class VetViewComponent implements OnInit {
       try {
         this.vetData = await this._vet.getVetDetails(params['vetId']);
         const location = await this._geo.locationByPlaceID(this.vetData.googleMapsID);
-        this._maps.initMap(document.getElementById('map'), location);
       } catch (error) {
         console.error('ERRROR', error);
       }

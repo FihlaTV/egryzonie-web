@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PetService } from '@services/pet.service';
+import { Pet } from '@interfaces/pet';
 
 @Component({
   selector: 'eg-home',
@@ -6,34 +8,36 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public speciesList: any[];
+  public speciesList: Pet[];
+  public selectedPet: Pet;
 
-  constructor() {
-
+  constructor( private _pet: PetService ) {
   }
 
   ngOnInit() {
+    this._getCurrentPet();
     this.speciesList = [
       {
         name: 'Myszoskoczek',
         rawName: 'gerbil'
       },
       {
-        name: 'Chomik Syryjski',
+        name: 'Chomik syryjski',
         rawName: 'syrian-hamster'
       },
       {
         name: 'Chomik karłowaty',
         rawName: 'dwarf-hamster'
-      },
-      {
-        name: 'Szczur',
-        rawName: 'rat'
-      },
-      {
-        name: 'Świnka morska',
-        rawName: 'guinea-pig'
       }
     ];
+  }
+
+  setPet(species: Pet) {
+    this._pet.currentPet = species;
+    this._getCurrentPet();
+  }
+
+  private _getCurrentPet(): void {
+    this.selectedPet = this._pet.currentPet;
   }
 }

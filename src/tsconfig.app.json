@@ -9,7 +9,8 @@
       "@guards/*": ["app/shared/guards/*"],
       "@interfaces/*": ["app/shared/interfaces/*"],
       "@components/*": ["app/shared/components/*"],
-      "@directives/*": ["app/shared/directives/*"]
+      "@directives/*": ["app/shared/directives/*"],
+      "@pipes/*": ["app/shared/pipes/*"]
     },
     "module": "es2015",
     "types": []

@@ -2,7 +2,7 @@
   $change: 15%;
 
   border: 0;
-  border-radius: 3px;
+  border-radius: 6px;
   color: $color-light-2;
   cursor: pointer;
   font-family: $font-headings;
@@ -11,18 +11,17 @@
   font-weight: 500;
   padding: .45rem .85rem .35rem;
   margin: .5rem;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, .4);
 
   background: $color;
-  border-bottom: 2px solid darken($color, $change);
+  // border-bottom: 2px solid darken($color, $change);
 
   &:hover {
     background: lighten($color, $change);
-    border-bottom-color: $color;
+    // border-bottom-color: $color;
   }
 
   &:disabled, &.disabled {
     background: desaturate($color, 100%);
-    border-bottom-color: darken(desaturate($color, 100%), $change);
+    // border-bottom-color: darken(desaturate($color, 100%), $change);
   }
 }

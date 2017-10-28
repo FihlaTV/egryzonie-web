@@ -1,0 +1,23 @@
+@import 'src/styles/config/fonts';
+@import 'src/styles/config/colors';
+@import 'src/styles/mixins/sizes';
+
+.main-footer {
+  background: $color-grey-light;
+  width: 100%;
+  margin: 0;
+  padding: 2em 0;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1 1 1;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  &__heading {
+    font-family: $font-headings;
+    font-weight: bold;
+  }
+}

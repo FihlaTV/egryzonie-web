@@ -3,28 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Components
 import { VetsComponent } from './vets.component';
-import { VetsListComponent } from './vets-list/vets-list.component';
-import { VetViewComponent } from './vet-view/vet-view.component';
 
 const vetsRoutes: Routes = [
   {
     path: 'vets',
-    component: VetsComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'list',
-        pathMatch: 'full'
-      },
-      {
-        path: 'list',
-        component: VetsListComponent
-      },
-      {
-        path: 'view/:vetId',
-        component: VetViewComponent
-      }
-    ]
+    component: VetsComponent
   }
 ];
 

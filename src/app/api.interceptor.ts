@@ -9,7 +9,7 @@ export class APIInterceptor implements HttpInterceptor {
   constructor (@Inject(forwardRef(() => UserService)) private _user: UserService) { }
 
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const url = 'http://localhost:3000';
+    const url = environment.apiUrl;
     const token = this._user.token || '';
     const apiReq = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${this._user.token}`),

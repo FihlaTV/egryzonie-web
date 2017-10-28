@@ -1,0 +1,32 @@
+<div class="search">
+  <form #search class="searchForm form">
+    <label for="searchText" class="form__label form__label--search">
+      <input #searchText type="search"
+        name="search"
+        class="form__input form__input--search"
+        [(ngModel)]="searchValue"
+        (keyup)="searchBoxTypeSubject.next($event)">
+      <button type="button" class="btn btn--search"><span class="fa fa-search"></span></button>
+    </label>
+    <img [hidden]="!searchAwait" src="/assets/loader.gif" alt="Ładowanie..." class="loader">
+    <p *ngIf="error?.length">{{ error }}</p>
+  </form>
+</div>
+<div [hidden]="searchAwait" class="results">
+  <!-- Polecani weterynarze -->
+  <eg-vets-search-results
+    title="Polecani weterynarze"
+    [featured]="true"
+    [results]="vets?.recommended"
+    [show]="show?.recommended"
+    noResultsText="Nie znaleziono polecanych weterynarzy."
+  ></eg-vets-search-results>
+
+  <!-- Pozostali weterynarze -->
+  <eg-vets-search-results
+    title="Pozostali weterynarze"
+    [results]="vets?.others"
+    [show]="show?.others"
+    noResultsText="Nie znaleziono pozostałych weterynarzy."
+  ></eg-vets-search-results>
+</div>

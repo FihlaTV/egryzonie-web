@@ -3,7 +3,7 @@
 @import '../mixins/button';
 
 .btn {
-  @include btn(darken($color-secondary, 15%));
+  @include btn($color-secondary);
 
   &--primary {
     @include btn($color-primary);
