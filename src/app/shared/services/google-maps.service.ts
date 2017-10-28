@@ -183,11 +183,20 @@ export class GoogleMapsService {
   public map: any;
 
   initMap(element: any, location: Location) {
-    const mapProp = {
+    const waitForGoogle = setInterval(() => {
+      if (typeof google !== 'undefined') {
+        clearInterval(waitForGoogle);
+        this._createMap(element, location);
+      }
+    }, 700);
+  }
+
+  private _createMap(element, location) {
+    this.mapProps = {
       center: new google.maps.LatLng(location.coords.lat, location.coords.lng),
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    const map = new google.maps.Map(element, mapProp);
+    this.map = new google.maps.Map(element, this.mapProps);
   }
 }
