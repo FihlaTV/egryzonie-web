@@ -1,17 +1,26 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Vet } from '@interfaces/vet';
+import { VetSearchService } from '../vet-search.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'eg-vet-details',
-  template: 'Vet details works!',
+  templateUrl: './vet-details.component.html',
   styles: []
 })
 export class VetDetailsComponent implements OnInit, OnDestroy {
-  @Input() public vet: Vet;
-  
-  constructor() {}
+  private _vetSub: Subscription;
+  public vet: Vet;
 
-  ngOnInit() {}
+  constructor( private _search: VetSearchService ) {}
 
-  ngOnDestroy() {}
+  ngOnInit() {
+    this._vetSub = this._search.watchCurrentVet().subscribe((vet) => {
+      this.vet = vet;
+    });
+  }
+
+  ngOnDestroy() {
+    this._vetSub.unsubscribe();
+  }
 }

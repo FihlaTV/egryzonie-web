@@ -1,0 +1,27 @@
+{{ vet ? 'true' : 'false' }}
+<div class="vet-details" *ngIf="vet">
+  <div class="selected">
+    <div class="name">
+      <h5>{{ vet.title }}</h5>
+      <p class="address">{{ vet.address }}</p>
+    </div>
+    <div class="rating">
+      (3 stars)<br>
+      3/5
+    </div>
+  </div>
+  <div class="contact">
+    <div class="header">{{ vet.title }}</div>
+    <ul class="content">
+      <li>
+        <span class="fa fa-map-marker"></span> {{ vet.address }}
+      </li>
+      <li *ngIf="vet.phone">
+        <span class="fa fa-phone"></span> {{ vet.phone }}
+      </li>
+      <li *ngIf="vet.websiteUrl">
+        <span class="fa fa-globe"></span> {{ vet.websiteUrl }}
+      </li>
+    </ul>
+  </div>
+</div>

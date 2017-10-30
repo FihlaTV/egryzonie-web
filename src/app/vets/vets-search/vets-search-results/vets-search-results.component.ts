@@ -39,6 +39,7 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
   selectVet(vet: Vet) {
     if (vet['location']) {
       this._search.zoomAt(vet['location'], 18);
+      this._search.currentVet = vet;
     }
   }
 }

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-
 import { Location } from '@interfaces/location';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 declare const google: any;
 
 @Injectable()
 export class GoogleMapsService {
+
+  public _markerClickSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   public mapStyles: any[] = [
     {
@@ -183,8 +185,8 @@ export class GoogleMapsService {
   public map: any;
   public markers: any[] = [];
 
-  initMap(element: any, location: Location): Promise<null> {
-    return new Promise((resolve, reject) => {
+  initMap(element: any, location: Location = null): Promise<{}|null> {
+    return new Promise(async (resolve, reject) => {
       const waitForGoogle = setInterval(() => {
         if (typeof google !== 'undefined') {
           clearInterval(waitForGoogle);
@@ -202,17 +204,31 @@ export class GoogleMapsService {
 
   placeMarkers(markers, asset = 'map-marker-black.svg') {
     markers.forEach((item) => {
-      this.markers.push(
-        new google.maps.Marker({
-          position: item.position,
-          map: this.map,
-          icon: `/assets/${asset}`
-        })
-      );
+      const marker = new google.maps.Marker({
+        position: item.position,
+        map: this.map,
+        icon: `/assets/${asset}`,
+      });
+      
+      marker.addListener('click', () => {
+        this._markerClickSubject.next(item);
+      });
+
+      this.markers.push(marker);
     })
   }
 
-  private _createMap(element, location) {
+  markerClicks() {
+    return this._markerClickSubject.asObservable();
+  }
+
+  center(location: Location, zoom: number) {
+    const { lat, lng } = location.coords;
+    this.map.setCenter(new google.maps.LatLng({ lat, lng }));
+    this.map.setZoom(zoom);
+  }
+
+  private _createMap(element: any, location: Location) {
     this.mapProps = {
       center: new google.maps.LatLng(location.coords.lat, location.coords.lng),
       zoom: 13,

@@ -1,4 +1,10 @@
-agm-map, agm-map > div {
+@import 'src/styles/mixins/sizes';
+
+#map, agm-map, agm-map > div {
   height: 100%;
   min-height: 300px;
+
+  @include md {
+    min-height: 500px;
+  }
 }

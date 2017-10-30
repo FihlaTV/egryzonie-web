@@ -14,13 +14,27 @@ export class VetSearchService {
   private _location: BehaviorSubject<Location> = new BehaviorSubject<Location>(null);
   private _mapViewLocation: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _vetsLists: BehaviorSubject<VetsList> = new BehaviorSubject<VetsList>(null);
-  public currentVet: Vet;
+  private _currentVetSub: BehaviorSubject<Vet> = new BehaviorSubject<Vet>(null);
+  private _currentVet: Vet;
 
   constructor (
     @Inject(forwardRef(() => GeolocationService)) private _geo: GeolocationService,
     private _fetch: VetFetchService
   ) {
     this._initialize();
+  }
+
+  set currentVet(vet: Vet) {
+    this._currentVet = vet;
+    this._currentVetSub.next(vet);
+  }
+
+  get currentVet(): Vet {
+    return this._currentVet;
+  }
+
+  public watchCurrentVet(): Observable<Vet> {
+    return this._currentVetSub.asObservable();
   }
 
   /**
