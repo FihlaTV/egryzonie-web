@@ -16,7 +16,9 @@ export class VetDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._vetSub = this._search.watchCurrentVet().subscribe((vet) => {
-      this.vet = vet;
+      if (vet) {
+        this.vet = vet;
+      }
     });
   }
 

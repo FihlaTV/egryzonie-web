@@ -12,8 +12,7 @@ declare const google: any;
   template: `
     <p class="error" *ngIf="error">{{ error }}</p>
     <div id="map"></div>
-  `,
-  styleUrls: ['./vets-map.component.scss']
+  `
 })
 export class VetsMapComponent implements OnInit, OnDestroy {
   @Input() vets: any;
@@ -66,6 +65,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     });
     this._gmaps.markerClicks().subscribe((marker) => {
       if (marker) {
+        console.log('Marker clicked - received');
         this._search.currentVet = marker['vet'];
       }
     });
