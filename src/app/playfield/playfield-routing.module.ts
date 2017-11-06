@@ -4,13 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 // Components
 import { PlayfieldComponent } from './playfield.component';
 import { GmapsTestsComponent } from './gmaps-tests/gmaps-tests.component';
+import { GeocoderComponent } from './geocoder/geocoder.component';
 
 const playfieldRoutes: Routes = [
   {
     path: 'playfield',
     component: PlayfieldComponent,
     children: [
-      { path: 'gmaps-tests', component: GmapsTestsComponent }
+      { path: 'gmaps-tests', component: GmapsTestsComponent },
+      { path: 'geocoder', component: GeocoderComponent }
     ]
   }
 ];
