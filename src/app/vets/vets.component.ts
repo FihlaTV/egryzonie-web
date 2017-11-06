@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { UserService, GeolocationService } from '@services/index';
+import { UserService, GoogleMapsService } from '@services/index';
 import { User, Location, Vet, VetsList } from '@interfaces/index';
-import { VetSearchService } from './vet-search.service';
+import { VetsDataService } from './vets-data.service';
+import { Coordinates } from '@interfaces/coordinates';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -12,14 +13,15 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './vets.component.html',
   styleUrls: ['./vets.component.scss']
 })
-export class VetsComponent implements OnInit {
+export class VetsComponent implements OnInit, OnDestroy {
 
   public currentUser$;
-  public location: Location;
+  public currentLocation: Location;
 
   private location$: Subscription;
   private vets$: Subscription;
 
+  public coordinates: Coordinates;
   public vets: VetsList;
 
   public recommendedVets: Vet[];
@@ -27,20 +29,26 @@ export class VetsComponent implements OnInit {
 
   constructor(
     private _user: UserService,
-    private _geo: GeolocationService,
     private _http: Http,
-    private _search: VetSearchService
+    private _vets: VetsDataService,
+    private _gmaps: GoogleMapsService
   ) { }
 
   ngOnInit() {
     this.currentUser$ = this._user.currentUser$;
-    this.location$ = this._search.getLocation().subscribe((location) => {
-      this.location = location;
+    this.location$ = this._gmaps.location().subscribe((location) => {
+      this.vets$ = this._vets.vetsInRange(location).subscribe((vets) => {
+        console.log('VETS: ', vets);
+        if (vets) {
+          this.vets = vets;
+        }
+      });
     });
-    this.vets$ = this._search.getVetsData().subscribe((vets) => {
-      if (vets) {
-        this.vets = vets;
-      }
-    });
+  }
+
+  ngOnDestroy() {
+    // if (this.vets$) {
+    //   this.vets$.unsubscribe();
+    // }
   }
 }

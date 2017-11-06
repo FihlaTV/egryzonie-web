@@ -2,12 +2,12 @@
 @import '../config/fonts';
 
 a {
-  background: $color-secondary;
   border-radius: .25em;
-  color: $color-text;
-  display: inline-block;
+  color: $color-text-light;
   font-weight: bold;
   text-decoration: none;
-  padding: .05em .25em;
-  margin: 0 .5em 0 0;
+  
+  &:hover {
+    color: lighten($color-text-light, 10%);
+  }
 }

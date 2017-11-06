@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { UserService, GeolocationService } from '@services/index';
-import { Location } from '@interfaces/location';
+import { UserService, GeolocationService, GoogleMapsService } from '@services/index';
+import { Coordinates } from '@interfaces/coordinates';
 import { Vet } from '@interfaces/vet';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
-import { VetSearchService } from '../vet-search.service';
+import { VetsDataService } from '../vets-data.service';
 
 @Component({
   selector: 'eg-vets-search',
@@ -15,10 +15,10 @@ import { VetSearchService } from '../vet-search.service';
   styleUrls: ['./vets-search.component.scss']
 })
 export class VetsSearchComponent implements OnInit, OnDestroy {
-  @Input() location: Location;
   @Input() vets: object;
   @Output() public onLocationSearch: EventEmitter<Location> = new EventEmitter<Location>();
 
+  public coordinates: Coordinates;
   public searchAwait: boolean = false;
   public searchBoxTypeSubject = new Subject<any>();
   public searchValue: string;
@@ -35,14 +35,15 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
   constructor(
     private _user: UserService,
     private _geo: GeolocationService,
-    private _search: VetSearchService
+    private _vets: VetsDataService,
+    private _gmaps: GoogleMapsService
   ) {}
 
   ngOnInit() {
-    this._location$ = this._search.getLocation().subscribe((location) => {
-      this.location = location;
-      this.searchValue = location.city;
-    });
+    this._location$ = this._gmaps.location()
+      .distinctUntilChanged()
+      .debounceTime(500)
+      .subscribe((coordinates: Coordinates) => this.coordinates = coordinates);
     this._initSearchBox();
   }
 
@@ -74,7 +75,7 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
         this._error('Nie ma takiej miejscowości.');
       } else {
         this._error(null);
-        this._search.setLocation(location);
+        this._gmaps.go(location, 12);
       }
     } catch (error) {
       this._error('Wystąpił błąd podczas wyszukiwania podanej miejscowości.');

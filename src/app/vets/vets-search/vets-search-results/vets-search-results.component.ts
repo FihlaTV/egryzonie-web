@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { VetSearchService } from '../../vet-search.service';
+import { GoogleMapsService } from '@services/google-maps.service';
+import { VetsDataService } from '../../vets-data.service';
 import { Vet, Location, VetsList } from '@interfaces/index';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -24,12 +25,12 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
 
   private _location$: Subscription;
 
-  constructor( private _search: VetSearchService ) {}
+  constructor(
+    private _vets: VetsDataService,
+    private _gmaps: GoogleMapsService
+  ) {}
 
   ngOnInit() {
-    this._location$ = this._search.getLocation().subscribe((location) => {
-      this.location = location;
-    });
   }
 
   ngOnDestroy() {
@@ -37,9 +38,5 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
   }
 
   selectVet(vet: Vet) {
-    if (vet['location']) {
-      this._search.zoomAt(vet['location'], 18);
-      this._search.currentVet = vet;
-    }
   }
 }

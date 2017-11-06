@@ -15,8 +15,7 @@ import { VetsMapComponent } from './vets-map/vets-map.component';
 import { VetDetailsComponent } from './vet-details/vet-details.component';
 
 // Services
-import { VetSearchService } from './vet-search.service';
-import { VetFetchService } from './vet-fetch.service';
+import { VetsDataService } from './vets-data.service';
 
 // Third-party
 import { AgmCoreModule } from '@agm/core';
@@ -36,8 +35,7 @@ import { AgmCoreModule } from '@agm/core';
     VetDetailsComponent
   ],
   providers: [
-    VetSearchService,
-    VetFetchService
+    VetsDataService
   ]
 })
 export class VetsModule { }

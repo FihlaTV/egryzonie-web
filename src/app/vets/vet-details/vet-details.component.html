@@ -1,18 +1,19 @@
-{{ vet ? 'true' : 'false' }}
 <div class="vet-details" *ngIf="vet">
-  <div class="selected">
-    <div class="name">
-      <h5>{{ vet.title }}</h5>
-      <p class="address">{{ vet.address }}</p>
+  <div class="vet-details__selected vet">
+    <div class="vet__dgroup">
+      <h5 class="vet__name">{{ vet.title }}</h5>
+      <p class="vet__address">{{ vet.address }}</p>
     </div>
-    <div class="rating">
-      (3 stars)<br>
-      3/5
+    <div class="vet__dgroup">
+      <div class="vet__rating">
+        (3 stars)<br>
+        3/5
+      </div>
     </div>
   </div>
-  <div class="contact">
-    <div class="header">{{ vet.title }}</div>
-    <ul class="content">
+  <div class="vet-details__contact">
+    <div class="vet-details__contact__header">{{ vet.title }}</div>
+    <ul class="vet-details__contact__list">
       <li>
         <span class="fa fa-map-marker"></span> {{ vet.address }}
       </li>
@@ -20,7 +21,10 @@
         <span class="fa fa-phone"></span> {{ vet.phone }}
       </li>
       <li *ngIf="vet.websiteUrl">
-        <span class="fa fa-globe"></span> {{ vet.websiteUrl }}
+        <span class="fa fa-globe"></span>
+        <a [attr.href]="vet.websiteUrl" target="_blank">
+          {{ vet.websiteUrl | shortUrl }}
+        </a>
       </li>
     </ul>
   </div>

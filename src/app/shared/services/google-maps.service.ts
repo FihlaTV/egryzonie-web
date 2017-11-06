@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Location } from '@interfaces/location';
+import { Coordinates } from '@interfaces/coordinates';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable'
 
 declare const google: any;
 
 @Injectable()
 export class GoogleMapsService {
-
-  public _markerClickSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
   public mapStyles: any[] = [
     {
       "featureType": "administrative",
@@ -181,16 +179,23 @@ export class GoogleMapsService {
     }
   ];
 
+  private _coordinates: Coordinates;
+
   public mapProps: any;
   public map: any;
   public markers: any[] = [];
+  
+  private _markerClickSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _centerSubject: BehaviorSubject<Coordinates> = new BehaviorSubject<Coordinates>(null);
 
-  initMap(element: any, location: Location = null): Promise<{}|null> {
+  initMap(element: any, coordinates: Coordinates): Promise<{}|null> {
+    this._centerSubject = new BehaviorSubject(coordinates);
+    this._coordinates = coordinates;
     return new Promise(async (resolve, reject) => {
       const waitForGoogle = setInterval(() => {
         if (typeof google !== 'undefined') {
           clearInterval(waitForGoogle);
-          this._createMap(element, location);
+          this._createMap(element, coordinates);
           resolve();
         }
       }, 150);
@@ -209,32 +214,44 @@ export class GoogleMapsService {
         map: this.map,
         icon: `/assets/${asset}`,
       });
-      
       marker.addListener('click', () => {
         this._markerClickSubject.next(item);
       });
-
       this.markers.push(marker);
     })
   }
 
-  markerClicks() {
+  markerClicks(): Observable<any> {
     return this._markerClickSubject.asObservable();
   }
 
-  center(location: Location, zoom: number) {
-    const { lat, lng } = location.coords;
-    this.map.setCenter(new google.maps.LatLng({ lat, lng }));
-    this.map.setZoom(zoom);
+  location(): Observable<Coordinates> {
+    return this._centerSubject.asObservable();
   }
 
-  private _createMap(element: any, location: Location) {
+  resize() {
+    this.map.checkResize();
+  }
+
+  go(coordinates: Coordinates, zoom: number) {
+    this.map.setCenter(new google.maps.LatLng({ coordinates }));
+    this.map.setZoom(zoom);
+    this._centerSubject.next(coordinates);
+  }
+
+  private _createMap(element: any, coordinates: Coordinates) {
     this.mapProps = {
-      center: new google.maps.LatLng(location.coords.lat, location.coords.lng),
-      zoom: 13,
+      center: new google.maps.LatLng(coordinates.lat, coordinates.lng),
+      zoom: 16,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: this.mapStyles
     };
     this.map = new google.maps.Map(element, this.mapProps);
+    
+    google.maps.event.addListener(this.map, 'dragend', (event) => {
+      const location = this.map.getCenter();
+      this._centerSubject.next(<Coordinates>{ lat: location.lat(), lng: location.lng() });
+    })
+
   }
 }

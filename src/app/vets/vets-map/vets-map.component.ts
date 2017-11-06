@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core';
 import { GeolocationService, GoogleMapsService } from '@services/index';
 import { Vet } from '@interfaces/vet';
-import { VetSearchService } from '../vet-search.service';
-import { Location } from '@interfaces/location';
+import { VetsDataService } from '../vets-data.service';
+import { Coordinates } from '@interfaces/coordinates';
 import { Subscription } from 'rxjs/Subscription';
 
 declare const google: any;
@@ -19,7 +19,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
 
   public selectedVet: Vet;
 
-  public location: Location;
+  public coordinates: Coordinates;
   public zoom: number = 12;
   public mapStyles: object;
 
@@ -33,46 +33,20 @@ export class VetsMapComponent implements OnInit, OnDestroy {
   constructor(
     private _geo: GeolocationService,
     private _gmaps: GoogleMapsService,
-    private _search: VetSearchService
+    private _vets: VetsDataService
   ) {
     this.mapStyles = this._gmaps.mapStyles;
   }
 
   async ngOnInit() {
-    const userLocation = await this._geo.getUserLocation();
+    this.coordinates = await this._geo.getUserLocation();
     const map = document.getElementById('map');
-    await this._gmaps.initMap(map, userLocation);
-
-    this._mapView$ = this._search.getMapView().subscribe(async (mapView) => {
-      this.location = mapView.location;
-      this.zoom = mapView.zoom;
-      this._gmaps.center(this.location, this.zoom);
-
-      try {
-        this._vets$ = this._search.getVetsData().subscribe((vets) => {
-          if (vets) {
-            const recommended = this._fetchPositions(vets.recommended);
-            const others = this._fetchPositions(vets.others);
-            this._gmaps.placeMarkers(recommended, 'map-marker-yellow.svg');
-            this._gmaps.placeMarkers(others, 'map-marker-black.svg');
-          }
-        });
-      } catch (error) {
-        const errorMessage = 'Błąd podczas inicjacji mapy. Sprawdź połączenie internetowe.';
-        console.error(`${errorMessage} (${error})`);
-        this.error = errorMessage;
-      }
-    });
-    this._gmaps.markerClicks().subscribe((marker) => {
-      if (marker) {
-        console.log('Marker clicked - received');
-        this._search.currentVet = marker['vet'];
-      }
-    });
+    await this._gmaps.initMap(map, this.coordinates);
+    this._handleMapMovement();
   }
 
-  center(location, zoom) {
-    this.location = location;
+  center(coordinates: Coordinates, zoom: number) {
+    this.coordinates = coordinates;
     this.zoom = zoom;
   }
 
@@ -80,11 +54,50 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     if (this._location$) {
       this._location$.unsubscribe();
     }
+    if (this._markers$) {
+      this._markers$.unsubscribe();
+    }
+    if (this._vets$) {
+      this._vets$.unsubscribe();
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this._gmaps.resize();
+  }
+
+  private _handleMarkers() {
+    this._markers$ = this._gmaps.markerClicks()
+      .distinctUntilChanged()
+      .debounceTime(1000)
+      .subscribe((marker) => {
+        this._vets.currentVet = marker ? marker['vet'] : null;
+      });
+  }
+
+  private _handleMapMovement() {
+    this._location$ = this._gmaps.location()
+      .distinctUntilChanged()
+      .debounceTime(1000)
+      .subscribe((coordinates: Coordinates) => {
+        if (coordinates) {
+          this._vets$ = this._vets.vetsInRange(coordinates).subscribe(
+            (vets) => {
+              if (vets && vets.recommended && vets.others) {
+                this._gmaps.placeMarkers(this._fetchPositions(vets.recommended), 'map-marker-yellow.svg');
+                this._gmaps.placeMarkers(this._fetchPositions(vets.others), 'map-marker-black.svg');
+                this._handleMarkers();
+              }
+            }
+          )
+        }
+      });
   }
 
   private _fetchPositions(vets: Vet[]) {
     return vets.map((item) => {
-      return { position: new google.maps.LatLng(item.location.coords.lat, item.location.coords.lng), vet: item }
+      return { position: new google.maps.LatLng(item.location.coordinates.lat, item.location.coordinates.lng), vet: item }
     });
   }
 }

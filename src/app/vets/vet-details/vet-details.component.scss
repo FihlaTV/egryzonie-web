@@ -1,0 +1,75 @@
+@import 'src/styles/config/colors';
+@import 'src/styles/config/fonts';
+@import 'src/styles/mixins/sizes';
+
+.vet-details {
+  margin: 1em 0;
+
+  @include sm() {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: .5em;
+  }
+
+  &__selected {
+    background: url('/assets/vets-map-background.jpg') center center no-repeat;
+    background-size: cover;
+    margin-bottom: 1em;
+  }
+
+  &__contact {
+    $radius: 6px;
+
+    background: $color-light-2;
+    border-radius: $radius;
+    border-bottom: 4px solid #e1e1e5;
+
+    &__header {
+      border-top: 4px solid $color-grey-light;
+      background: $color-grey;
+      border-radius: $radius * 1.5 $radius * 1.5 0 0;
+      color: $color-light-2;
+      font-size: .9em;
+      font-weight: 900;
+      font-family: $font-headings;
+      padding: .8em 1.2em;
+    }
+
+    &__list {
+      line-height: 2.5em;
+      list-style-type: none;
+      padding: 0 1em;
+
+      .fa {
+        display: inline-block;
+        margin: 0 .25em;
+      }
+    }
+  }
+}
+
+.vet {
+  color: $color-text;
+  display: flex;
+  align-items: flex-end;
+  min-height: 200px;
+  padding: .5em 1em;
+
+  &__dgroup:first-child {
+    width: 70%;
+  }
+
+  &__name, &__address {
+    font-size: 1rem;
+    margin: .25em;
+  }
+
+  &__name {
+    font-family: $font-headings;
+    font-weight: 900;
+  }
+  &__address {
+    font-weight: 600;
+  }
+  
+}

@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 // Pipes
 import { WordNumPipe } from '@pipes/wordnum.pipe';
+import { ShortUrlPipe } from '@pipes/shortUrl.pipe';
 
 // Components
 import { NavbarComponent } from '@components/navbar/navbar.component';
@@ -18,7 +19,8 @@ const EXPORTS = [
   NavbarComponent,
   ErrorComponent,
   FooterComponent,
-  WordNumPipe
+  WordNumPipe,
+  ShortUrlPipe
 ];
 
 @NgModule({
