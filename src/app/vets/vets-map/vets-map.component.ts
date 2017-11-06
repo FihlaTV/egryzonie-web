@@ -79,7 +79,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
   private _handleMapMovement() {
     this._location$ = this._gmaps.location()
       .distinctUntilChanged()
-      .debounceTime(1000)
+      .debounceTime(2000)
       .subscribe((coordinates: Coordinates) => {
         if (coordinates) {
           this._vets$ = this._vets.vetsInRange(coordinates).subscribe(
@@ -97,7 +97,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
 
   private _fetchPositions(vets: Vet[]) {
     return vets.map((item) => {
-      return { position: new google.maps.LatLng(item.location.coordinates.lat, item.location.coordinates.lng), vet: item }
+      return { position: new google.maps.LatLng(item['position'][0], item['position'][1]), vet: item }
     });
   }
 }

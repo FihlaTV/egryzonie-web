@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./vet-details.component.scss']
 })
 export class VetDetailsComponent implements OnInit, OnDestroy {
-  private _vetSub: Subscription;
+  private _vet$: Subscription;
   public vet: Vet;
 
   constructor( private _vets: VetsDataService ) {}
@@ -23,6 +23,8 @@ export class VetDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._vetSub.unsubscribe();
+    if (this._vet$) {
+      this._vet$.unsubscribe();
+    }
   }
 }

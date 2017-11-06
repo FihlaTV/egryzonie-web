@@ -38,7 +38,6 @@ export class VetsComponent implements OnInit, OnDestroy {
     this.currentUser$ = this._user.currentUser$;
     this.location$ = this._gmaps.location().subscribe((location) => {
       this.vets$ = this._vets.vetsInRange(location).subscribe((vets) => {
-        console.log('VETS: ', vets);
         if (vets) {
           this.vets = vets;
         }
@@ -47,8 +46,11 @@ export class VetsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // if (this.vets$) {
-    //   this.vets$.unsubscribe();
-    // }
+    if (this.location$) {
+      this.location$.unsubscribe();
+    }
+    if (this.vets$) {
+      this.vets$.unsubscribe();
+    }
   }
 }

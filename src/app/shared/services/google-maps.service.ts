@@ -230,7 +230,9 @@ export class GoogleMapsService {
   }
 
   resize() {
-    this.map.checkResize();
+    if (this.map.checkResize) {
+      this.map.checkResize();
+    }
   }
 
   go(coordinates: Coordinates, zoom: number) {

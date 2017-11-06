@@ -34,7 +34,9 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._location$.unsubscribe();
+    if (this._location$) {
+      this._location$.unsubscribe();
+    }
   }
 
   selectVet(vet: Vet) {

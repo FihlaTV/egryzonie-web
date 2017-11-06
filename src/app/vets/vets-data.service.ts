@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { Coordinates } from '@interfaces/coordinates';
+import { Location, Coordinates } from '@interfaces/index';
 import { Vet } from '@interfaces/vet';
 
 export class VetsDataService {
@@ -51,7 +51,6 @@ export class VetsDataService {
     return new Promise((resolve, reject) => {
       this._http.get(`/vets/search_within_range/${this.radius}/${coordinates.lat}/${coordinates.lng}`)  
         .map((response: any[]) => {
-          console.log('RESPONSE: ', response);
           return response.map((r) => <Vet>r);
         })
         .subscribe(
@@ -66,7 +65,6 @@ export class VetsDataService {
     return new Promise((resolve, reject) => {
       this._regularHttp.get(requestUrl)
         .map((response: Response) => {
-          console.log(JSON.parse(response['_body']).results);
           return JSON.parse(response['_body']).results.map((r: any) => this._convertToVet(r));
         })
         .map((data) => data.filter((o) => !recommended.find((r) => r.googleMapsID === o.place_id)))
@@ -77,9 +75,13 @@ export class VetsDataService {
     });
   }
 
-  private _convertToVet(results: any): Vet {
+  private _convertToVet(item: any): Vet {
     return <Vet>{
-
+      title: item.name,
+      address: item.vicinity,
+      googleMapsID: item.place_id,
+      city: '',
+      position: { lat: item.geometry.location.lat, lng: item.geometry.location.lng }
     }
   }
 }
