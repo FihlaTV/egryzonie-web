@@ -40,6 +40,7 @@ export class VetsComponent implements OnInit, OnDestroy {
       this.vets$ = this._vets.vetsInRange(location).subscribe((vets) => {
         if (vets) {
           this.vets = vets;
+          this._vets.setLoading(false);
         }
       });
     });

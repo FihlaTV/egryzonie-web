@@ -19,12 +19,13 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
   @Output() public onLocationSearch: EventEmitter<Location> = new EventEmitter<Location>();
 
   public coordinates: Coordinates;
-  public searchAwait: boolean = false;
+  public searchAwait: boolean = true;
   public searchBoxTypeSubject = new Subject<any>();
   public searchValue: string;
 
   private _searchBoxType$: Subscription;
   private _location$: Subscription;
+  private _loading$: Subscription;
 
   public error: string;
   public show: {} = {
@@ -45,6 +46,7 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
       .debounceTime(500)
       .subscribe((coordinates: Coordinates) => this.coordinates = coordinates);
     this._initSearchBox();
+    this._loading$ = this._vets.isLoading().subscribe((isLoading) => this.searchAwait = isLoading);
   }
 
   ngOnDestroy() {
@@ -59,7 +61,6 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
       .debounceTime(500)
       .distinctUntilChanged()
       .flatMap((search) => {
-        this.searchAwait = true;
         return Observable.of(search).delay(500);
       })
       .subscribe((search) => {
@@ -68,9 +69,9 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
   }
 
   private async _doSearch(search: string) {
+    this._vets.setLoading(true);
     try {
       const location = await this._geo.getCityLocation(search);
-      this.searchAwait = false;
       if (!location) {
         this._error('Nie ma takiej miejscowości.');
       } else {

@@ -77,8 +77,8 @@ export class GeolocationService {
             }
 
             const coordinates: Coordinates = {
-              lat: results[0].geometry.location.lat(),
-              lng: results[0].geometry.location.lng()
+              lat: parseFloat(results[0].geometry.location.lat().toFixed(6)),
+              lng: parseFloat(results[0].geometry.location.lng().toFixed(6))
             };
             resolve(coordinates)
           } else {

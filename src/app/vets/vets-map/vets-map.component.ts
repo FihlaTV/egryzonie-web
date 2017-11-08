@@ -97,7 +97,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
 
   private _fetchPositions(vets: Vet[]) {
     return vets.map((item) => {
-      return { position: new google.maps.LatLng(item['position'][0], item['position'][1]), vet: item }
+      return { position: new google.maps.LatLng(item['position']['lat'], item['position']['lng']), vet: item }
     });
   }
 }

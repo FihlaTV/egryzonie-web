@@ -12,6 +12,7 @@ export class VetsDataService {
   public currentVet: Vet = null;
 
   private _vetsData: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _isLoading: BehaviorSubject<boolean> = new BehaviorSubject<any>(true);
 
   constructor (
     @Inject(forwardRef(() => HttpClient)) private _http: HttpClient,
@@ -35,6 +36,14 @@ export class VetsDataService {
       this._vetsInRange(coordinates);
     }
     return this._vetsData.asObservable();
+  }
+
+  isLoading() {
+    return this._isLoading.asObservable();
+  }
+
+  setLoading(value: boolean) {
+    this._isLoading.next(value);
   }
 
   private async _vetsInRange(coordinates: Coordinates) {
@@ -64,10 +73,12 @@ export class VetsDataService {
     const requestUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${coordinates.lat},${coordinates.lng}&radius:${this.radius}&rankby=distance&types=veterinary_care`;
     return new Promise((resolve, reject) => {
       this._regularHttp.get(requestUrl)
-        .map((response: Response) => {
-          return JSON.parse(response['_body']).results.map((r: any) => this._convertToVet(r));
-        })
+        .map((response: Response) =>
+          JSON.parse(response['_body']).results.map(
+            (r: any) => this._convertToVet(r)
+          ))
         .map((data) => data.filter((o) => !recommended.find((r) => r.googleMapsID === o.place_id)))
+        .distinctUntilChanged()
         .subscribe(
           (results) => resolve(results),
           (error) => reject(error)

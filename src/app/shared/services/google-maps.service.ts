@@ -236,7 +236,7 @@ export class GoogleMapsService {
   }
 
   go(coordinates: Coordinates, zoom: number) {
-    this.map.setCenter(new google.maps.LatLng({ coordinates }));
+    this.map.setCenter(new google.maps.LatLng({ lat: coordinates.lat, lng: coordinates.lng }));
     this.map.setZoom(zoom);
     this._centerSubject.next(coordinates);
   }
