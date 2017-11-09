@@ -207,18 +207,15 @@ export class GoogleMapsService {
     })
   }
 
-  placeMarkers(markers, asset = 'map-marker-black.svg') {
-    markers.forEach((item) => {
-      const marker = new google.maps.Marker({
-        position: item.position,
-        map: this.map,
-        icon: `/assets/${asset}`,
-      });
-      marker.addListener('click', () => {
-        this._markerClickSubject.next(item);
-      });
-      this.markers.push(marker);
-    })
+  placeMarkers(markerGroups) {
+    let group, item;
+    for (let i = 0, n1 = markerGroups.length; i < n1; i++) {
+      group = markerGroups[i];
+      for (let j = 0, n2 = group.items.length; j < n2; j++) {
+        item = group.items[j];
+        this._createMarker(item.subject, item.position, group.icon);
+      }
+    }
   }
 
   markerClicks(): Observable<any> {
@@ -239,6 +236,20 @@ export class GoogleMapsService {
     this.map.setCenter(new google.maps.LatLng({ lat: coordinates.lat, lng: coordinates.lng }));
     this.map.setZoom(zoom);
     this._centerSubject.next(coordinates);
+  }
+
+  private _createMarker(subject: any, position: any, icon: string = 'map-marker-black.svg'): void {
+    if (!this.markers.find(m => m.position.lat() === position.lat())) {
+      const marker = new google.maps.Marker({
+        position: position,
+        map: this.map,
+        icon: `/assets/${icon}`,
+      });
+      google.maps.event.addListener(marker, 'click', () => {
+        this._markerClickSubject.next(subject);
+      });
+      this.markers.push(marker);
+    }
   }
 
   private _createMap(element: any, coordinates: Coordinates) {

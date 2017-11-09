@@ -43,6 +43,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     const map = document.getElementById('map');
     await this._gmaps.initMap(map, this.coordinates);
     this._handleMapMovement();
+    this._handleMarkers();
   }
 
   center(coordinates: Coordinates, zoom: number) {
@@ -69,35 +70,41 @@ export class VetsMapComponent implements OnInit, OnDestroy {
 
   private _handleMarkers() {
     this._markers$ = this._gmaps.markerClicks()
-      .distinctUntilChanged()
-      .debounceTime(1000)
       .subscribe((marker) => {
         this._vets.currentVet = marker ? marker['vet'] : null;
+        console.log('New current vet');
       });
   }
 
   private _handleMapMovement() {
     this._location$ = this._gmaps.location()
       .distinctUntilChanged()
-      .debounceTime(2000)
+      .debounceTime(500)
       .subscribe((coordinates: Coordinates) => {
         if (coordinates) {
-          this._vets$ = this._vets.vetsInRange(coordinates).subscribe(
-            (vets) => {
-              if (vets && vets.recommended && vets.others) {
-                this._gmaps.placeMarkers(this._fetchPositions(vets.recommended), 'map-marker-yellow.svg');
-                this._gmaps.placeMarkers(this._fetchPositions(vets.others), 'map-marker-black.svg');
-                this._handleMarkers();
-              }
-            }
-          )
+          this._fetchVetsInRange(coordinates);
+        }
+      });
+  }
+
+  private _fetchVetsInRange(center: Coordinates) {
+    this._vets$ = this._vets.vetsInRange(center)
+      .distinctUntilChanged()
+      .debounceTime(500)
+      .subscribe((vets) => {
+        if (vets && vets.recommended && vets.others) {
+          const markers = [
+            { items: this._fetchPositions(vets.recommended), icon: 'map-marker-yellow.svg' },
+            { items: this._fetchPositions(vets.others), icon: 'map-marker-black.svg' }
+          ];
+          this._gmaps.placeMarkers(markers);
         }
       });
   }
 
   private _fetchPositions(vets: Vet[]) {
     return vets.map((item) => {
-      return { position: new google.maps.LatLng(item['position']['lat'], item['position']['lng']), vet: item }
+      return { position: new google.maps.LatLng(item['position']['lat'], item['position']['lng']) }
     });
   }
 }
