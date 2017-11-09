@@ -44,6 +44,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     await this._gmaps.initMap(map, this.coordinates);
     this._handleMapMovement();
     this._handleMarkers();
+    this._fetchVets();
   }
 
   center(coordinates: Coordinates, zoom: number) {
@@ -72,23 +73,23 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     this._markers$ = this._gmaps.markerClicks()
       .subscribe((marker) => {
         this._vets.currentVet = marker ? marker['vet'] : null;
-        console.log('New current vet');
       });
   }
 
   private _handleMapMovement() {
+    const diff = 0.001;
     this._location$ = this._gmaps.location()
-      .distinctUntilChanged()
+      .distinctUntilChanged((x, y) => {
+        const latDiff = Math.abs(x.lat - y.lat);
+        const lngDiff = Math.abs(x.lng - y.lng);
+        return latDiff < diff && lngDiff < diff;
+      })
       .debounceTime(500)
-      .subscribe((coordinates: Coordinates) => {
-        if (coordinates) {
-          this._fetchVetsInRange(coordinates);
-        }
-      });
+      .subscribe((coordinates: Coordinates) => this._vets.vetsInRange(coordinates));
   }
 
-  private _fetchVetsInRange(center: Coordinates) {
-    this._vets$ = this._vets.vetsInRange(center)
+  private _fetchVets() {
+    this._vets$ = this._vets.vetsList()
       .distinctUntilChanged()
       .debounceTime(500)
       .subscribe((vets) => {

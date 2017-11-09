@@ -31,11 +31,14 @@ export class VetsDataService {
     });
   }
 
-  vetsInRange(coordinates: Coordinates): Observable<any> {
+  vetsList(): Observable<any> {
+    return this._vetsData.asObservable();
+  }
+
+  vetsInRange(coordinates: Coordinates): void {
     if (coordinates) {
       this._vetsInRange(coordinates);
     }
-    return this._vetsData.asObservable();
   }
 
   isLoading() {
