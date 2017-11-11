@@ -92,13 +92,14 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     this._vets$ = this._vets.vetsList()
       .distinctUntilChanged()
       .debounceTime(500)
-      .subscribe((vets) => {
+      .subscribe(async (vets) => {
         if (vets && vets.recommended && vets.others) {
+          await this._gmaps.clearMarkers();
           const markers = [
             { items: this._fetchPositions(vets.recommended), icon: 'map-marker-yellow.svg' },
             { items: this._fetchPositions(vets.others), icon: 'map-marker-black.svg' }
           ];
-          this._gmaps.placeMarkers(markers);
+          await this._gmaps.placeMarkers(markers);
         }
       });
   }

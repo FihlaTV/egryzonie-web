@@ -207,15 +207,28 @@ export class GoogleMapsService {
     })
   }
 
-  placeMarkers(markerGroups) {
-    let group, item;
-    for (let i = 0, n1 = markerGroups.length; i < n1; i++) {
-      group = markerGroups[i];
-      for (let j = 0, n2 = group.items.length; j < n2; j++) {
-        item = group.items[j];
-        this._createMarker(item.subject, item.position, group.icon);
+  placeMarkers(markerGroups): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let group, item;
+      for (let i = 0, n1 = markerGroups.length; i < n1; i++) {
+        group = markerGroups[i];
+        for (let j = 0, n2 = group.items.length; j < n2; j++) {
+          item = group.items[j];
+          this._createMarker(item.subject, item.position, group.icon);
+        }
+        resolve();
       }
-    }
+    });
+  }
+
+  clearMarkers(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      for (let i = 0; i < this.markers.length; i++) {
+        this.markers[i].setMap(null);
+      }
+      this.markers = [];
+      resolve();
+    });
   }
 
   markerClicks(): Observable<any> {
