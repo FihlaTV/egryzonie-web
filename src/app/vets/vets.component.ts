@@ -36,11 +36,11 @@ export class VetsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentUser$ = this._user.currentUser$;
-    this.location$ = this._gmaps.location().subscribe((location) => this._vets.vetsInRange(location));
-    this.vets$ = this._vets.vetsList().subscribe((vets) => {
+    this.location$ = this._gmaps.location().subscribe((location) => this._vets.fetchVetsInRange(location));
+    this.vets$ = this._vets.observeVetsList().subscribe((vets) => {
       if (vets) {
         this.vets = vets;
-        this._vets.setLoading(false);
+        this._vets.castLoading(false);
       }
     });
   }

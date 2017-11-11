@@ -46,7 +46,7 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
       .debounceTime(500)
       .subscribe((coordinates: Coordinates) => this.coordinates = coordinates);
     this._initSearchBox();
-    this._loading$ = this._vets.isLoading().subscribe((isLoading) => this.searchAwait = isLoading);
+    this._loading$ = this._vets.observeLoading().subscribe((isLoading) => this.searchAwait = isLoading);
   }
 
   ngOnDestroy() {
@@ -69,7 +69,7 @@ export class VetsSearchComponent implements OnInit, OnDestroy {
   }
 
   private async _doSearch(search: string) {
-    this._vets.setLoading(true);
+    this._vets.castLoading(true);
     try {
       const location = await this._geo.getCityLocation(search);
       if (!location) {

@@ -15,11 +15,11 @@ export class VetDetailsComponent implements OnInit, OnDestroy {
   constructor( private _vets: VetsDataService ) {}
 
   ngOnInit() {
-    // this._vetSub = this._vets.watchCurrentVet().subscribe((vet) => {
-    //   if (vet) {
-    //     this.vet = vet;
-    //   }
-    // });
+    this._vet$ = this._vets.observeCurrentVetData().subscribe((vet) => {
+      if (vet) {
+        this.vet = vet;
+      }
+    });
   }
 
   ngOnDestroy() {

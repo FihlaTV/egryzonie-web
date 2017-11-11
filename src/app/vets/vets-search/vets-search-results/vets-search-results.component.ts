@@ -40,10 +40,11 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
   }
 
   selectVet(vet: Vet) {
+    this._vets.currentVet = vet;
   }
 
   private _initVetsSub() {
-    this._vets$ = this._vets.vetsList()
+    this._vets$ = this._vets.observeVetsList()
       .distinctUntilChanged()
       .debounceTime(500)
       .subscribe((vets) => {

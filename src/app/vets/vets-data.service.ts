@@ -9,8 +9,10 @@ import { Vet } from '@interfaces/vet';
 
 export class VetsDataService {
   public radius: number = 10000;
-  public currentVet: Vet = null;
 
+  private _currentVet: Vet;
+
+  private _currentVetData: BehaviorSubject<Vet> = new BehaviorSubject<Vet>(null);
   private _vetsData: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _isLoading: BehaviorSubject<boolean> = new BehaviorSubject<any>(true);
 
@@ -19,7 +21,19 @@ export class VetsDataService {
     @Inject(forwardRef(() => Http)) private _regularHttp: Http
   ) {}
 
-  vetDetails(vetId: number): Promise<Vet> {
+  set currentVet(vet: Vet) {
+    this._currentVet = vet;
+  }
+
+  get currentVet(): Vet {
+    return this._currentVet;
+  }
+
+  observeCurrentVetData(): Observable<Vet> {
+    return this._currentVetData.asObservable();
+  }
+
+  fetchVetDetails(vetId: number): Promise<Vet> {
     const requestUrl = `/vets/view/${vetId}`;
     return new Promise<Vet>((resolve, reject) => {
       this._http.get(requestUrl)
@@ -30,36 +44,32 @@ export class VetsDataService {
         );
     });
   }
+  
+  async fetchVetsInRange(coordinates: Coordinates) {
+    if (coordinates) {
+      try {
+        const recommended = await this._fetchRecommendedInRange(coordinates);
+        const others = await this._fetchOthersInRange(coordinates);
+        this._vetsData.next({ recommended, others });
+      } catch (error) {
+        console.error('ERROR: ', error);
+      }
+    }
+  }
 
-  vetsList(): Observable<any> {
+  observeVetsList(): Observable<any> {
     return this._vetsData.asObservable();
   }
 
-  vetsInRange(coordinates: Coordinates): void {
-    if (coordinates) {
-      this._vetsInRange(coordinates);
-    }
-  }
-
-  isLoading() {
+  observeLoading() {
     return this._isLoading.asObservable();
   }
 
-  setLoading(value: boolean) {
+  castLoading(value: boolean) {
     this._isLoading.next(value);
   }
 
-  private async _vetsInRange(coordinates: Coordinates) {
-    try {
-      const recommended = await this._recommendedInRange(coordinates);
-      const others = await this._othersInRange(coordinates);
-      this._vetsData.next({ recommended, others });
-    } catch (error) {
-      console.error('ERROR: ', error);
-    }
-  }
-
-  private _recommendedInRange(coordinates: Coordinates): Promise<Vet[]> {
+  private _fetchRecommendedInRange(coordinates: Coordinates): Promise<Vet[]> {
     return new Promise((resolve, reject) => {
       this._http.get(`/vets/search_within_range/${this.radius}/${coordinates.lat}/${coordinates.lng}`)  
         .map((response: any[]) => {
@@ -72,7 +82,7 @@ export class VetsDataService {
     })
   }
 
-  private _othersInRange(coordinates: Coordinates, recommended: Vet[] = []): Promise<Vet[]> {
+  private _fetchOthersInRange(coordinates: Coordinates, recommended: Vet[] = []): Promise<Vet[]> {
     const requestUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${coordinates.lat},${coordinates.lng}&radius:${this.radius}&rankby=distance&types=veterinary_care`;
     return new Promise((resolve, reject) => {
       this._regularHttp.get(requestUrl)

@@ -85,11 +85,11 @@ export class VetsMapComponent implements OnInit, OnDestroy {
         return latDiff < diff && lngDiff < diff;
       })
       .debounceTime(500)
-      .subscribe((coordinates: Coordinates) => this._vets.vetsInRange(coordinates));
+      .subscribe((coordinates: Coordinates) => this._vets.fetchVetsInRange(coordinates));
   }
 
   private _fetchVets() {
-    this._vets$ = this._vets.vetsList()
+    this._vets$ = this._vets.observeVetsList()
       .distinctUntilChanged()
       .debounceTime(500)
       .subscribe((vets) => {
