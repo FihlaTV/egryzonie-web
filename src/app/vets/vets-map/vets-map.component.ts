@@ -53,15 +53,9 @@ export class VetsMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this._location$) {
-      this._location$.unsubscribe();
-    }
-    if (this._markers$) {
-      this._markers$.unsubscribe();
-    }
-    if (this._vets$) {
-      this._vets$.unsubscribe();
-    }
+    this._location$.unsubscribe();
+    this._markers$.unsubscribe();
+    this._vets$.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])
