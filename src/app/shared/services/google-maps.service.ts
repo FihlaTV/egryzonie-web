@@ -262,7 +262,7 @@ export class GoogleMapsService {
   private _createMap(element: any, coordinates: Coordinates) {
     this.mapProps = {
       center: new google.maps.LatLng(coordinates.lat, coordinates.lng),
-      zoom: 16,
+      zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: this.mapStyles
     };

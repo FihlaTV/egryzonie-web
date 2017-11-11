@@ -42,9 +42,9 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     this.coordinates = await this._geo.getUserLocation();
     const map = document.getElementById('map');
     await this._gmaps.initMap(map, this.coordinates);
-    this._handleMapMovement();
-    this._handleMarkers();
-    this._fetchVets();
+    this._watchMapMovement();
+    this._watchMarkers();
+    this._watchVetsData();
   }
 
   center(coordinates: Coordinates, zoom: number) {
@@ -69,14 +69,12 @@ export class VetsMapComponent implements OnInit, OnDestroy {
     this._gmaps.resize();
   }
 
-  private _handleMarkers() {
+  private _watchMarkers() {
     this._markers$ = this._gmaps.markerClicks()
-      .subscribe((marker) => {
-        this._vets.currentVet = marker ? marker['vet'] : null;
-      });
+      .subscribe((marker) => this._vets.currentVet = marker ? marker['vet'] : null);
   }
 
-  private _handleMapMovement() {
+  private _watchMapMovement() {
     const diff = 0.001;
     this._location$ = this._gmaps.location()
       .distinctUntilChanged((x, y) => {
@@ -88,7 +86,7 @@ export class VetsMapComponent implements OnInit, OnDestroy {
       .subscribe((coordinates: Coordinates) => this._vets.fetchVetsInRange(coordinates));
   }
 
-  private _fetchVets() {
+  private _watchVetsData() {
     this._vets$ = this._vets.observeVetsList()
       .distinctUntilChanged()
       .debounceTime(500)
