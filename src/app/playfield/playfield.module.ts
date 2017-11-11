@@ -10,6 +10,7 @@ import { PlayfieldRoutingModule } from './playfield-routing.module';
 import { PlayfieldComponent } from './playfield.component';
 import { GmapsTestsComponent } from './gmaps-tests/gmaps-tests.component';
 import { GeocoderComponent } from './geocoder/geocoder.component';
+import { FormsComponent } from './forms/forms.component';
 
 // Services
 
@@ -22,7 +23,8 @@ import { GeocoderComponent } from './geocoder/geocoder.component';
   declarations: [
     PlayfieldComponent,
     GmapsTestsComponent,
-    GeocoderComponent
+    GeocoderComponent,
+    FormsComponent
   ],
   providers: [
   ]

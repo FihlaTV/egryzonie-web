@@ -1,103 +1,65 @@
 @import '../config/fonts';
 @import '../config/colors';
+@import '../config/shadows';
+@import '../mixins/noselect';
 
-.form {
-  margin: 0 auto;
-  display: block;
-  width: 95%;
-  max-width: 600px;
-  position: relative;
+/* Variables */
 
-  &__heading {
+$forms-padding: .55em;
+$border-radius: 8px;
+
+/* General form styles & hacks */
+
+[type="radio"], [type="checkbox"] {
+  position: absolute;
+  left: -999999em;
+}
+
+[type="radio"] {
+  $check-treshold: 40%;
+
+  & + span::before {
+    content: '';
+    display: inline-block;
+    width: 13px;
+    height: 13px;
     background: $color-light-2;
-    color: $color-text-light;
-    margin: 0;
-    padding: 1.3em 0 1em;
-    text-align: center;
+    border: 1px solid $color-border;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-top: -4px;
+    margin-right: .25em;
   }
 
-  &__label {
-    display: block;
+  &:checked + span::before {
     background:
-      linear-gradient(to bottom, transparent 0%, transparent 90%, rgba(#000000, 0) 90.1%, rgba(#000000, .1) 100%),
-      $color-light-2;
-    border: 1px solid #b2d4dc;
-    border-radius: .45em;
-    width: 100%;
-    max-width: 400px;
-    margin: .75em auto;
-    padding: 1.2em 0;
-    position: relative;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    > .btn {
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      margin: 0;
-      border-radius: 7px;
-
-      &, & > span {
-        color: #ffffff !important;
-      }
-    }
-  }
-
-  &__input {
-    background: transparent;
-    border: 0;
-    border-radius: .45em;
-    color: $color-grey;
-    display: block;
-    font-size: 1em;
-    font-family: $font-headings;
-    position: absolute;
-    padding: 0 .5em;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%;
-
-    &--search {
-      padding-right: 50px;
-    }
-  }
-
-  .fa {
-    color: $color-grey-light;
-    margin: 0 .25em;
-  }
-
-  .fa + &__input {
-    padding-left: 2.5em;
-  }
-  
-  &__buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
-    max-width: 390px;
-    margin: 0 auto;
+      radial-gradient(
+        circle at center,
+        $color-text 0%,
+        $color-text ($check-treshold - 5%),
+        transparent $check-treshold,
+        transparent 100%
+      );
   }
 }
 
-.form--decorated {
-  background: $color-light;
-  border-radius: .5em;
-  
-  &::before {
-    border-radius: .5em .5em 0 0;
+[type="checkbox"] {
+  & + span::before {
     content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    @include flatGradient($colors-list-light, 80px);
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background: $color-light-2;
+    border: 1px solid $color-border;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-top: -4px;
+    margin-right: .25em;
+  }
+
+  &:checked + span::before {
+    background: $color-light-2 url('/assets/checkmark-o.svg') center center no-repeat;
+    background-size: contain;
   }
 }
 
@@ -114,6 +76,97 @@
   color: $color-grey;
 }
 
+/* Don't allow yellow-ish background in webkit browsers */
+
 :-webkit-autofill {
   transition: background-color 0s 999999999s linear;
+}
+
+/* Form elements */
+
+.form {
+  &__text, &__button, &__textarea, &__select {
+    border: 1px solid $color-border;
+    padding-left: $forms-padding;
+    padding-right: $forms-padding;
+    font-size: .95em;
+    max-width: 100%;
+
+    &:hover {
+      box-shadow: 0 0 $box-shadow-radius $box-shadow-color;
+    }
+  }
+  
+  &__label {
+    border-width: 0;
+  }
+}
+
+.form__text {
+  background:
+    linear-gradient(to bottom, transparent 0%, transparent 87%, rgba(#000000, 0) 87.1%, rgba(#000000, .07) 100%),
+    $color-light-2;
+  border-radius: $border-radius;
+  padding-top: $forms-padding;
+  padding-bottom: $forms-padding;
+}
+
+.form__button {
+  cursor: pointer;
+  border-radius: $border-radius;
+}
+
+.form__label {
+  max-width: 300px;
+  margin: .4em 0;
+
+  &--clear {
+    display: block;
+  }
+
+  &--large {
+    width: 380px;
+    max-width: none;
+    
+    & > textarea {
+      min-width: 100%;
+      min-height: 200px;
+    }
+  }
+
+  &--adjacent {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+
+    & > :first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right-width: 1px;
+      flex: 1 1 10em;
+    }
+    & > :last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left-width: 0;
+      flex: 2 2 10em;
+    }
+  }
+
+  &--radio, &--checkbox {
+    @include noselect;
+    cursor: pointer;
+    margin: .65em 0;
+  }
+}
+
+.form__select {
+  cursor: pointer;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  padding: $forms-padding;
+  padding-right: 2.5em;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: $color-light-2 url('/assets/arrow-down.svg') 90% center no-repeat;
 }

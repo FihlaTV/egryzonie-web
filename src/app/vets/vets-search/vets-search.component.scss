@@ -1,0 +1,12 @@
+.search {
+  margin: 0;
+}
+
+.search .form__label {
+  width: 95%;
+  margin: 0 auto;
+
+  & > :last-child {
+    max-width: 70px;
+  }
+}

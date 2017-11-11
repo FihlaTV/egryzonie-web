@@ -1,13 +1,13 @@
 <div class="search">
   <form #search class="searchForm form">
-    <label for="searchText" class="form__label form__label--search">
-      <input #searchText type="search"
-        name="search"
-        class="form__input form__input--search"
-        [(ngModel)]="searchValue"
-        (keyup)="searchBoxTypeSubject.next($event)">
-      <button type="button" class="btn btn--search"><span class="fa fa-search"></span></button>
-    </label>
+    <div class="form__group">
+      <label class="form__label form__label--adjacent form__label--large">
+        <input #search type="search" name="search" class="form__text"/>
+        <button type="submit" class="btn form__button">
+          <span class="fa fa-search"></span>
+        </button>
+      </label>
+    </div>
     <img [hidden]="!searchAwait" src="/assets/loader.gif" alt="Ładowanie..." class="loader">
     <p *ngIf="error?.length">{{ error }}</p>
   </form>

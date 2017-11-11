@@ -1,0 +1,58 @@
+<div class="forms">
+  <h3>Forms</h3>
+
+  <div class="form">
+
+    <div class="form__group">
+      <p>Adjacent elements.</p>
+      <label class="form__label form__label--adjacent">
+        <input #search type="search" name="search" class="form__text" placeholder="Search..." />
+        <button type="submit" class="btn form__button">
+          <span class="fa fa-search"></span>
+        </button>
+      </label>
+    </div>
+
+    <div class="form__group">
+      <p>Single elements.</p>
+      <label class="form__label">
+        <input #single1 type="search" name="search" class="form__text" placeholder="Input something..." />
+      </label>
+      <label class="form__label">
+        <input #single2 type="search" name="search" class="form__text" placeholder="Input something else..." />
+      </label>
+      <label class="form__label form__label--clear">
+        <input #single3 type="search" name="search" class="form__text" placeholder="Input yet another something..." />
+      </label>
+    </div>
+
+    <div class="form__group">
+      <p>Textarea.</p>
+      <label class="form__label form__label--large">
+        <textarea #area name="area" class="form__text" placeholder="Large chunks of text"></textarea>
+      </label>
+    </div>
+    
+    <div class="form__group">
+      <p>Selection boxes.</p>
+      <label class="form__label">
+        <select #select name="select" class="form__select">
+          <option value="" disabled selected>Select your option</option>
+          <option *ngFor="let x of options" [attr.value]="x[0]">{{x[1]}}</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="form__group">
+      <p>Radios...</p>
+      <label class="form__label form__label--clear form__label--radio" *ngFor="let x of options">
+        <input type="radio" name="radio" [attr.value]="x[0]"> <span>{{x[1]}}</span>
+      </label>
+      <p>...and checkboxes.</p>
+      <label class="form__label form__label--clear form__label--checkbox" *ngFor="let x of options">
+        <input type="checkbox" name="checkbox" [attr.value]="x[0]"> <span>{{x[1]}}</span>
+      </label>
+    </div>
+
+  </div>
+</div>
