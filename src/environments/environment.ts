@@ -7,5 +7,5 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:3000',
   googleKey: 'AIzaSyCZuw6VtsNTe_3UxTImk5mqX-m3W8FDBpA',
-  geonamesUsername: 'egryzonie'
+  appVersion: '0.1-DEV'
 };

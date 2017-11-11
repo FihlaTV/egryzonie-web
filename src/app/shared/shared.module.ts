@@ -11,6 +11,7 @@ import { ShortUrlPipe } from '@pipes/shortUrl.pipe';
 import { NavbarComponent } from '@components/navbar/navbar.component';
 import { ErrorComponent } from '@components/error/error.component';
 import { FooterComponent } from '@components/footer/footer.component';
+import { VersionComponent } from '@components/version/version.component';
 
 // Services
 import { GeolocationService, GoogleMapsService } from '@services/index';
@@ -19,6 +20,7 @@ const EXPORTS = [
   NavbarComponent,
   ErrorComponent,
   FooterComponent,
+  VersionComponent,
   WordNumPipe,
   ShortUrlPipe
 ];
