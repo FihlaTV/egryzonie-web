@@ -1,0 +1,75 @@
+@import 'src/styles/mixins/noselect';
+
+.results-Main {
+  @include noselect;
+
+  background: #bdcfd3;
+  border-radius: 5px;
+  position: relative;
+  width: 95%;
+  margin: .75em auto;
+  list-style-type: none;
+  padding: 0;
+}
+
+.no-results {
+  @extend .results-Main;
+
+  padding: 1em;
+  font-family: $font-headings;
+  font-weight: 900;
+}
+
+.results-list {
+  @extend .results-Main;
+  
+  max-height: 400px;
+  transition: max-height 1.25s ease-in-out;
+
+  overflow-y: auto;
+
+  &__item {
+    cursor: pointer;
+    padding: .25em .75em;
+
+    &:not(:first-child) {
+      border-top: 1px solid #aababd;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, .1);
+    }
+
+    &__icon {
+      display: none;
+      padding: 1.2em .25em;
+    }
+
+    &__title, &__follow {
+      display: block;
+      text-align: center;
+      
+      @include sm {
+        text-align: left;
+      }
+    }
+
+    &__title {
+      font-size: 1.1em;
+      text-align: center;
+      padding: .75em 0 .3em;
+    }
+
+    &__follow {
+      text-align: center;
+      font-weight: 600;
+      padding: .3em 0 .75em;
+    }
+  }
+}
+
+@include sm {
+  .results-list__item__title, .results-list__item__follow {
+    text-align: left;
+  }
+}

@@ -1,0 +1,73 @@
+@import 'src/styles/config/colors';
+@import 'src/styles/mixins/noselect';
+
+.results-bar {
+  $radius1: 5px;
+  $radius2: 8px;
+
+  @include noselect;
+  width: 95%;
+  background: $color-white;
+  border-bottom: 5px solid $color-grey-light;
+  border-top-left-radius: $radius1;
+  border-top-right-radius: $radius2;
+  border-bottom-left-radius: $radius1 $radius2;
+  border-bottom-right-radius: $radius1 $radius2;
+  margin: .5em auto;
+  min-height: 70px;
+  padding: $radius2;
+  cursor: pointer;
+  
+  display: flex;
+  flex-flow: wrap;
+
+  /* "bounce" a bit on click */
+  &:active {
+    transform: scale(.99);
+  }
+
+  &__icon {
+    display: none;
+  }
+
+  &__number {
+    color: $color-text;
+    position: relative;
+    order: 3;
+    text-align: center;
+    width: 100%;
+    font-family: $font-headings;
+    font-weight: 400;
+    padding: .35em 0;
+
+    &::after {
+      $size: 4px;
+
+      content: '';
+      display: block;
+      position: absolute;
+    
+      border-top: $size solid $color-text;
+      border-left: $size / 1.5 solid transparent;
+      border-right: $size / 1.5 solid transparent;
+      border-bottom: $size / 1.5 solid transparent;
+
+      bottom: -.15em;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &__title {
+    color: $color-text;
+    text-transform: uppercase;
+    font-family: $font-headings;
+    font-weight: bold;
+    text-align: center;
+    padding: .35em 0;
+  }
+}
+
+.results-bar--hidden .results-bar__number::after {
+  transform: rotate(180deg);
+}

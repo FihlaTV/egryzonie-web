@@ -1,15 +1,15 @@
-<div class="resultbar" [ngClass]="{ 'resultbar--featured': featured, 'resultbar--hidden': show }" (click)="show = !show">
-  <span class="resultbar__icon fa fa-building"></span>
-  <span class="resultbar__number">{{ (results?.length || 'brak') }} {{ (results?.length || 0) | wordnum:'gabinet':'gabinety':'gabinetów' }} </span>
-  <span class="resultbar__title">{{ title }}</span>
+<div class="results-bar" [ngClass]="{ 'results-bar--featured': featured, 'results-bar--hidden': show }" (click)="show = !show">
+  <span class="results-bar__icon fa fa-building"></span>
+  <span class="results-bar__number">{{ (results?.length || 'brak') }} {{ (results?.length || 0) | wordnum:'gabinet':'gabinety':'gabinetów' }} </span>
+  <span class="results-bar__title">{{ title }}</span>
 </div>
-<ul class="list" *ngIf="results?.length" [hidden]="!show">
-  <li class="list__item"
+<ul class="results-list" *ngIf="results?.length" [hidden]="!show">
+  <li class="results-list__item"
     *ngFor="let item of results"
     (click)="selectVet(item)">
-    <span class="list__item__icon"><span class="fa fa-map-marker"></span></span>
-    <span class="list__item__name">{{ item.title }}</span>
-    <span class="list__item__address">{{ item.address }}</span>
+    <span class="results-list__item__icon"><span class="fa fa-map-marker"></span></span>
+    <span class="results-list__item__title">{{ item.title }}</span>
+    <span class="results-list__item__follow">{{ item.address }}</span>
   </li>
 </ul>
 <p class="no-results" *ngIf="!results?.length" [hidden]="!show">{{noResultsText}}</p>
