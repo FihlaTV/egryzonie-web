@@ -1,6 +1,7 @@
 @import 'src/styles/config/colors';
 @import 'src/styles/config/fonts';
 @import 'src/styles/mixins/sizes';
+@import 'src/styles/mixins/details-box-tidy';
 
 .vet-details {
   margin: 1em 0;
@@ -12,9 +13,9 @@
   }
 
   &__selected {
+    @include details-box-tidy;
     background: url('/assets/vets-map-background.jpg') center center no-repeat;
     background-size: cover;
-    margin-bottom: 1em;
   }
 
   &__contact {
@@ -46,30 +47,11 @@
       }
     }
   }
-}
 
-.vet {
-  color: $color-text;
-  display: flex;
-  align-items: flex-end;
-  min-height: 200px;
-  padding: .5em 1em;
-
-  &__dgroup:first-child {
-    width: 70%;
+  &__hours {
+    padding: 0 0 0 1.65em;
+    margin: 0;
+    line-height: 1.25em;
+    font-size: .85em;
   }
-
-  &__name, &__address {
-    font-size: 1rem;
-    margin: .25em;
-  }
-
-  &__name {
-    font-family: $font-headings;
-    font-weight: 900;
-  }
-  &__address {
-    font-weight: 600;
-  }
-  
 }

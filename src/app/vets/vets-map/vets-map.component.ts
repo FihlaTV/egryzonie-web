@@ -65,7 +65,9 @@ export class VetsMapComponent implements OnInit, OnDestroy {
 
   private _watchMarkers() {
     this._markers$ = this._gmaps.markerClicks()
-      .subscribe((marker) => this._vets.currentVet = marker ? marker['vet'] : null);
+      .subscribe((data) => {
+        this._vets.fetchVetDetails(data);
+      });
   }
 
   private _watchMapMovement() {
@@ -88,17 +90,21 @@ export class VetsMapComponent implements OnInit, OnDestroy {
         if (vets && vets.recommended && vets.others) {
           this._gmaps.clearMarkers();
           const markers = [
-            { items: this._fetchPositions(vets.recommended), icon: 'map-marker-yellow.svg' },
-            { items: this._fetchPositions(vets.others), icon: 'map-marker-black.svg' }
+            { items: this._fetchPositions(vets.recommended, true), icon: 'map-marker-yellow.svg' },
+            { items: this._fetchPositions(vets.others, false), icon: 'map-marker-black.svg' }
           ];
           this._gmaps.placeMarkers(markers);
         }
       });
   }
 
-  private _fetchPositions(vets: Vet[]) {
+  private _fetchPositions(vets: Vet[], recommended: boolean = false) {
     return vets.map((item) => {
-      return { position: new google.maps.LatLng(item['position']['lat'], item['position']['lng']) }
+      const id = item.id || item.googleMapsID;
+      return {
+        position: new google.maps.LatLng(item['position']['lat'], item['position']['lng']),
+        subject: { id, recommended }
+      };
     });
   }
 }

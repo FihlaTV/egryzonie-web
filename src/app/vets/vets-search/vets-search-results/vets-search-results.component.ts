@@ -39,8 +39,8 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectVet(vet: Vet) {
-    this._vets.currentVet = vet;
+  selectVet(id: any, recommended: boolean) {
+    this._vets.fetchVetDetails({ id, recommended });
   }
 
   private _initVetsSub() {
@@ -48,11 +48,10 @@ export class VetsSearchResultsComponent implements OnInit, OnDestroy {
       .distinctUntilChanged()
       .debounceTime(500)
       .subscribe((vets) => {
-        if (vets) {
-          this._zone.run(() => {
-            this.results = this.featured ? vets.recommended : vets.others
-          });
-        }
+        if (!vets) return;
+        this._zone.run(() => {
+          this.results = this.featured ? vets.recommended : vets.others
+        });
       });
   }
 }

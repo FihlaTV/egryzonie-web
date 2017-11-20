@@ -16,4 +16,5 @@ export interface Vet {
   phone?: string;
   rodents?: boolean;
   recommended?: boolean;
+  openingHours?: string;
 }

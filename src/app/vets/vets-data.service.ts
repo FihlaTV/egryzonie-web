@@ -10,6 +10,7 @@ import { Vet } from '@interfaces/vet';
 export class VetsDataService {
   public radius: number = 10000;
 
+  // { vetId: string, recommended: boolean }
   private _currentVet: Vet;
 
   private _currentVetData: BehaviorSubject<Vet> = new BehaviorSubject<Vet>(null);
@@ -23,6 +24,7 @@ export class VetsDataService {
 
   set currentVet(vet: Vet) {
     this._currentVet = vet;
+    this._currentVetData.next(this._currentVet);
   }
 
   get currentVet(): Vet {
@@ -32,17 +34,15 @@ export class VetsDataService {
   observeCurrentVetData(): Observable<Vet> {
     return this._currentVetData.asObservable();
   }
-
-  fetchVetDetails(vetId: number): Promise<Vet> {
-    const requestUrl = `/vets/view/${vetId}`;
-    return new Promise<Vet>((resolve, reject) => {
-      this._http.get(requestUrl)
-        .map((response) => <Vet>response)
-        .subscribe(
-          (results) => resolve(results),
-          (error) => reject(error)
-        );
-    });
+  
+  fetchVetDetails(data: any): any {
+    if (!data) return;
+  
+    if (data.recommended) {
+      this._fetchRecommendedDetails(data.id);
+    } else {
+      this._fetchOthersDetails(data.id);
+    }
   }
   
   async fetchVetsInRange(coordinates: Coordinates) {
@@ -67,6 +67,24 @@ export class VetsDataService {
 
   castLoading(value: boolean) {
     this._isLoading.next(value);
+  }
+
+  private _fetchRecommendedDetails(id: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      resolve(0);
+    });
+  }
+
+  private _fetchOthersDetails(id: any): void {
+    const request = this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/details/json?key=${environment.googleKey}&placeid=${id}`)
+      .map((response: any) => {
+        return this._convertToVet(JSON.parse(response['_body']).result);
+      })
+      .subscribe((vet) => {
+        this.currentVet = vet;
+        console.log('vet: ', vet);
+        request.unsubscribe();
+      });
   }
 
   private _fetchRecommendedInRange(coordinates: Coordinates): Promise<Vet[]> {
@@ -101,11 +119,13 @@ export class VetsDataService {
 
   private _convertToVet(item: any): Vet {
     return <Vet>{
-      title: item.name,
-      address: item.vicinity,
-      googleMapsID: item.place_id,
+      id: item.googleId || null,
+      title: item.name || '',
+      address: item.vicinity || '',
+      googleMapsID: item.place_id || '',
       city: '',
-      position: { lat: item.geometry.location.lat, lng: item.geometry.location.lng }
+      position: { lat: item.geometry.location.lat, lng: item.geometry.location.lng } || null,
+      openingHours: item.opening_hours.weekday_text || []
     }
   }
 }

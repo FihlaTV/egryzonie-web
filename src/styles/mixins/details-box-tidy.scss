@@ -1,0 +1,28 @@
+@mixin details-box-tidy {
+  color: $color-text;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  min-height: 200px;
+  padding: .5em 1em;
+  text-align: right;
+
+  &__heading, &__sub {
+    font-size: 1rem;
+    margin: .5em;
+  }
+
+  &__heading {
+    font-family: $font-headings;
+    font-weight: 900;
+  }
+
+  &__sub {
+    font-weight: 600;
+  }
+
+  &__details {
+    font-size: .95rem;
+    line-height: 1.25em;
+  }
+}

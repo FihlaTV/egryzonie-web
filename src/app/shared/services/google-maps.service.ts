@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Coordinates } from '@interfaces/coordinates';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable'
@@ -178,6 +178,8 @@ export class GoogleMapsService {
       }]
     }
   ];
+
+  constructor(private _zone: NgZone) {}
 
   private _coordinates: Coordinates;
 

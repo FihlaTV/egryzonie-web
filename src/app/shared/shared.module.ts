@@ -12,6 +12,7 @@ import { NavbarComponent } from '@components/navbar/navbar.component';
 import { ErrorComponent } from '@components/error/error.component';
 import { FooterComponent } from '@components/footer/footer.component';
 import { VersionComponent } from '@components/version/version.component';
+import { StarRatingComponent } from '@components/star-rating/star-rating.component';
 
 // Services
 import { GeolocationService, GoogleMapsService } from '@services/index';
@@ -21,6 +22,7 @@ const EXPORTS = [
   ErrorComponent,
   FooterComponent,
   VersionComponent,
+  StarRatingComponent,
   WordNumPipe,
   ShortUrlPipe
 ];

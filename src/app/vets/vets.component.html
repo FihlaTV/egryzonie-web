@@ -1,11 +1,10 @@
 <div class="vets">
   <div class="search">
     <eg-vets-search
-      (onLocationSearch)="newLocation($event)"
-      [vets]="vets"></eg-vets-search>
+      (onLocationSearch)="newLocation($event)"></eg-vets-search>
   </div>
   <div class="map">
-    <eg-vets-map [vets]="vets"></eg-vets-map>
+    <eg-vets-map></eg-vets-map>
   </div>
   <div class="details">
     <eg-vet-details></eg-vet-details>
