@@ -16,6 +16,11 @@
     @include details-box-tidy;
     background: url('/assets/vets-map-background.jpg') center center no-repeat;
     background-size: cover;
+
+    &__options .btn {
+      display: inline-table;
+      margin: .25em 0;
+    }
   }
 
   &__contact {

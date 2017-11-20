@@ -46,14 +46,26 @@ export class VetsDataService {
   }
   
   async fetchVetsInRange(coordinates: Coordinates) {
-    if (coordinates) {
-      try {
-        const recommended = await this._fetchRecommendedInRange(coordinates);
-        const others = await this._fetchOthersInRange(coordinates);
-        this._vetsData.next({ recommended, others });
-      } catch (error) {
-        console.error('ERROR: ', error);
-      }
+    if (!coordinates) return;
+  
+    try {
+      const recommended = await this._fetchRecommendedInRange(coordinates);
+      const others = await this._fetchOthersInRange(coordinates);
+      this._vetsData.next({ recommended, others });
+    } catch (error) {
+      console.error('ERROR: ', error);
+    }
+  }
+
+  async recommend(vet: Vet) {
+    if (!vet || vet.recommended) return;
+
+    console.log('Suggested vet: ', vet);
+
+    try {
+      // this._http.post('')
+    } catch (error) {
+      console.error('Error: ', error);
     }
   }
 
@@ -78,6 +90,7 @@ export class VetsDataService {
   private _fetchOthersDetails(id: any): void {
     const request = this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/details/json?key=${environment.googleKey}&placeid=${id}`)
       .map((response: any) => {
+        console.log(JSON.parse(response['_body']).result);
         return this._convertToVet(JSON.parse(response['_body']).result);
       })
       .subscribe((vet) => {
@@ -125,7 +138,10 @@ export class VetsDataService {
       googleMapsID: item.place_id || '',
       city: '',
       position: { lat: item.geometry.location.lat, lng: item.geometry.location.lng } || null,
-      openingHours: item.opening_hours.weekday_text || []
+      phone: item.formatted_phone_number || '',
+      websiteUrl: item.website || '',
+      openingHours: item.opening_hours.weekday_text || [],
+      recommended: item.recommended || false
     }
   }
 }

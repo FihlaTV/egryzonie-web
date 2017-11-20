@@ -31,4 +31,8 @@ export class VetDetailsComponent implements OnInit, OnDestroy {
       this._vet$.unsubscribe();
     }
   }
+
+  proposeAsRecommended(vet: Vet) {
+    this._vets.recommend(vet);
+  }
 }

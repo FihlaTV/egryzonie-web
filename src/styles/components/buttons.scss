@@ -16,4 +16,8 @@
   &--positive {
     @include btn($color-success);
   }
+
+  &--optional {
+    @include btn($color-primary-dark);
+  }
 }

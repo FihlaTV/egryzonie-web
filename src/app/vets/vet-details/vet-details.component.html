@@ -1,4 +1,5 @@
 <div class="vet-details" *ngIf="vet">
+
   <div class="vet-details__selected vet">
     <h5 class="vet-details__selected__heading">{{ vet['title'] }}</h5>
     <p class="vet-details__selected__sub">{{ vet['address'] }}</p>
@@ -7,8 +8,10 @@
     </div>
     <div class="vet-details__selected__options">
       <a [attr.href]="directionsUrl" target="_blank" class="btn btn--positive">Pokaż trasę dojazdu</a>
+      <button type="button" class="btn btn--optional" (click)="proposeAsRecommended(vet)">Zaproponuj jako polecanego</button>
     </div>
   </div>
+
   <div class="vet-details__contact">
     <div class="vet-details__contact__header">{{ vet['title'] }}</div>
     <ul class="vet-details__contact__list">
@@ -32,4 +35,5 @@
       </li>
     </ul>
   </div>
+
 </div>
