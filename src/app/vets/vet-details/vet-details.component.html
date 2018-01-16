@@ -7,8 +7,20 @@
       <eg-star-rating rating="3"></eg-star-rating>
     </div>
     <div class="vet-details__selected__options">
-      <a [attr.href]="directionsUrl" target="_blank" class="btn btn--positive">Pokaż trasę dojazdu</a>
-      <button type="button" class="btn btn--optional" (click)="proposeAsRecommended(vet)">Zaproponuj jako polecanego</button>
+      <a
+        [attr.href]="directionsUrl"
+        target="_blank"
+        class="btn btn--positive"
+      >
+        Pokaż trasę dojazdu
+      </a>
+      <button
+        type="button"
+        class="btn btn--optional"
+        (click)="proposeAsRecommended(vet)"
+      >
+        Zaproponuj jako polecanego
+      </button>
     </div>
   </div>
 

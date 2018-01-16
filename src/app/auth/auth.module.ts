@@ -8,9 +8,10 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 // Components
 import { AuthComponent } from './auth.component';
-import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
 import { UserComponent } from './user/user.component';
+import { SignComponent } from './sign/sign.component';
+import { SignInComponent } from './sign/sign-in/sign-in.component';
+import { SignUpComponent } from './sign/sign-up/sign-up.component';
 
 @NgModule({
   imports: [
@@ -22,9 +23,10 @@ import { UserComponent } from './user/user.component';
   ],
   declarations: [
     AuthComponent,
-    LoginComponent,
-    LogoutComponent,
-    UserComponent
+    UserComponent,
+    SignComponent,
+    SignUpComponent,
+    SignInComponent
   ],
   providers: [
   ]

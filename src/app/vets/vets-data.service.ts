@@ -35,13 +35,15 @@ export class VetsDataService {
     return this._currentVetData.asObservable();
   }
   
-  fetchVetDetails(data: any): any {
+  async fetchVetDetails(data: any): Promise<null> {
     if (!data) return;
   
-    if (data.recommended) {
-      this._fetchRecommendedDetails(data.id);
-    } else {
-      this._fetchOthersDetails(data.id);
+    try {
+      this.currentVet = (data.recommended)
+        ? await this._fetchRecommendedDetails(data.id)
+        : await this._fetchOthersDetails(data.id);
+    } catch (error) {
+      console.error('Error: ', error);
     }
   }
   
@@ -56,14 +58,28 @@ export class VetsDataService {
       console.error('ERROR: ', error);
     }
   }
+  
+  fetchIsSuggested(gmapsId: any): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const request = this._http.get(`vets/suggestion_check/${gmapsId}`)
+        .subscribe(
+          (response: Response) => response.status === 203 ? resolve(true) : resolve(false),
+          (error: any) => reject(error),
+          () => request.unsubscribe()
+        );
+      });
+    }
 
-  async recommend(vet: Vet) {
+  recommend(vet: Vet) {
     if (!vet || vet.recommended) return;
 
-    console.log('Suggested vet: ', vet);
-
     try {
-      // this._http.post('')
+      this._http.post('/vets/suggest/', { ...vet, lat: vet.position.lat, lng: vet.position.lng })
+        .subscribe(
+          (response) => console.log('Server response: ', response),
+          (error) => console.error('Error', error),
+          () => console.log('Request complete')
+        );
     } catch (error) {
       console.error('Error: ', error);
     }
@@ -87,17 +103,12 @@ export class VetsDataService {
     });
   }
 
-  private _fetchOthersDetails(id: any): void {
-    const request = this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/details/json?key=${environment.googleKey}&placeid=${id}`)
+  private _fetchOthersDetails(id: any): Promise<Vet> {
+    return this._regularHttp.get(`https://maps.googleapis.com/maps/api/place/details/json?key=${environment.googleKey}&placeid=${id}`)
       .map((response: any) => {
-        console.log(JSON.parse(response['_body']).result);
         return this._convertToVet(JSON.parse(response['_body']).result);
       })
-      .subscribe((vet) => {
-        this.currentVet = vet;
-        console.log('vet: ', vet);
-        request.unsubscribe();
-      });
+      .toPromise();
   }
 
   private _fetchRecommendedInRange(coordinates: Coordinates): Promise<Vet[]> {
@@ -112,6 +123,7 @@ export class VetsDataService {
         );
     })
   }
+
 
   private _fetchOthersInRange(coordinates: Coordinates, recommended: Vet[] = []): Promise<Vet[]> {
     const requestUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${environment.googleKey}&location=${coordinates.lat},${coordinates.lng}&radius:${this.radius}&rankby=distance&types=veterinary_care`;
@@ -136,7 +148,6 @@ export class VetsDataService {
       title: item.name || '',
       address: item.vicinity || '',
       googleMapsID: item.place_id || '',
-      city: '',
       position: { lat: item.geometry.location.lat, lng: item.geometry.location.lng } || null,
       phone: item.formatted_phone_number || '',
       websiteUrl: item.website || '',

@@ -13,15 +13,18 @@ export class VetDetailsComponent implements OnInit, OnDestroy {
   private _vet$: Subscription;
   public vet: Vet;
   public directionsUrl: string;
+  public isSuggested: boolean;
 
   constructor( private _vets: VetsDataService, private _zone: NgZone ) {}
 
   ngOnInit() {
     this._vet$ = this._vets.observeCurrentVetData().subscribe((vet) => {
       if (!vet) return;
-      this._zone.run(() => {
+      this._zone.run(async () => {
         this.vet = vet;
+        console.log('Check if suggested');
         this.directionsUrl = `https://www.google.com/maps/dir/?api=1&key=${environment.googleKey}&destination=${encodeURIComponent(vet.title)}&destination_place_id=${vet.googleMapsID}&dir_action=navigate`;
+        console.log(this.directionsUrl);
       });
     });
   }

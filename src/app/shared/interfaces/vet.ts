@@ -4,7 +4,6 @@ export interface Vet {
   id?: number;
   title: string;
   address: string;
-  city?: string;
   createdAt?: Date;
   googleMapsID?: string;
   location?: Location;

@@ -4,12 +4,13 @@
 @import 'src/styles/mixins/details-box-tidy';
 
 .vet-details {
-  margin: 1em 0;
-
-  @include sm() {
+  @include lg() {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-gap: .5em;
+  }
+
+  &__selected, &__contact {
+    margin: .5em 0;
   }
 
   &__selected {

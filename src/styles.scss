@@ -23,7 +23,7 @@ html, body {
 body {
   background: $color-light;
   color: $color-text;
-  font-size: 18px;
+  font-size: 16px;
 
   @include sm() {
     padding-top: 100px;
